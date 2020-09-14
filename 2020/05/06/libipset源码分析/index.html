@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="C,IPSET,NETLINK,GO,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="JiHan's Blog" type="application/atom+xml">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="由于语言需求，需要使用go实现libipset的功能，与内核通信，就简单的看了一下源码(•̀⌄•́)　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan  ipset官网libipset手册libmnl 本文主要根据ipset 7.x版本来进行介绍的。">
+<meta name="keywords" content="C,IPSET,NETLINK,GO">
+<meta property="og:type" content="article">
+<meta property="og:title" content="libipset源码分析">
+<meta property="og:url" content="http://yoursite.com/2020/05/06/libipset源码分析/index.html">
+<meta property="og:site_name" content="JiHan&#39;s Blog">
+<meta property="og:description" content="由于语言需求，需要使用go实现libipset的功能，与内核通信，就简单的看了一下源码(•̀⌄•́)　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan  ipset官网libipset手册libmnl 本文主要根据ipset 7.x版本来进行介绍的。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2020/05/06/libipset源码分析/iptables-nfhipac-ipset.jpg">
+<meta property="og:image" content="http://yoursite.com/2020/05/06/libipset源码分析/ipset_source_flow.png">
+<meta property="og:image" content="http://yoursite.com/2020/05/06/libipset源码分析/haship.jpg">
+<meta property="og:image" content="http://yoursite.com/2020/05/06/libipset源码分析/errcode.jpg">
+<meta property="og:image" content="http://yoursite.com/2020/05/06/libipset源码分析/ipset.jpg">
+<meta property="og:image" content="http://yoursite.com/2020/05/06/libipset源码分析/args.jpg">
+<meta property="og:image" content="http://yoursite.com/2020/05/06/libipset源码分析/protocol.jpg">
+<meta property="og:image" content="http://yoursite.com/2020/05/06/libipset源码分析/netlink%E6%95%B0%E6%8D%AE%E5%85%B3%E7%B3%BB.png">
+<meta property="og:updated_time" content="2020-09-13T01:39:25.767Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="libipset源码分析">
+<meta name="twitter:description" content="由于语言需求，需要使用go实现libipset的功能，与内核通信，就简单的看了一下源码(•̀⌄•́)　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan  ipset官网libipset手册libmnl 本文主要根据ipset 7.x版本来进行介绍的。">
+<meta name="twitter:image" content="http://yoursite.com/2020/05/06/libipset源码分析/iptables-nfhipac-ipset.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always","offset":12,"offset_float":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/05/06/libipset源码分析/">
+
+
+
+
+
+  <title>libipset源码分析 | JiHan's Blog</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-144130643-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">JiHan's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">随笔写写啦 (๑`･ᴗ･´๑)</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/06/libipset源码分析/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiHan">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/touxiang.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiHan's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">libipset源码分析</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-06T11:04:02+08:00">
+                2020-05-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术杂谈/" itemprop="url" rel="index">
+                    <span itemprop="name">技术杂谈</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/05/06/libipset源码分析/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/05/06/libipset源码分析/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 阅读次数
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  3.8k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  20
+                </span>
+              
+            </div>
+          
+			
+          
+
+        </div>
+      </header>
+    
+
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>由于语言需求，需要使用go实现libipset的功能，与内核通信，就简单的看了一下源码(•̀⌄•́)<br>　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan</p>
+<hr>
+<p><em><a href="http://ipset.netfilter.org/" target="_blank" rel="noopener">ipset官网</a></em><br><em><a href="http://ipset.netfilter.org/libipset.man.html" target="_blank" rel="noopener">libipset手册</a></em><br><em><a href="https://netfilter.org/projects/libmnl/" target="_blank" rel="noopener">libmnl</a></em></p>
+<p><em>本文主要根据ipset 7.x版本来进行介绍的。</em></p>
+<a id="more"></a>
+
+<h3 id="简单介绍"><a href="#简单介绍" class="headerlink" title="简单介绍"></a>简单介绍</h3><h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>ipset是 Linux 防火墙 iptables 的一个协助工具。 通过这个工具可以轻松愉快地屏蔽一组IP地址。–<a href="https://wiki.archlinux.org/index.php/Ipset_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)" target="_blank" rel="noopener">来自wiki</a><br>ipset主要解决的是iptables在屏蔽大量ip产生的效率低下问题。搞一张图看看效率差距：<br><img src="/2020/05/06/libipset源码分析/iptables-nfhipac-ipset.jpg" alt="iptables和ipset性能对比"><br>–<a href="http://people.netfilter.org/kadlec/nftest.pdf" target="_blank" rel="noopener">测评来源</a><br>并且，iptables在进行规则插入和删除的时候，也只能一条条的进行，速度也是非常慢的。我自己在自己的设备上测试效果如下(time + 脚本测试的)：<br>| 添加Iptables数量 | 1    | 500    | 1000 |    2000 |    4000    | 10000 |<br>| ————- | ————- | ————- | ————- |———— | ————- | ————- | ————- |<br>| 花费时间 |0.002s    |2.831s    |4.115s|    10.725s    |33.365s|    2m55.954s|<br><strong>那么</strong>，如果你有需求使用iptables屏蔽大量的ip，就可以考虑使用ipset。</p>
+<h4 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h4><p>看源码之前，首先需要了解ipset有什么用，简单给个示例来屏蔽一个ip：<br>你要有两台机器，可以是自己的虚拟机，在一台机器上配置ipset + iptables，另外一台机器去ping测试。<br>安装(centos)：<code>yum install ipset</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ipset create hash_test hash:ip #创建一个集合</span><br><span class="line">ipset add hash_test 192.168.1.120 #添加一个成员到集合</span><br><span class="line">iptables -I INPUT -m set --match-set hash_test src -j DROP  #iptables配置匹配项</span><br></pre></td></tr></table></figure>
+
+<p>你也可以进行更多的尝试，参见<a href="http://ipset.netfilter.org/" target="_blank" rel="noopener">官网</a><br>ipset的使用不是本文主要目的，简单给个示例就行了。</p>
+<h3 id="基本流程"><a href="#基本流程" class="headerlink" title="基本流程"></a>基本流程</h3><p>libipset属于用户态部分的代码，负责与内核通信，真正的ipset工作的地方是在内核的netfilter中。<br>我们就根据上面<code>ipset create hash_test hash:ip</code>命令来分析大概的流程。<br><img src="/2020/05/06/libipset源码分析/ipset_source_flow.png" alt="libipset流程图"><br>特殊说明在流程图里都有备注，顺便说明一下几个固定列表的位置：</p>
+<ul>
+<li>各种类型的类型列表，包含所支持的命令，以及需要的参数：ipset_<type_name>.c<br><img src="/2020/05/06/libipset源码分析/haship.jpg" alt="haship"></type_name></li>
+<li>错误码：errcode.c<br><img src="/2020/05/06/libipset源码分析/errcode.jpg" alt="errcode"></li>
+<li>输入命令参数列表(主要是-s这种类型的参数)：ipset.c<br><img src="/2020/05/06/libipset源码分析/ipset.jpg" alt="ipset"></li>
+<li>输入命令参数列表(主要是add这种类型的参数)：args.c<br><img src="/2020/05/06/libipset源码分析/args.jpg" alt="args"></li>
+<li>某个命令的消息协议：PROTOCOL<br><img src="/2020/05/06/libipset源码分析/protocol.jpg" alt="protocol"></li>
+</ul>
+<h3 id="消息格式"><a href="#消息格式" class="headerlink" title="消息格式"></a>消息格式</h3><p>ipset使用的消息是Netlink通信，在ipset用户态构造的sock参数：AF_NETLINK，SOCK_RAW，NETLINK_NETFILTER，sock具体用法自己去查。ipset用户态构造的sock需要进行bind才能使用，因为它不能像udp这种自动分配发送端的端口。<br>首先来看看netlink的消息格式(<a href="https://www.cnblogs.com/wenqiang/p/6306727.html" target="_blank" rel="noopener">主要参考</a>)：<br><code>struct sockaddr_nl</code>结构:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_nl</span> &#123;</span></span><br><span class="line">     <span class="keyword">__kernel_sa_family_t</span>    nl_family;  <span class="comment">/* AF_NETLINK （跟AF_INET对应）*/</span></span><br><span class="line">     <span class="keyword">unsigned</span> <span class="keyword">short</span>  nl_pad;     <span class="comment">/* zero */</span></span><br><span class="line">     __u32       nl_pid;     <span class="comment">/* port ID  （通信端口号）*/</span></span><br><span class="line">     __u32       nl_groups;  <span class="comment">/* multicast groups mask */</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><code>struct nlmsghd</code> 结构：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* struct nlmsghd 是netlink消息头*/</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">nlmsghdr</span> &#123;</span>   </span><br><span class="line">    __u32       nlmsg_len;  <span class="comment">/* Length of message including header */</span></span><br><span class="line">    __u16       nlmsg_type; <span class="comment">/* Message content */</span></span><br><span class="line">    __u16       nlmsg_flags;    <span class="comment">/* Additional flags */</span> </span><br><span class="line">    __u32       nlmsg_seq;  <span class="comment">/* Sequence number */</span></span><br><span class="line">    __u32       nlmsg_pid;  <span class="comment">/* Sending process port ID */</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>通常这个头消息的构造，在ipset中是下面的代码(其中seq是一个自增检验数，pid通常设置0)：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">void</span></span><br><span class="line">ipset_mnl_fill_hdr(struct ipset_handle *handle, <span class="keyword">enum</span> ipset_cmd cmd,</span><br><span class="line">		   <span class="keyword">void</span> *buffer, <span class="keyword">size_t</span> len UNUSED, <span class="keyword">uint8_t</span> envflags)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">nlmsghdr</span> *<span class="title">nlh</span>;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">nfgenmsg</span> *<span class="title">nfg</span>;</span></span><br><span class="line"></span><br><span class="line">	assert(handle);</span><br><span class="line">	assert(buffer);</span><br><span class="line">	assert(cmd &gt; IPSET_CMD_NONE &amp;&amp; cmd &lt; IPSET_MSG_MAX);</span><br><span class="line"></span><br><span class="line">	nlh = mnl_nlmsg_put_header(buffer);</span><br><span class="line">	nlh-&gt;nlmsg_type = cmd | (NFNL_SUBSYS_IPSET &lt;&lt; <span class="number">8</span>);</span><br><span class="line">	nlh-&gt;nlmsg_flags = cmdflags[cmd - <span class="number">1</span>];</span><br><span class="line">	<span class="keyword">if</span> (envflags &amp; IPSET_ENV_EXIST)</span><br><span class="line">		nlh-&gt;nlmsg_flags &amp;=  ~NLM_F_EXCL;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//这儿是扩展头，通常是固定的\x02\x00\x00\x00</span></span><br><span class="line">	nfg = mnl_nlmsg_put_extra_header(nlh, <span class="keyword">sizeof</span>(struct nfgenmsg));</span><br><span class="line">	nfg-&gt;nfgen_family = AF_INET;</span><br><span class="line">	nfg-&gt;version = NFNETLINK_V0;</span><br><span class="line">	nfg-&gt;res_id = htons(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>struct msghdr</code> 结构:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">iovec</span> &#123;</span>                    <span class="comment">/* Scatter/gather array items */</span></span><br><span class="line">     <span class="keyword">void</span>  *iov_base;              <span class="comment">/* Starting address */</span></span><br><span class="line">     <span class="keyword">size_t</span> iov_len;               <span class="comment">/* Number of bytes to transfer */</span></span><br><span class="line"> &#125;;</span><br><span class="line">  <span class="comment">/* iov_base: iov_base指向数据包缓冲区，即参数buff，iov_len是buff的长度。msghdr中允许一次传递多个buff，</span></span><br><span class="line"><span class="comment">    以数组的形式组织在 msg_iov中，msg_iovlen就记录数组的长度 （即有多少个buff）</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line"> <span class="class"><span class="keyword">struct</span> <span class="title">msghdr</span> &#123;</span></span><br><span class="line">     <span class="keyword">void</span>         *msg_name;       <span class="comment">/* optional address */</span></span><br><span class="line">     <span class="keyword">socklen_t</span>     msg_namelen;    <span class="comment">/* size of address */</span></span><br><span class="line">     <span class="class"><span class="keyword">struct</span> <span class="title">iovec</span> *<span class="title">msg_iov</span>;</span>        <span class="comment">/* scatter/gather array */</span></span><br><span class="line">     <span class="keyword">size_t</span>        msg_iovlen;     <span class="comment">/* # elements in msg_iov */</span></span><br><span class="line">     <span class="keyword">void</span>         *msg_control;    <span class="comment">/* ancillary data, see below */</span></span><br><span class="line">     <span class="keyword">size_t</span>        msg_controllen; <span class="comment">/* ancillary data buffer len */</span></span><br><span class="line">     <span class="keyword">int</span>           msg_flags;      <span class="comment">/* flags on received message */</span></span><br><span class="line"> &#125;;</span><br><span class="line"> <span class="comment">/* msg_name： 数据的目的地址，网络包指向sockaddr_in, netlink则指向sockaddr_nl;</span></span><br><span class="line"><span class="comment">    msg_namelen: msg_name 所代表的地址长度</span></span><br><span class="line"><span class="comment">    msg_iov: 指向的是缓冲区数组</span></span><br><span class="line"><span class="comment">    msg_iovlen: 缓冲区数组长度</span></span><br><span class="line"><span class="comment">    msg_control: 辅助数据，控制信息(发送任何的控制信息)</span></span><br><span class="line"><span class="comment">    msg_controllen: 辅助信息长度</span></span><br><span class="line"><span class="comment">    msg_flags: 消息标识</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
+
+<p>这个结构体主要在ipset接收消息的时候使用。具体代码包含在libmnl库中，需要<a href="https://netfilter.org/projects/libmnl/downloads.html" target="_blank" rel="noopener">下载源码</a>。然后就可以看到以下的接收消息的函数：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ssize_t</span> mnl_socket_recvfrom(<span class="keyword">const</span> struct mnl_socket *nl, <span class="keyword">void</span> *buf,</span><br><span class="line">			    <span class="keyword">size_t</span> bufsiz)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">ssize_t</span> ret;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_nl</span> <span class="title">addr</span>;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">iovec</span> <span class="title">iov</span> = &#123;</span></span><br><span class="line">		.iov_base	= buf,</span><br><span class="line">		.iov_len	= bufsiz,</span><br><span class="line">	&#125;;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">msghdr</span> <span class="title">msg</span> = &#123;</span></span><br><span class="line">		.msg_name	= &amp;addr,</span><br><span class="line">		.msg_namelen	= <span class="keyword">sizeof</span>(struct sockaddr_nl),</span><br><span class="line">		.msg_iov	= &amp;iov,</span><br><span class="line">		.msg_iovlen	= <span class="number">1</span>,</span><br><span class="line">		.msg_control	= <span class="literal">NULL</span>,</span><br><span class="line">		.msg_controllen	= <span class="number">0</span>,</span><br><span class="line">		.msg_flags	= <span class="number">0</span>,</span><br><span class="line">	&#125;;</span><br><span class="line">	ret = recvmsg(nl-&gt;fd, &amp;msg, <span class="number">0</span>);</span><br><span class="line">	<span class="keyword">if</span> (ret == <span class="number">-1</span>)</span><br><span class="line">		<span class="keyword">return</span> ret;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (msg.msg_flags &amp; MSG_TRUNC) &#123;</span><br><span class="line">		errno = ENOSPC;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> (msg.msg_namelen != <span class="keyword">sizeof</span>(struct sockaddr_nl)) &#123;</span><br><span class="line">		errno = EINVAL;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上述的netlink消息数据结构，也就是ipset里使用的主要结构，而这些消息结构的关系如下：<br><img src="/2020/05/06/libipset源码分析/netlink%E6%95%B0%E6%8D%AE%E5%85%B3%E7%B3%BB.png" alt="netlink数据结构之间的关系"><br><em><a href="https://blog.csdn.net/zhao_h/article/details/80943226" target="_blank" rel="noopener">图片来源</a></em><br>上述示例的就是ipset中使用到的主要消息结构了，更多细节，还是在源码中查看。</p>
+<h3 id="示例Demo"><a href="#示例Demo" class="headerlink" title="示例Demo"></a>示例Demo</h3><p>这里我们列出两个语言的demo，C和Go的。</p>
+<h4 id="C"><a href="#C" class="headerlink" title="C"></a>C</h4><p>c的相对简单，因为只需要调用libipset提供的接口就行。这里推荐写法和官方的ipset的main函数写法一致。<br><strong>官方main函数</strong>(这个函数只有在ipset 7版本中才有)</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;assert.h&gt;			/* assert */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;			/* fprintf */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;			/* exit */</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;config.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;libipset/ipset.h&gt;		/* ipset library */</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span></span><br><span class="line">main(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span><br><span class="line">&#123;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">ipset</span> *<span class="title">ipset</span>;</span></span><br><span class="line">	<span class="keyword">int</span> ret;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/* Load set types */</span></span><br><span class="line">	ipset_load_types();</span><br><span class="line"></span><br><span class="line">	<span class="comment">/* Initialize ipset library */</span></span><br><span class="line">	ipset = ipset_init();</span><br><span class="line">	<span class="keyword">if</span> (ipset == <span class="literal">NULL</span>) &#123;</span><br><span class="line">		<span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"Cannot initialize ipset, aborting."</span>);</span><br><span class="line">		<span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	ret = ipset_parse_argv(ipset, argc, argv);</span><br><span class="line"></span><br><span class="line">	ipset_fini(ipset);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>是不是简单到爆。<br><strong>第二种</strong>，是使用libipset中的session结构体(<a href="https://github.com/Lekensteyn/dnsallow/blob/master/ipset.c" target="_blank" rel="noopener">参考来源</a>)：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdint.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdbool.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;libipset/types.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;libipset/session.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;libipset/data.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;netinet/in.h&gt;   </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;arpa/inet.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* Setname X which can be used in "ipset list X". */</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SETNAME_IPV4 <span class="meta-string">"ipset-ipv4"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SETNAME_IPV6 <span class="meta-string">"ipset-ipv6"</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">ipset_state</span> &#123;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">ipset_session</span> *<span class="title">session</span>;</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">address</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> family;</span><br><span class="line">    <span class="keyword">union</span> &#123;</span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">in_addr</span> <span class="title">ip4_addr</span>;</span></span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">in6_addr</span> <span class="title">ip6_addr</span>;</span></span><br><span class="line">    &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">bool</span> <span class="title">try_ipset_cmd</span><span class="params">(struct ipset_session *session, <span class="keyword">enum</span> ipset_cmd cmd,</span></span></span><br><span class="line"><span class="function"><span class="params">		        <span class="keyword">const</span> <span class="keyword">char</span> *setname, <span class="keyword">int</span> family, <span class="keyword">const</span> <span class="keyword">void</span> *addr)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ipset_session_data_set(session, IPSET_SETNAME, setname);</span><br><span class="line">    <span class="keyword">if</span> (!ipset_type_get(session, cmd)) &#123;</span><br><span class="line">	        <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"Cannot find ipset %s: %s\n"</span>, setname,</span><br><span class="line">					                ipset_session_error(session));</span><br><span class="line">	        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">	    &#125;</span><br><span class="line">    ipset_session_data_set(session, IPSET_OPT_FAMILY, &amp;family);</span><br><span class="line">    ipset_session_data_set(session, IPSET_OPT_IP, addr);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (ipset_cmd(session, cmd, <span class="comment">/*lineno*/</span> <span class="number">0</span>)) &#123;</span><br><span class="line">	        <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"Failed to add to set %s: %s\n"</span>, setname,</span><br><span class="line">					                ipset_session_error(session));</span><br><span class="line">	        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">	    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">bool</span> <span class="title">try_ipset_create</span><span class="params">(struct ipset_session *session, <span class="keyword">const</span> <span class="keyword">char</span> *setname,</span></span></span><br><span class="line"><span class="function"><span class="params">		        <span class="keyword">const</span> <span class="keyword">char</span> *<span class="keyword">typename</span>, <span class="keyword">int</span> family)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">const</span> <span class="class"><span class="keyword">struct</span> <span class="title">ipset_type</span> *<span class="title">type</span>;</span></span><br><span class="line">    <span class="keyword">uint32_t</span> timeout;</span><br><span class="line"></span><br><span class="line">    ipset_session_data_set(session, IPSET_SETNAME, setname);</span><br><span class="line">    ipset_session_data_set(session, IPSET_OPT_TYPENAME, <span class="keyword">typename</span>);</span><br><span class="line">    type = ipset_type_get(session, IPSET_CMD_CREATE);</span><br><span class="line">    <span class="keyword">if</span> (type == <span class="literal">NULL</span>) &#123;</span><br><span class="line">	        <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"Cannot find ipset type %s: %s\n"</span>, <span class="keyword">typename</span>,</span><br><span class="line">					                ipset_session_error(session));</span><br><span class="line">	        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">	    &#125;</span><br><span class="line"></span><br><span class="line">    timeout = <span class="number">0</span>; <span class="comment">/* timeout support, but default to infinity */</span></span><br><span class="line">    ipset_session_data_set(session, IPSET_OPT_TIMEOUT, &amp;timeout);</span><br><span class="line">    ipset_session_data_set(session, IPSET_OPT_TYPE, type);</span><br><span class="line">    ipset_session_data_set(session, IPSET_OPT_FAMILY, &amp;family);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (ipset_cmd(session, IPSET_CMD_CREATE, <span class="comment">/*lineno*/</span> <span class="number">0</span>)) &#123;</span><br><span class="line">	        <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"Failed to create ipset %s: %s\n"</span>, setname,</span><br><span class="line">					                ipset_session_error(session));</span><br><span class="line">	        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">	    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">struct ipset_state *<span class="title">ipset_init</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">ipset_state</span> *<span class="title">state</span>;</span></span><br><span class="line"></span><br><span class="line">    state = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(*state));</span><br><span class="line">    <span class="keyword">if</span> (!state)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line"></span><br><span class="line">    ipset_load_types();</span><br><span class="line"></span><br><span class="line">    state-&gt;session = ipset_session_init(<span class="built_in">printf</span>);</span><br><span class="line">    <span class="keyword">if</span> (!state-&gt;session) &#123;</span><br><span class="line">	        <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"Cannot initialize ipset session.\n"</span>);</span><br><span class="line">	        <span class="keyword">goto</span> err_session;</span><br><span class="line">	    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Return success on attempts to create a compatible ipset or attempts to</span></span><br><span class="line"><span class="comment">	 *      * add an existing rule. */</span></span><br><span class="line">    ipset_envopt_parse(state-&gt;session, IPSET_ENV_EXIST, <span class="literal">NULL</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!try_ipset_create(state-&gt;session, SETNAME_IPV4, <span class="string">"hash:ip"</span>, NFPROTO_IPV4))</span><br><span class="line">        <span class="keyword">goto</span> err_set;</span><br><span class="line">    <span class="keyword">if</span> (!try_ipset_create(state-&gt;session, SETNAME_IPV6, <span class="string">"hash:ip"</span>, NFPROTO_IPV6))</span><br><span class="line">        <span class="keyword">goto</span> err_set;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> state;</span><br><span class="line"></span><br><span class="line">err_set:</span><br><span class="line">err_session:</span><br><span class="line">    ipset_session_fini(state-&gt;session);</span><br><span class="line">    <span class="built_in">free</span>(state);</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ipset_add_ip</span><span class="params">(struct ipset_state *state, struct address *addr)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">ipset_session</span> *<span class="title">session</span> = <span class="title">state</span>-&gt;<span class="title">session</span>;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">switch</span> (addr-&gt;family) &#123;</span><br><span class="line">	    <span class="keyword">case</span> AF_INET:</span><br><span class="line">	        try_ipset_cmd(session, IPSET_CMD_ADD, SETNAME_IPV4, NFPROTO_IPV4, &amp;addr-&gt;ip4_addr);</span><br><span class="line">	        <span class="keyword">break</span>;</span><br><span class="line">	    <span class="keyword">case</span> AF_INET6:</span><br><span class="line">	        try_ipset_cmd(session, IPSET_CMD_ADD, SETNAME_IPV6, NFPROTO_IPV6, &amp;addr-&gt;ip6_addr);</span><br><span class="line">	        <span class="keyword">break</span>;</span><br><span class="line">	    <span class="keyword">default</span>:</span><br><span class="line">	        <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"Unrecognized address family 0x%04x\n"</span>, addr-&gt;family);</span><br><span class="line">	        <span class="keyword">return</span>;</span><br><span class="line">	    &#125;</span><br><span class="line">    ipset_session_report_reset(session);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ipset_fini</span><span class="params">(struct ipset_state *state)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ipset_session_fini(state-&gt;session);</span><br><span class="line">    <span class="built_in">free</span>(state);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//for test</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">address</span> <span class="title">addr</span>;</span></span><br><span class="line">    addr.family = AF_INET;</span><br><span class="line">    inet_aton(<span class="string">"192.168.1.10"</span>, &amp;addr.ip4_addr);</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">ipset_state</span> *<span class="title">state</span> = <span class="title">ipset_init</span>();</span></span><br><span class="line">    ipset_add_ip(state, &amp;addr);</span><br><span class="line">    ipset_fini(state);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>编译</strong>(根据各自的环境调整)：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gcc -g -O2 -Wall -Werror -c ipset_test.c -o ipset_test.o</span><br><span class="line">gcc -g -O2 -Wall -Werror ./ipset_test.o -o a.out -L/usr/lib64/ -lipset</span><br></pre></td></tr></table></figure>
+
+<h4 id="GO"><a href="#GO" class="headerlink" title="GO"></a>GO</h4><p>go有三种方式来调用ipset，第一种是用执行命令的方式，第二种是使用cgo的方式，第三种是使用netlink通信的方式。这里简单给下第二种和第三种的demo：<br><strong>cgo：</strong><br>ipset.go:</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="comment">// #cgo LDFLAGS: -L$&#123;SRCDIR&#125;/ -Wl,-rpath,$&#123;SRCDIR&#125;/ -lcipset -L/usr/lib64/  -lipset</span></span><br><span class="line"><span class="comment">// #include &lt;stdlib.h&gt;</span></span><br><span class="line"><span class="comment">// #include "cipset.h"</span></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"C"</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">import</span> <span class="string">"unsafe"</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	cip := C.CString(<span class="string">"10.92.2.100"</span>)</span><br><span class="line">	<span class="keyword">defer</span> C.free(unsafe.Pointer(cip))</span><br><span class="line">	<span class="keyword">var</span> caddr C.struct_address</span><br><span class="line">	C.ip2addr(cip, &amp;caddr)</span><br><span class="line">	<span class="comment">//caddr.family = C.AF_INET</span></span><br><span class="line">	<span class="comment">//C.inet_aton(cip, caddr.ip4_addr)</span></span><br><span class="line">	<span class="keyword">var</span> cstate *C.struct_ipset_state = C.ipset_init()</span><br><span class="line">	C.ipset_add_ip(cstate, &amp;caddr)</span><br><span class="line">	C.ipset_fini(cstate)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>cipset.h</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> __cipset</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> __cipset</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* Setname X which can be used in "ipset list X". */</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SETNAME_IPV4 <span class="meta-string">"ipset-ipv4"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SETNAME_IPV6 <span class="meta-string">"ipset-ipv6"</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">ipset_state</span>;</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">address</span>;</span></span><br><span class="line"></span><br><span class="line"><span class="function">struct ipset_state *<span class="title">ipset_init</span><span class="params">(<span class="keyword">void</span>)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ipset_add_ip</span><span class="params">(struct ipset_state *state, struct address *addr)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ipset_fini</span><span class="params">(struct ipset_state *state)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ip2addr</span><span class="params">(<span class="keyword">char</span> *ip, struct address *addr)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+
+<p>cipset.c 和上面的C第二种示例代码一致，这里就不占空间了。</p>
+<p><strong>编译执行：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gcc -g -O2 -Wall -Werror -rdynamic -fPIC -shared -o ./libcipset.so ./cipset.c  #动态库生成</span><br><span class="line">go run ipset.go  #执行go程序</span><br></pre></td></tr></table></figure>
+
+<p><strong>go-netlink</strong>(<a href="https://github.com/nadoo/glider/blob/master/ipset/ipset_linux.go" target="_blank" rel="noopener">主要参考</a>)</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br><span class="line">361</span><br><span class="line">362</span><br><span class="line">363</span><br><span class="line">364</span><br><span class="line">365</span><br><span class="line">366</span><br><span class="line">367</span><br><span class="line">368</span><br><span class="line">369</span><br><span class="line">370</span><br><span class="line">371</span><br><span class="line">372</span><br><span class="line">373</span><br><span class="line">374</span><br><span class="line">375</span><br><span class="line">376</span><br><span class="line">377</span><br><span class="line">378</span><br><span class="line">379</span><br><span class="line">380</span><br><span class="line">381</span><br><span class="line">382</span><br><span class="line">383</span><br><span class="line">384</span><br><span class="line">385</span><br><span class="line">386</span><br><span class="line">387</span><br><span class="line">388</span><br><span class="line">389</span><br><span class="line">390</span><br><span class="line">391</span><br><span class="line">392</span><br><span class="line">393</span><br><span class="line">394</span><br><span class="line">395</span><br><span class="line">396</span><br><span class="line">397</span><br><span class="line">398</span><br><span class="line">399</span><br><span class="line">400</span><br><span class="line">401</span><br><span class="line">402</span><br><span class="line">403</span><br><span class="line">404</span><br><span class="line">405</span><br><span class="line">406</span><br><span class="line">407</span><br><span class="line">408</span><br><span class="line">409</span><br><span class="line">410</span><br><span class="line">411</span><br><span class="line">412</span><br><span class="line">413</span><br><span class="line">414</span><br><span class="line">415</span><br><span class="line">416</span><br><span class="line">417</span><br><span class="line">418</span><br><span class="line">419</span><br><span class="line">420</span><br><span class="line">421</span><br><span class="line">422</span><br><span class="line">423</span><br><span class="line">424</span><br><span class="line">425</span><br><span class="line">426</span><br><span class="line">427</span><br><span class="line">428</span><br><span class="line">429</span><br><span class="line">430</span><br><span class="line">431</span><br><span class="line">432</span><br><span class="line">433</span><br><span class="line">434</span><br><span class="line">435</span><br><span class="line">436</span><br><span class="line">437</span><br><span class="line">438</span><br><span class="line">439</span><br><span class="line">440</span><br><span class="line">441</span><br><span class="line">442</span><br><span class="line">443</span><br><span class="line">444</span><br><span class="line">445</span><br><span class="line">446</span><br><span class="line">447</span><br><span class="line">448</span><br><span class="line">449</span><br><span class="line">450</span><br><span class="line">451</span><br><span class="line">452</span><br><span class="line">453</span><br><span class="line">454</span><br><span class="line">455</span><br><span class="line">456</span><br><span class="line">457</span><br><span class="line">458</span><br><span class="line">459</span><br><span class="line">460</span><br><span class="line">461</span><br><span class="line">462</span><br><span class="line">463</span><br><span class="line">464</span><br><span class="line">465</span><br><span class="line">466</span><br><span class="line">467</span><br><span class="line">468</span><br><span class="line">469</span><br><span class="line">470</span><br><span class="line">471</span><br><span class="line">472</span><br><span class="line">473</span><br><span class="line">474</span><br><span class="line">475</span><br><span class="line">476</span><br><span class="line">477</span><br><span class="line">478</span><br><span class="line">479</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Apache License 2.0</span></span><br><span class="line"><span class="comment">// @mdlayher https://github.com/mdlayher/netlink</span></span><br><span class="line"><span class="comment">// Ref: https://github.com/vishvananda/netlink/blob/master/nl/nl_linux.go</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">package</span> ipset</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"bytes"</span></span><br><span class="line">	<span class="string">"encoding/binary"</span></span><br><span class="line">	<span class="string">"errors"</span></span><br><span class="line">	<span class="string">"net"</span></span><br><span class="line">	<span class="string">"strings"</span></span><br><span class="line">	<span class="string">"sync"</span></span><br><span class="line">	<span class="string">"sync/atomic"</span></span><br><span class="line">	<span class="string">"syscall"</span></span><br><span class="line">	<span class="string">"unsafe"</span></span><br><span class="line"></span><br><span class="line">	<span class="string">"github.com/nadoo/glider/common/log"</span></span><br><span class="line">	<span class="string">"github.com/nadoo/glider/rule"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">// NFNL_SUBSYS_IPSET netfilter netlink message types</span></span><br><span class="line"><span class="comment">// https://github.com/torvalds/linux/blob/9e66317d3c92ddaab330c125dfe9d06eee268aff/include/uapi/linux/netfilter/nfnetlink.h#L56</span></span><br><span class="line"><span class="keyword">const</span> NFNL_SUBSYS_IPSET = <span class="number">6</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// IPSET_PROTOCOL The protocol version</span></span><br><span class="line"><span class="comment">// http://git.netfilter.org/ipset/tree/include/libipset/linux_ip_set.h</span></span><br><span class="line"><span class="keyword">const</span> IPSET_PROTOCOL = <span class="number">6</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// IPSET_MAXNAMELEN The max length of strings including NUL: set and type identifiers</span></span><br><span class="line"><span class="keyword">const</span> IPSET_MAXNAMELEN = <span class="number">32</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Message types and commands</span></span><br><span class="line"><span class="keyword">const</span> (</span><br><span class="line">	IPSET_CMD_CREATE = <span class="number">2</span></span><br><span class="line">	IPSET_CMD_FLUSH  = <span class="number">4</span></span><br><span class="line">	IPSET_CMD_ADD    = <span class="number">9</span></span><br><span class="line">	IPSET_CMD_DEL    = <span class="number">10</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">// Attributes at command level</span></span><br><span class="line"><span class="keyword">const</span> (</span><br><span class="line">	IPSET_ATTR_PROTOCOL = <span class="number">1</span> <span class="comment">/* 1: Protocol version */</span></span><br><span class="line">	IPSET_ATTR_SETNAME  = <span class="number">2</span> <span class="comment">/* 2: Name of the set */</span></span><br><span class="line">	IPSET_ATTR_TYPENAME = <span class="number">3</span> <span class="comment">/* 3: Typename */</span></span><br><span class="line">	IPSET_ATTR_REVISION = <span class="number">4</span> <span class="comment">/* 4: Settype revision */</span></span><br><span class="line">	IPSET_ATTR_FAMILY   = <span class="number">5</span> <span class="comment">/* 5: Settype family */</span></span><br><span class="line">	IPSET_ATTR_DATA     = <span class="number">7</span> <span class="comment">/* 7: Nested attributes */</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">// CADT specific attributes</span></span><br><span class="line"><span class="keyword">const</span> (</span><br><span class="line">	IPSET_ATTR_IP   = <span class="number">1</span></span><br><span class="line">	IPSET_ATTR_CIDR = <span class="number">3</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">// IP specific attributes</span></span><br><span class="line"><span class="keyword">const</span> (</span><br><span class="line">	IPSET_ATTR_IPADDR_IPV4 = <span class="number">1</span></span><br><span class="line">	IPSET_ATTR_IPADDR_IPV6 = <span class="number">2</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">// ATTR flags</span></span><br><span class="line"><span class="keyword">const</span> (</span><br><span class="line">	NLA_F_NESTED        = (<span class="number">1</span> &lt;&lt; <span class="number">15</span>)</span><br><span class="line">	NLA_F_NET_BYTEORDER = (<span class="number">1</span> &lt;&lt; <span class="number">14</span>)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> nextSeqNr <span class="keyword">uint32</span></span><br><span class="line"><span class="keyword">var</span> nativeEndian binary.ByteOrder</span><br><span class="line"></span><br><span class="line"><span class="comment">// Manager struct</span></span><br><span class="line"><span class="keyword">type</span> Manager <span class="keyword">struct</span> &#123;</span><br><span class="line">	fd  <span class="keyword">int</span></span><br><span class="line">	lsa syscall.SockaddrNetlink</span><br><span class="line"></span><br><span class="line">	domainSet sync.Map</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// NewManager returns a Manager</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NewManager</span><span class="params">(rules []*rule.Config)</span> <span class="params">(*Manager, error)</span></span> &#123;</span><br><span class="line">	fd, err := syscall.Socket(syscall.AF_NETLINK, syscall.SOCK_RAW, syscall.NETLINK_NETFILTER)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.F(<span class="string">"%s"</span>, err)</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, err</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// defer syscall.Close(fd)</span></span><br><span class="line"></span><br><span class="line">	lsa := syscall.SockaddrNetlink&#123;</span><br><span class="line">		Family: syscall.AF_NETLINK,</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	err = syscall.Bind(fd, &amp;lsa)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.F(<span class="string">"%s"</span>, err)</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, err</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	m := &amp;Manager&#123;fd: fd, lsa: lsa&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// create ipset</span></span><br><span class="line">	<span class="keyword">for</span> _, r := <span class="keyword">range</span> rules &#123;</span><br><span class="line">		<span class="keyword">if</span> r.IPSet != <span class="string">""</span> &#123;</span><br><span class="line">			CreateSet(fd, lsa, r.IPSet)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// init ipset</span></span><br><span class="line">	<span class="keyword">for</span> _, r := <span class="keyword">range</span> rules &#123;</span><br><span class="line">		<span class="keyword">if</span> r.IPSet != <span class="string">""</span> &#123;</span><br><span class="line">			<span class="keyword">for</span> _, domain := <span class="keyword">range</span> r.Domain &#123;</span><br><span class="line">				m.domainSet.Store(domain, r.IPSet)</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">for</span> _, ip := <span class="keyword">range</span> r.IP &#123;</span><br><span class="line">				AddToSet(fd, lsa, r.IPSet, ip)</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">for</span> _, cidr := <span class="keyword">range</span> r.CIDR &#123;</span><br><span class="line">				AddToSet(fd, lsa, r.IPSet, cidr)</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> m, <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// AddDomainIP implements the DNSAnswerHandler function, used to update ipset according to domainSet rule</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(m *Manager)</span> <span class="title">AddDomainIP</span><span class="params">(domain, ip <span class="keyword">string</span>)</span> <span class="title">error</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> domain == <span class="string">""</span> || ip == <span class="string">""</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> errors.New(<span class="string">"please specify the domain and ip address"</span>)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	domainParts := strings.Split(domain, <span class="string">"."</span>)</span><br><span class="line">	length := <span class="built_in">len</span>(domainParts)</span><br><span class="line">	<span class="keyword">for</span> i := length - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i-- &#123;</span><br><span class="line">		domain := strings.Join(domainParts[i:length], <span class="string">"."</span>)</span><br><span class="line"></span><br><span class="line">		<span class="comment">// find in domainMap</span></span><br><span class="line">		<span class="keyword">if</span> ipset, ok := m.domainSet.Load(domain); ok &#123;</span><br><span class="line">			AddToSet(m.fd, m.lsa, ipset.(<span class="keyword">string</span>), ip)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// CreateSet create a ipset</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">CreateSet</span><span class="params">(fd <span class="keyword">int</span>, lsa syscall.SockaddrNetlink, setName <span class="keyword">string</span>)</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> setName == <span class="string">""</span> &#123;</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> <span class="built_in">len</span>(setName) &gt; IPSET_MAXNAMELEN &#123;</span><br><span class="line">		log.Fatal(<span class="string">"ipset: name too long"</span>)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	log.F(<span class="string">"ipset create %s hash:net"</span>, setName)</span><br><span class="line"></span><br><span class="line">	req := NewNetlinkRequest(IPSET_CMD_CREATE|(NFNL_SUBSYS_IPSET&lt;&lt;<span class="number">8</span>), syscall.NLM_F_REQUEST)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// <span class="doctag">TODO:</span> support AF_INET6</span></span><br><span class="line">	req.AddData(NewNfGenMsg(syscall.AF_INET, <span class="number">0</span>, <span class="number">0</span>))</span><br><span class="line">	req.AddData(NewRtAttr(IPSET_ATTR_PROTOCOL, Uint8Attr(IPSET_PROTOCOL)))</span><br><span class="line">	req.AddData(NewRtAttr(IPSET_ATTR_SETNAME, ZeroTerminated(setName)))</span><br><span class="line">	req.AddData(NewRtAttr(IPSET_ATTR_TYPENAME, ZeroTerminated(<span class="string">"hash:net"</span>)))</span><br><span class="line">	req.AddData(NewRtAttr(IPSET_ATTR_REVISION, Uint8Attr(<span class="number">1</span>)))</span><br><span class="line">	req.AddData(NewRtAttr(IPSET_ATTR_FAMILY, Uint8Attr(<span class="number">2</span>)))</span><br><span class="line">	req.AddData(NewRtAttr(IPSET_ATTR_DATA|NLA_F_NESTED, <span class="literal">nil</span>))</span><br><span class="line"></span><br><span class="line">	err := syscall.Sendto(fd, req.Serialize(), <span class="number">0</span>, &amp;lsa)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.F(<span class="string">"%s"</span>, err)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	FlushSet(fd, lsa, setName)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// FlushSet flush a ipset</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">FlushSet</span><span class="params">(fd <span class="keyword">int</span>, lsa syscall.SockaddrNetlink, setName <span class="keyword">string</span>)</span></span> &#123;</span><br><span class="line">	log.F(<span class="string">"ipset flush %s"</span>, setName)</span><br><span class="line"></span><br><span class="line">	req := NewNetlinkRequest(IPSET_CMD_FLUSH|(NFNL_SUBSYS_IPSET&lt;&lt;<span class="number">8</span>), syscall.NLM_F_REQUEST)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// <span class="doctag">TODO:</span> support AF_INET6</span></span><br><span class="line">	req.AddData(NewNfGenMsg(syscall.AF_INET, <span class="number">0</span>, <span class="number">0</span>))</span><br><span class="line">	req.AddData(NewRtAttr(IPSET_ATTR_PROTOCOL, Uint8Attr(IPSET_PROTOCOL)))</span><br><span class="line">	req.AddData(NewRtAttr(IPSET_ATTR_SETNAME, ZeroTerminated(setName)))</span><br><span class="line"></span><br><span class="line">	err := syscall.Sendto(fd, req.Serialize(), <span class="number">0</span>, &amp;lsa)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.F(<span class="string">"%s"</span>, err)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// AddToSet adds an entry to ipset</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">AddToSet</span><span class="params">(fd <span class="keyword">int</span>, lsa syscall.SockaddrNetlink, setName, entry <span class="keyword">string</span>)</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> setName == <span class="string">""</span> &#123;</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> <span class="built_in">len</span>(setName) &gt; IPSET_MAXNAMELEN &#123;</span><br><span class="line">		log.F(<span class="string">"ipset: name too long"</span>)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	log.F(<span class="string">"ipset add %s %s"</span>, setName, entry)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">var</span> ip net.IP</span><br><span class="line">	<span class="keyword">var</span> cidr *net.IPNet</span><br><span class="line"></span><br><span class="line">	ip, cidr, err := net.ParseCIDR(entry)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		ip = net.ParseIP(entry)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> ip == <span class="literal">nil</span> &#123;</span><br><span class="line">		log.F(<span class="string">"ipset: parse %s error"</span>, entry)</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	req := NewNetlinkRequest(IPSET_CMD_ADD|(NFNL_SUBSYS_IPSET&lt;&lt;<span class="number">8</span>), syscall.NLM_F_REQUEST)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// <span class="doctag">TODO:</span> support AF_INET6</span></span><br><span class="line">	req.AddData(NewNfGenMsg(syscall.AF_INET, <span class="number">0</span>, <span class="number">0</span>))</span><br><span class="line">	req.AddData(NewRtAttr(IPSET_ATTR_PROTOCOL, Uint8Attr(IPSET_PROTOCOL)))</span><br><span class="line">	req.AddData(NewRtAttr(IPSET_ATTR_SETNAME, ZeroTerminated(setName)))</span><br><span class="line"></span><br><span class="line">	attrNested := NewRtAttr(IPSET_ATTR_DATA|NLA_F_NESTED, <span class="literal">nil</span>)</span><br><span class="line">	attrIP := NewRtAttrChild(attrNested, IPSET_ATTR_IP|NLA_F_NESTED, <span class="literal">nil</span>)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// <span class="doctag">TODO:</span> support ipV6</span></span><br><span class="line">	NewRtAttrChild(attrIP, IPSET_ATTR_IPADDR_IPV4|NLA_F_NET_BYTEORDER, ip.To4())</span><br><span class="line"></span><br><span class="line">	<span class="comment">// for cidr prefix</span></span><br><span class="line">	<span class="keyword">if</span> cidr != <span class="literal">nil</span> &#123;</span><br><span class="line">		cidrPrefix, _ := cidr.Mask.Size()</span><br><span class="line">		NewRtAttrChild(attrNested, IPSET_ATTR_CIDR, Uint8Attr(<span class="keyword">uint8</span>(cidrPrefix)))</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	NewRtAttrChild(attrNested, <span class="number">9</span>|NLA_F_NET_BYTEORDER, Uint32Attr(<span class="number">0</span>))</span><br><span class="line">	req.AddData(attrNested)</span><br><span class="line"></span><br><span class="line">	err = syscall.Sendto(fd, req.Serialize(), <span class="number">0</span>, &amp;lsa)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.F(<span class="string">"%s"</span>, err)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// NativeEndian get native endianness for the system</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NativeEndian</span><span class="params">()</span> <span class="title">binary</span>.<span class="title">ByteOrder</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> nativeEndian == <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">var</span> x <span class="keyword">uint32</span> = <span class="number">0x01020304</span></span><br><span class="line">		<span class="keyword">if</span> *(*<span class="keyword">byte</span>)(unsafe.Pointer(&amp;x)) == <span class="number">0x01</span> &#123;</span><br><span class="line">			nativeEndian = binary.BigEndian</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			nativeEndian = binary.LittleEndian</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> nativeEndian</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">rtaAlignOf</span><span class="params">(attrlen <span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> (attrlen + syscall.RTA_ALIGNTO - <span class="number">1</span>) &amp; ^(syscall.RTA_ALIGNTO - <span class="number">1</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// NetlinkRequestData .</span></span><br><span class="line"><span class="keyword">type</span> NetlinkRequestData <span class="keyword">interface</span> &#123;</span><br><span class="line">	Len() <span class="keyword">int</span></span><br><span class="line">	Serialize() []<span class="keyword">byte</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// NfGenMsg .</span></span><br><span class="line"><span class="keyword">type</span> NfGenMsg <span class="keyword">struct</span> &#123;</span><br><span class="line">	nfgenFamily <span class="keyword">uint8</span></span><br><span class="line">	version     <span class="keyword">uint8</span></span><br><span class="line">	resID       <span class="keyword">uint16</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// NewNfGenMsg .</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NewNfGenMsg</span><span class="params">(nfgenFamily, version, resID <span class="keyword">int</span>)</span> *<span class="title">NfGenMsg</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> &amp;NfGenMsg&#123;</span><br><span class="line">		nfgenFamily: <span class="keyword">uint8</span>(nfgenFamily),</span><br><span class="line">		version:     <span class="keyword">uint8</span>(version),</span><br><span class="line">		resID:       <span class="keyword">uint16</span>(resID),</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Len .</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(m *NfGenMsg)</span> <span class="title">Len</span><span class="params">()</span> <span class="title">int</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> rtaAlignOf(<span class="number">4</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Serialize .</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(m *NfGenMsg)</span> <span class="title">Serialize</span><span class="params">()</span> []<span class="title">byte</span></span> &#123;</span><br><span class="line">	native := NativeEndian()</span><br><span class="line"></span><br><span class="line">	length := m.Len()</span><br><span class="line">	buf := <span class="built_in">make</span>([]<span class="keyword">byte</span>, rtaAlignOf(length))</span><br><span class="line">	buf[<span class="number">0</span>] = m.nfgenFamily</span><br><span class="line">	buf[<span class="number">1</span>] = m.version</span><br><span class="line">	native.PutUint16(buf[<span class="number">2</span>:<span class="number">4</span>], m.resID)</span><br><span class="line">	<span class="keyword">return</span> buf</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// RtAttr Extend RtAttr to handle data and children</span></span><br><span class="line"><span class="keyword">type</span> RtAttr <span class="keyword">struct</span> &#123;</span><br><span class="line">	syscall.RtAttr</span><br><span class="line">	Data     []<span class="keyword">byte</span></span><br><span class="line">	children []NetlinkRequestData</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// NewRtAttr Create a new Extended RtAttr object</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NewRtAttr</span><span class="params">(attrType <span class="keyword">int</span>, data []<span class="keyword">byte</span>)</span> *<span class="title">RtAttr</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> &amp;RtAttr&#123;</span><br><span class="line">		RtAttr: syscall.RtAttr&#123;</span><br><span class="line">			Type: <span class="keyword">uint16</span>(attrType),</span><br><span class="line">		&#125;,</span><br><span class="line">		children: []NetlinkRequestData&#123;&#125;,</span><br><span class="line">		Data:     data,</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// NewRtAttrChild Create a new RtAttr obj anc add it as a child of an existing object</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NewRtAttrChild</span><span class="params">(parent *RtAttr, attrType <span class="keyword">int</span>, data []<span class="keyword">byte</span>)</span> *<span class="title">RtAttr</span></span> &#123;</span><br><span class="line">	attr := NewRtAttr(attrType, data)</span><br><span class="line">	parent.children = <span class="built_in">append</span>(parent.children, attr)</span><br><span class="line">	<span class="keyword">return</span> attr</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Len .</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(a *RtAttr)</span> <span class="title">Len</span><span class="params">()</span> <span class="title">int</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> <span class="built_in">len</span>(a.children) == <span class="number">0</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> (syscall.SizeofRtAttr + <span class="built_in">len</span>(a.Data))</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	l := <span class="number">0</span></span><br><span class="line">	<span class="keyword">for</span> _, child := <span class="keyword">range</span> a.children &#123;</span><br><span class="line">		l += rtaAlignOf(child.Len())</span><br><span class="line">	&#125;</span><br><span class="line">	l += syscall.SizeofRtAttr</span><br><span class="line">	<span class="keyword">return</span> rtaAlignOf(l + <span class="built_in">len</span>(a.Data))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Serialize the RtAttr into a byte array</span></span><br><span class="line"><span class="comment">// This can't just unsafe.cast because it must iterate through children.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(a *RtAttr)</span> <span class="title">Serialize</span><span class="params">()</span> []<span class="title">byte</span></span> &#123;</span><br><span class="line">	native := NativeEndian()</span><br><span class="line"></span><br><span class="line">	length := a.Len()</span><br><span class="line">	buf := <span class="built_in">make</span>([]<span class="keyword">byte</span>, rtaAlignOf(length))</span><br><span class="line"></span><br><span class="line">	next := <span class="number">4</span></span><br><span class="line">	<span class="keyword">if</span> a.Data != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="built_in">copy</span>(buf[next:], a.Data)</span><br><span class="line">		next += rtaAlignOf(<span class="built_in">len</span>(a.Data))</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> <span class="built_in">len</span>(a.children) &gt; <span class="number">0</span> &#123;</span><br><span class="line">		<span class="keyword">for</span> _, child := <span class="keyword">range</span> a.children &#123;</span><br><span class="line">			childBuf := child.Serialize()</span><br><span class="line">			<span class="built_in">copy</span>(buf[next:], childBuf)</span><br><span class="line">			next += rtaAlignOf(<span class="built_in">len</span>(childBuf))</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> l := <span class="keyword">uint16</span>(length); l != <span class="number">0</span> &#123;</span><br><span class="line">		native.PutUint16(buf[<span class="number">0</span>:<span class="number">2</span>], l)</span><br><span class="line">	&#125;</span><br><span class="line">	native.PutUint16(buf[<span class="number">2</span>:<span class="number">4</span>], a.Type)</span><br><span class="line">	<span class="keyword">return</span> buf</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// NetlinkRequest .</span></span><br><span class="line"><span class="keyword">type</span> NetlinkRequest <span class="keyword">struct</span> &#123;</span><br><span class="line">	syscall.NlMsghdr</span><br><span class="line">	Data    []NetlinkRequestData</span><br><span class="line">	RawData []<span class="keyword">byte</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// NewNetlinkRequest create a new netlink request from proto and flags</span></span><br><span class="line"><span class="comment">// Note the Len value will be inaccurate once data is added until</span></span><br><span class="line"><span class="comment">// the message is serialized</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NewNetlinkRequest</span><span class="params">(proto, flags <span class="keyword">int</span>)</span> *<span class="title">NetlinkRequest</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> &amp;NetlinkRequest&#123;</span><br><span class="line">		NlMsghdr: syscall.NlMsghdr&#123;</span><br><span class="line">			Len:   <span class="keyword">uint32</span>(syscall.SizeofNlMsghdr),</span><br><span class="line">			Type:  <span class="keyword">uint16</span>(proto),</span><br><span class="line">			Flags: syscall.NLM_F_REQUEST | <span class="keyword">uint16</span>(flags),</span><br><span class="line">			Seq:   atomic.AddUint32(&amp;nextSeqNr, <span class="number">1</span>),</span><br><span class="line">			<span class="comment">// Pid:   uint32(os.Getpid()),</span></span><br><span class="line">		&#125;,</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Serialize the Netlink Request into a byte array</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(req *NetlinkRequest)</span> <span class="title">Serialize</span><span class="params">()</span> []<span class="title">byte</span></span> &#123;</span><br><span class="line">	length := syscall.SizeofNlMsghdr</span><br><span class="line">	dataBytes := <span class="built_in">make</span>([][]<span class="keyword">byte</span>, <span class="built_in">len</span>(req.Data))</span><br><span class="line">	<span class="keyword">for</span> i, data := <span class="keyword">range</span> req.Data &#123;</span><br><span class="line">		dataBytes[i] = data.Serialize()</span><br><span class="line">		length = length + <span class="built_in">len</span>(dataBytes[i])</span><br><span class="line">	&#125;</span><br><span class="line">	length += <span class="built_in">len</span>(req.RawData)</span><br><span class="line"></span><br><span class="line">	req.Len = <span class="keyword">uint32</span>(length)</span><br><span class="line">	b := <span class="built_in">make</span>([]<span class="keyword">byte</span>, length)</span><br><span class="line">	hdr := (*(*[syscall.SizeofNlMsghdr]<span class="keyword">byte</span>)(unsafe.Pointer(req)))[:]</span><br><span class="line">	next := syscall.SizeofNlMsghdr</span><br><span class="line">	<span class="built_in">copy</span>(b[<span class="number">0</span>:next], hdr)</span><br><span class="line">	<span class="keyword">for</span> _, data := <span class="keyword">range</span> dataBytes &#123;</span><br><span class="line">		<span class="keyword">for</span> _, dataByte := <span class="keyword">range</span> data &#123;</span><br><span class="line">			b[next] = dataByte</span><br><span class="line">			next = next + <span class="number">1</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// Add the raw data if any</span></span><br><span class="line">	<span class="keyword">if</span> <span class="built_in">len</span>(req.RawData) &gt; <span class="number">0</span> &#123;</span><br><span class="line">		<span class="built_in">copy</span>(b[next:length], req.RawData)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> b</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// AddData add data to request</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(req *NetlinkRequest)</span> <span class="title">AddData</span><span class="params">(data NetlinkRequestData)</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> data != <span class="literal">nil</span> &#123;</span><br><span class="line">		req.Data = <span class="built_in">append</span>(req.Data, data)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// AddRawData adds raw bytes to the end of the NetlinkRequest object during serialization</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(req *NetlinkRequest)</span> <span class="title">AddRawData</span><span class="params">(data []<span class="keyword">byte</span>)</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> data != <span class="literal">nil</span> &#123;</span><br><span class="line">		req.RawData = <span class="built_in">append</span>(req.RawData, data...)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Uint8Attr .</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Uint8Attr</span><span class="params">(v <span class="keyword">uint8</span>)</span> []<span class="title">byte</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> []<span class="keyword">byte</span>&#123;<span class="keyword">byte</span>(v)&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Uint16Attr .</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Uint16Attr</span><span class="params">(v <span class="keyword">uint16</span>)</span> []<span class="title">byte</span></span> &#123;</span><br><span class="line">	native := NativeEndian()</span><br><span class="line">	bytes := <span class="built_in">make</span>([]<span class="keyword">byte</span>, <span class="number">2</span>)</span><br><span class="line">	native.PutUint16(bytes, v)</span><br><span class="line">	<span class="keyword">return</span> bytes</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Uint32Attr .</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Uint32Attr</span><span class="params">(v <span class="keyword">uint32</span>)</span> []<span class="title">byte</span></span> &#123;</span><br><span class="line">	native := NativeEndian()</span><br><span class="line">	bytes := <span class="built_in">make</span>([]<span class="keyword">byte</span>, <span class="number">4</span>)</span><br><span class="line">	native.PutUint32(bytes, v)</span><br><span class="line">	<span class="keyword">return</span> bytes</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ZeroTerminated .</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">ZeroTerminated</span><span class="params">(s <span class="keyword">string</span>)</span> []<span class="title">byte</span></span> &#123;</span><br><span class="line">	bytes := <span class="built_in">make</span>([]<span class="keyword">byte</span>, <span class="built_in">len</span>(s)+<span class="number">1</span>)</span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="built_in">len</span>(s); i++ &#123;</span><br><span class="line">		bytes[i] = s[i]</span><br><span class="line">	&#125;</span><br><span class="line">	bytes[<span class="built_in">len</span>(s)] = <span class="number">0</span></span><br><span class="line">	<span class="keyword">return</span> bytes</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// NonZeroTerminated .</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NonZeroTerminated</span><span class="params">(s <span class="keyword">string</span>)</span> []<span class="title">byte</span></span> &#123;</span><br><span class="line">	bytes := <span class="built_in">make</span>([]<span class="keyword">byte</span>, <span class="built_in">len</span>(s))</span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="built_in">len</span>(s); i++ &#123;</span><br><span class="line">		bytes[i] = s[i]</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> bytes</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// BytesToString .</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">BytesToString</span><span class="params">(b []<span class="keyword">byte</span>)</span> <span class="title">string</span></span> &#123;</span><br><span class="line">	n := bytes.Index(b, []<span class="keyword">byte</span>&#123;<span class="number">0</span>&#125;)</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">string</span>(b[:n])</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>go的代码，我自己改的已经完善了常用命令，以及接收内核反馈消息等。由于我修改的代码做了模块划分，涉及的文件比较多，这里就列出参考的源代码吧，想看更多的去参考的链接。反正这个源码也是参考libipset写的。(๑`･ᴗ･´๑)</p>
+<p>以上，如果有什么问题，欢迎随时交流。-(￢∀￢)σ</p>
+
+      
+    </div>
+    
+    
+    
+
+	<div>
+		
+			<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+		
+	</div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/C/" rel="tag"> <i class="fa fa-tag"></i> C</a>
+          
+            <a href="/tags/IPSET/" rel="tag"> <i class="fa fa-tag"></i> IPSET</a>
+          
+            <a href="/tags/NETLINK/" rel="tag"> <i class="fa fa-tag"></i> NETLINK</a>
+          
+            <a href="/tags/GO/" rel="tag"> <i class="fa fa-tag"></i> GO</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/04/30/•ᴗ•颜文字•ᴗ•/" rel="next" title="•ᴗ•颜文字•ᴗ•">
+                <i class="fa fa-chevron-left"></i> •ᴗ•颜文字•ᴗ•
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/05/15/《C语言缺陷与陷阱》读书笔记/" rel="prev" title="《C语言缺陷与陷阱》读书笔记">
+                《C语言缺陷与陷阱》读书笔记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+		<div>
+		</div>
+    
+  </div>
+ 
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/touxiang.jpg" alt="JiHan">
+          <p class="site-author-name" itemprop="name">JiHan</p>
+           
+              <p class="site-description motion-element" itemprop="description">瘫着贼舒服</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/JiHanHuang/" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:Mr.JiHan.Mail@gmail.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                    
+                      E-Mail
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#简单介绍"><span class="nav-number">1.</span> <span class="nav-text">简单介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#简介"><span class="nav-number">1.1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用"><span class="nav-number">1.2.</span> <span class="nav-text">使用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本流程"><span class="nav-number">2.</span> <span class="nav-text">基本流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#消息格式"><span class="nav-number">3.</span> <span class="nav-text">消息格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#示例Demo"><span class="nav-number">4.</span> <span class="nav-text">示例Demo</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#C"><span class="nav-number">4.1.</span> <span class="nav-text">C</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#GO"><span class="nav-number">4.2.</span> <span class="nav-text">GO</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">JiHan</span>
+
+
+  
+	<div class="post-wordcount">
+		
+		  <span class="post-meta-divider">|</span>
+		
+		<span class="post-meta-item-icon">
+		  <i class="fa fa-area-chart"></i>
+		</span>
+		
+		  <span class="post-meta-item-text">本站总字数</span>
+		
+		<span title="本站总字数">
+		  23k
+		</span>
+	</div>
+   
+ </div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 本站访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'VgnMRYmQLHYX1MQApA7bN511-gzGzoHsz',
+        appKey: 'A37Y5jPoqc8cxMaOoNiXSh9s',
+        placeholder: '小伙子，我看你骨骼惊奇...',
+        avatar:'mp',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body>
+</html>
