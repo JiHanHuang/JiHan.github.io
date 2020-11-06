@@ -105,7 +105,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2020/09/14/技术札记/ssh%E5%85%8D%E5%AF%86%E7%99%BB%E5%BD%95%E5%8E%9F%E7%90%86.png">
 <meta property="og:image" content="http://yoursite.com/2020/09/14/技术札记/%E6%9F%A5%E6%89%BE%E4%B8%8E%E5%BD%93%E5%89%8D%E8%BF%9B%E7%A8%8B%E9%80%9A%E4%BF%A1%E7%9A%84%E6%89%80%E6%9C%89%E8%BF%9B%E7%A8%8B.jpg">
-<meta property="og:updated_time" content="2020-09-14T03:25:14.000Z">
+<meta property="og:updated_time" content="2020-10-27T09:16:13.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="技术札记">
 <meta name="twitter:description" content="谁知道这里面有多少小技巧，没准哪个能帮上你呢？(•̀⌄•́)　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan">
@@ -418,7 +418,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  3.3k
+                  3.5k
                 </span>
               
 
@@ -434,7 +434,7 @@
                   <span class="post-meta-item-text">阅读时长</span>
                 
                 <span title="阅读时长">
-                  13
+                  14
                 </span>
               
             </div>
@@ -461,13 +461,19 @@
 <a id="more"></a>
 
 
-<h3 id="ssh免密登录"><a href="#ssh免密登录" class="headerlink" title="ssh免密登录"></a>ssh免密登录</h3><p><strong>原理：</strong><br><img src="/2020/09/14/技术札记/ssh%E5%85%8D%E5%AF%86%E7%99%BB%E5%BD%95%E5%8E%9F%E7%90%86.png" alt="ssh免密登录原理"><br><strong>实际配置：</strong><br>本地主机：</p>
+<h3 id="ssh免密登录"><a href="#ssh免密登录" class="headerlink" title="ssh免密登录"></a>ssh免密登录</h3><p><strong>原理：</strong><br><img src="/2020/09/14/技术札记/ssh%E5%85%8D%E5%AF%86%E7%99%BB%E5%BD%95%E5%8E%9F%E7%90%86.png" alt="ssh免密登录原理"><br><strong>实际配置：</strong>  </p>
 <ol>
-<li>生成秘钥对：<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa</span><br></pre></td></tr></table></figure>
-
+<li><p>生成秘钥对：<br>本地主机：</p>
+   <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa</span><br></pre></td></tr></table></figure>
 </li>
-</ol>
-<p>远程主机：</p>
+<li><p>拷贝公钥到远程主机：</p>
+<ol>
+<li><p>简单方法，在本地主机执行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-copy-id remote_username@server_ip_address -p port</span><br></pre></td></tr></table></figure>
+
+<p><em>不加<code>-p</code>默认22端口</em><br>然后输入密码即可</p>
+</li>
+<li><p>先登录远程主机：</p>
 <ol>
 <li><p>获取本地主机的公钥，追加到<code>authorized_keys</code>：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat id_rsa.pub &gt;&gt; authorized_keys</span><br></pre></td></tr></table></figure>
@@ -477,12 +483,33 @@
 </li>
 <li><p>重启服务(不一定需要)：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service sshd restart</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>配置ssh名称(可选)<br>为了方便记住输入远程主机设备，可给远程主机配置名称。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># vi ~/.ssh/config</span><br><span class="line">Host remote</span><br><span class="line">User root</span><br><span class="line">Hostname 192.168.0.1</span><br><span class="line">Port 22</span><br><span class="line"># ssh remote</span><br></pre></td></tr></table></figure>
 
 </li>
 </ol>
 <p><strong>测试：</strong><br>本地主机登录远程主机：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ssh remote@&lt;ip&gt;</span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line">ssh <span class="comment">#免密</span></span><br></pre></td></tr></table></figure>
 
+<p><strong>配置ssh禁用密码登录：</strong><br>增加安全性，避免别人尝试非法登录。</p>
+<ol>
+<li><p>完成上述的免密登录，服务端获得一个公钥，本机获得一个私钥</p>
+</li>
+<li><p>将私钥保存，供其他设备使用</p>
+</li>
+<li><p>设置服务端配置文件<code>/etc/ssh/sshd_config</code>，关闭密码登录：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#禁用密码验证</span><br><span class="line">PasswordAuthentication no</span><br><span class="line">#启用密钥验证，下面两个默认都是开启的</span><br><span class="line">RSAAuthentication yes</span><br><span class="line">PubkeyAuthentication yes</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>重启sshd服务：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl restart sshd</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
 <h3 id="VSCODE"><a href="#VSCODE" class="headerlink" title="VSCODE"></a>VSCODE</h3><p>插件列表：  </p>
 <ol>
 <li>Remote-SSH</li>
@@ -770,7 +797,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-count">19</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -792,7 +819,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">9</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -910,7 +937,7 @@
 		  <span class="post-meta-item-text">本站总字数</span>
 		
 		<span title="本站总字数">
-		  23k
+		  28k
 		</span>
 	</div>
    
