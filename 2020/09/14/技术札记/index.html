@@ -105,7 +105,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2020/09/14/技术札记/ssh%E5%85%8D%E5%AF%86%E7%99%BB%E5%BD%95%E5%8E%9F%E7%90%86.png">
 <meta property="og:image" content="http://yoursite.com/2020/09/14/技术札记/%E6%9F%A5%E6%89%BE%E4%B8%8E%E5%BD%93%E5%89%8D%E8%BF%9B%E7%A8%8B%E9%80%9A%E4%BF%A1%E7%9A%84%E6%89%80%E6%9C%89%E8%BF%9B%E7%A8%8B.jpg">
-<meta property="og:updated_time" content="2020-10-27T09:16:13.000Z">
+<meta property="og:updated_time" content="2020-12-25T09:40:48.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="技术札记">
 <meta name="twitter:description" content="谁知道这里面有多少小技巧，没准哪个能帮上你呢？(•̀⌄•́)　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan">
@@ -418,7 +418,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  3.5k
+                  3.8k
                 </span>
               
 
@@ -434,7 +434,7 @@
                   <span class="post-meta-item-text">阅读时长</span>
                 
                 <span title="阅读时长">
-                  14
+                  15
                 </span>
               
             </div>
@@ -512,13 +512,16 @@
 </ol>
 <h3 id="VSCODE"><a href="#VSCODE" class="headerlink" title="VSCODE"></a>VSCODE</h3><p>插件列表：  </p>
 <ol>
-<li>Remote-SSH</li>
-<li>vscode-icons</li>
-<li>markdown all in one</li>
-<li>markdown preview github </li>
-<li>markdown preview  Enhanced √<br> cmd：Markdown Preview Enhanced: Customize Css<br> background-color: rgb(157, 189, 189);<br> font-family: -apple-system, BlinkMacSystemFont, “Segoe UI”, Helvetica, Arial, sans-serif, “Apple Color Emoji”, “Segoe UI Emoji”, “Segoe UI Symbol”, “微软雅黑”;</li>
-<li>tabNine</li>
+<li>Remote-SSH：远程ssh登录，linux版本太低不支持</li>
+<li>sftp：远程文件同步</li>
+<li>vscode-icons：文件图标显示</li>
+<li>markdown all in one：Markdown插件</li>
+<li>markdown preview  Enhanced：Markdown预览<br> cmd：Markdown Preview Enhanced: Customize Css<br> background-color: rgb(157, 189, 189);<br> font-family: -apple-system, BlinkMacSystemFont, “Segoe UI”, Helvetica, Arial, sans-serif, “Apple Color Emoji”, “Segoe UI Emoji”, “Segoe UI Symbol”, “微软雅黑”;</li>
+<li>tabNine：机器学习补全(可能导致和语言补全冲突)</li>
 <li>go 补全插件，建议使用gopl，之前补全太慢，<a href="https://blog.csdn.net/zhetmdoubeizhanyong/article/details/102534172" target="_blank" rel="noopener">解决</a></li>
+<li>koroFileHeader：用于生成标准格式函数头说明，或者代码文件头说明</li>
+<li>bookmarks：给代码打标签</li>
+<li>Draw.io integration：drawio的绘图插件</li>
 </ol>
 <h3 id="C-段错误处理-Linux"><a href="#C-段错误处理-Linux" class="headerlink" title="C 段错误处理(Linux)"></a>C 段错误处理(Linux)</h3><ol>
 <li>必须先得到段错误的地址，可以用gdb的bt或者在程序中捕捉段错误堆栈。<code>SIGSEGV, SIGABRT</code></li>
@@ -606,7 +609,7 @@
 <h3 id="xrags"><a href="#xrags" class="headerlink" title="xrags"></a>xrags</h3><p>常见的用法：</p>
 <ol>
 <li><code>ls | xargs echo</code> 相当于<code>echo a b c</code></li>
-<li><code>ls | xargs -i echo {}</code> 相当于 <code>echo a; echo b; echo c</code></li>
+<li><code>ls | xargs -i echo {}</code> 相当于 <code>echo a; echo b; echo c</code>，<code>-i</code>同<code>-I &#39;{}&#39;</code>，其含义是将<code>{}</code>内的内容替换成前面输出的内容，并且循环执行。</li>
 <li><code>-t</code>参数可以查看你xargs执行的命令。</li>
 </ol>
 <p><strong>注意：</strong> 如果在xargs后的命令参数中，路径参数有空格的或tab的，会导致路径无法识别。比如<code>echo &quot;/home/jihan &quot; | xargs -i ls {}</code>就会报错，虽然实际命令<code>ls /home/jihan&lt;空格&gt;</code>没有问题，但是用xargs+i的形式就有问题。</p>
@@ -622,7 +625,8 @@
 <li>获取与S通信A的tcp端口号</li>
 <li>通过A的tcp端口号，获得A的进程pid<br><img src="/2020/09/14/技术札记/%E6%9F%A5%E6%89%BE%E4%B8%8E%E5%BD%93%E5%89%8D%E8%BF%9B%E7%A8%8B%E9%80%9A%E4%BF%A1%E7%9A%84%E6%89%80%E6%9C%89%E8%BF%9B%E7%A8%8B.jpg" alt="举个栗子"></li>
 </ol>
-<h3 id="程序执行时的系统调用"><a href="#程序执行时的系统调用" class="headerlink" title="程序执行时的系统调用"></a>程序执行时的系统调用</h3><p><code>strace</code> 是 Linux 中用于监控和篡改进程与内核之间操作的工具</p>
+<h3 id="程序执行时的系统调用"><a href="#程序执行时的系统调用" class="headerlink" title="程序执行时的系统调用"></a>程序执行时的系统调用</h3><p><code>strace</code> 是 Linux 中用于监控和篡改进程与内核之间操作的工具。非常强大的工具，能够有效排查程序性能问题，异常操作以及段错误问题。</p>
+<h3 id="程序内存检测"><a href="#程序内存检测" class="headerlink" title="程序内存检测"></a>程序内存检测</h3><p><code>valgrind</code> <a href="https://www.jianshu.com/p/29a7a7d3d5b1" target="_blank" rel="noopener">参考</a></p>
 <h3 id="Linux文件锁定"><a href="#Linux文件锁定" class="headerlink" title="Linux文件锁定"></a>Linux文件锁定</h3><p>在root权限下，有可能对某个文件都没有操作权限，可能是使用<code>chattr</code>对其进行锁定，可使用其进行解除。<code>lsattr</code>查看相应属性。<a href="http://c.biancheng.net/view/874.html" target="_blank" rel="noopener">参考</a></p>
 <h3 id="Linux-内核小版本升级"><a href="#Linux-内核小版本升级" class="headerlink" title="Linux 内核小版本升级"></a>Linux 内核小版本升级</h3><p>小版本，就是 <code>3.10.0-862</code>中<code>-</code>后的东西。而我们进行升级的时候，需要(centos为例，3.10.0-693升级到3.10.0-862)：</p>
 <ol>
@@ -671,6 +675,10 @@
 <li><code>dev</code> 表示对应的出口网卡</li>
 </ul>
 <h3 id="mysql-性能优化"><a href="#mysql-性能优化" class="headerlink" title="mysql 性能优化"></a>mysql 性能优化</h3><p><a href="http://blog.chinaunix.net/uid-26870656-id-4287492.html" target="_blank" rel="noopener">TinkPHP 对mysql 20条优化建议</a></p>
+<h3 id="sudo、su和sudo-s的差别"><a href="#sudo、su和sudo-s的差别" class="headerlink" title="sudo、su和sudo -s的差别"></a>sudo、su和sudo -s的差别</h3><h3 id="relocation-error-usr-lib64-libc-so-6-symbol-dl-starting-up"><a href="#relocation-error-usr-lib64-libc-so-6-symbol-dl-starting-up" class="headerlink" title="relocation error: /usr/lib64/libc.so.6: symbol _dl_starting_up,"></a>relocation error: /usr/lib64/libc.so.6: symbol _dl_starting_up,</h3><p>relocation error: /usr/lib64/libc.so.6: symbol _dl_starting_up, version GLIBC_PRIVATE not defined in file ld-linux-x86-64.so.2 with link time reference 问题解决<br>在建立一个错误的软连接到ld-linux-x86-64.so.2时，悲剧就这么发生了。此时大部分命令都不能使用，SSH当然也不能登录了。这个时候一定不要退出终端。</p>
+<p>有人说那就把软连接复原吧，可是ln也同样无法使用。。。这时候我们就可以使用可爱的sln命令就可以了，哈哈。</p>
+<p>lsn /usr/lib64/ld-2.17.so /usr/lib64/ld-linux-x86-64.so.2 </p>
+<h3 id="linux死亡操作"><a href="#linux死亡操作" class="headerlink" title="linux死亡操作"></a>linux死亡操作</h3><p>随意动<code>/usr/lib64</code>或<code>/lib64</code>下的库，特别是<code>ld、libc</code>之类的，<strong>覆盖、移动和删除</strong>效果都差不多，基本就是系统爆破级别的。</p>
 
       
     </div>
@@ -797,7 +805,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">20</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -885,7 +893,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#ssh免密登录"><span class="nav-number">1.</span> <span class="nav-text">ssh免密登录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#VSCODE"><span class="nav-number">2.</span> <span class="nav-text">VSCODE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#C-段错误处理-Linux"><span class="nav-number">3.</span> <span class="nav-text">C 段错误处理(Linux)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进程运行状态查看"><span class="nav-number">4.</span> <span class="nav-text">进程运行状态查看</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#断言assert"><span class="nav-number">5.</span> <span class="nav-text">断言assert</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ipset源码技巧"><span class="nav-number">6.</span> <span class="nav-text">ipset源码技巧</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一些工具"><span class="nav-number">7.</span> <span class="nav-text">一些工具</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#go好用的开源组件"><span class="nav-number">8.</span> <span class="nav-text">go好用的开源组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Go技巧"><span class="nav-number">9.</span> <span class="nav-text">Go技巧</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#xrags"><span class="nav-number">10.</span> <span class="nav-text">xrags</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#shell调试"><span class="nav-number">11.</span> <span class="nav-text">shell调试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查找与当前进程通信的所有进程"><span class="nav-number">12.</span> <span class="nav-text">查找与当前进程通信的所有进程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#程序执行时的系统调用"><span class="nav-number">13.</span> <span class="nav-text">程序执行时的系统调用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux文件锁定"><span class="nav-number">14.</span> <span class="nav-text">Linux文件锁定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux-内核小版本升级"><span class="nav-number">15.</span> <span class="nav-text">Linux 内核小版本升级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#linux源码编译"><span class="nav-number">16.</span> <span class="nav-text">linux源码编译</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内核模块源码编译安装"><span class="nav-number">17.</span> <span class="nav-text">内核模块源码编译安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux-内核模块加载"><span class="nav-number">18.</span> <span class="nav-text">Linux 内核模块加载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux路由操作"><span class="nav-number">19.</span> <span class="nav-text">Linux路由操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mysql-性能优化"><span class="nav-number">20.</span> <span class="nav-text">mysql 性能优化</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#ssh免密登录"><span class="nav-number">1.</span> <span class="nav-text">ssh免密登录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#VSCODE"><span class="nav-number">2.</span> <span class="nav-text">VSCODE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#C-段错误处理-Linux"><span class="nav-number">3.</span> <span class="nav-text">C 段错误处理(Linux)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进程运行状态查看"><span class="nav-number">4.</span> <span class="nav-text">进程运行状态查看</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#断言assert"><span class="nav-number">5.</span> <span class="nav-text">断言assert</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ipset源码技巧"><span class="nav-number">6.</span> <span class="nav-text">ipset源码技巧</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一些工具"><span class="nav-number">7.</span> <span class="nav-text">一些工具</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#go好用的开源组件"><span class="nav-number">8.</span> <span class="nav-text">go好用的开源组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Go技巧"><span class="nav-number">9.</span> <span class="nav-text">Go技巧</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#xrags"><span class="nav-number">10.</span> <span class="nav-text">xrags</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#shell调试"><span class="nav-number">11.</span> <span class="nav-text">shell调试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查找与当前进程通信的所有进程"><span class="nav-number">12.</span> <span class="nav-text">查找与当前进程通信的所有进程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#程序执行时的系统调用"><span class="nav-number">13.</span> <span class="nav-text">程序执行时的系统调用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#程序内存检测"><span class="nav-number">14.</span> <span class="nav-text">程序内存检测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux文件锁定"><span class="nav-number">15.</span> <span class="nav-text">Linux文件锁定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux-内核小版本升级"><span class="nav-number">16.</span> <span class="nav-text">Linux 内核小版本升级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#linux源码编译"><span class="nav-number">17.</span> <span class="nav-text">linux源码编译</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内核模块源码编译安装"><span class="nav-number">18.</span> <span class="nav-text">内核模块源码编译安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux-内核模块加载"><span class="nav-number">19.</span> <span class="nav-text">Linux 内核模块加载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux路由操作"><span class="nav-number">20.</span> <span class="nav-text">Linux路由操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mysql-性能优化"><span class="nav-number">21.</span> <span class="nav-text">mysql 性能优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sudo、su和sudo-s的差别"><span class="nav-number">22.</span> <span class="nav-text">sudo、su和sudo -s的差别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#relocation-error-usr-lib64-libc-so-6-symbol-dl-starting-up"><span class="nav-number">23.</span> <span class="nav-text">relocation error: /usr/lib64/libc.so.6: symbol _dl_starting_up,</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#linux死亡操作"><span class="nav-number">24.</span> <span class="nav-text">linux死亡操作</span></a></li></ol></div>
             
 
           </div>
@@ -937,7 +945,7 @@
 		  <span class="post-meta-item-text">本站总字数</span>
 		
 		<span title="本站总字数">
-		  28k
+		  32.3k
 		</span>
 	</div>
    
