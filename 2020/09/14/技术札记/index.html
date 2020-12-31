@@ -105,7 +105,8 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2020/09/14/技术札记/ssh%E5%85%8D%E5%AF%86%E7%99%BB%E5%BD%95%E5%8E%9F%E7%90%86.png">
 <meta property="og:image" content="http://yoursite.com/2020/09/14/技术札记/%E6%9F%A5%E6%89%BE%E4%B8%8E%E5%BD%93%E5%89%8D%E8%BF%9B%E7%A8%8B%E9%80%9A%E4%BF%A1%E7%9A%84%E6%89%80%E6%9C%89%E8%BF%9B%E7%A8%8B.jpg">
-<meta property="og:updated_time" content="2020-12-25T09:40:48.000Z">
+<meta property="og:image" content="http://yoursite.com/2020/09/14/技术札记/linux%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84.jpg">
+<meta property="og:updated_time" content="2020-12-31T12:00:48.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="技术札记">
 <meta name="twitter:description" content="谁知道这里面有多少小技巧，没准哪个能帮上你呢？(•̀⌄•́)　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan">
@@ -418,7 +419,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  3.8k
+                  3.9k
                 </span>
               
 
@@ -512,16 +513,27 @@
 </ol>
 <h3 id="VSCODE"><a href="#VSCODE" class="headerlink" title="VSCODE"></a>VSCODE</h3><p>插件列表：  </p>
 <ol>
-<li>Remote-SSH：远程ssh登录，linux版本太低不支持</li>
-<li>sftp：远程文件同步</li>
-<li>vscode-icons：文件图标显示</li>
-<li>markdown all in one：Markdown插件</li>
-<li>markdown preview  Enhanced：Markdown预览<br> cmd：Markdown Preview Enhanced: Customize Css<br> background-color: rgb(157, 189, 189);<br> font-family: -apple-system, BlinkMacSystemFont, “Segoe UI”, Helvetica, Arial, sans-serif, “Apple Color Emoji”, “Segoe UI Emoji”, “Segoe UI Symbol”, “微软雅黑”;</li>
-<li>tabNine：机器学习补全(可能导致和语言补全冲突)</li>
-<li>go 补全插件，建议使用gopl，之前补全太慢，<a href="https://blog.csdn.net/zhetmdoubeizhanyong/article/details/102534172" target="_blank" rel="noopener">解决</a></li>
-<li>koroFileHeader：用于生成标准格式函数头说明，或者代码文件头说明</li>
-<li>bookmarks：给代码打标签</li>
-<li>Draw.io integration：drawio的绘图插件</li>
+<li><p>Remote-SSH：远程ssh登录，linux版本太低不支持</p>
+</li>
+<li><p>sftp：远程文件同步</p>
+</li>
+<li><p>vscode-icons：文件图标显示</p>
+</li>
+<li><p>markdown all in one：Markdown插件</p>
+</li>
+<li><p>markdown preview  Enhanced：Markdown预览<br> cmd：Markdown Preview Enhanced: Customize Css</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">background-color: rgb(157, 189, 189);</span><br><span class="line">font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;微软雅黑&quot;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>tabNine：机器学习补全(可能导致和语言补全冲突)</p>
+</li>
+<li><p>go 补全插件，建议使用gopl，之前补全太慢，<a href="https://blog.csdn.net/zhetmdoubeizhanyong/article/details/102534172" target="_blank" rel="noopener">解决</a></p>
+</li>
+<li><p>koroFileHeader：用于生成标准格式函数头说明，或者代码文件头说明</p>
+</li>
+<li><p>bookmarks：给代码打标签</p>
+</li>
+<li><p>Draw.io integration：drawio的绘图插件</p>
+</li>
 </ol>
 <h3 id="C-段错误处理-Linux"><a href="#C-段错误处理-Linux" class="headerlink" title="C 段错误处理(Linux)"></a>C 段错误处理(Linux)</h3><ol>
 <li>必须先得到段错误的地址，可以用gdb的bt或者在程序中捕捉段错误堆栈。<code>SIGSEGV, SIGABRT</code></li>
@@ -678,7 +690,7 @@
 <h3 id="sudo、su和sudo-s的差别"><a href="#sudo、su和sudo-s的差别" class="headerlink" title="sudo、su和sudo -s的差别"></a>sudo、su和sudo -s的差别</h3><h3 id="relocation-error-usr-lib64-libc-so-6-symbol-dl-starting-up"><a href="#relocation-error-usr-lib64-libc-so-6-symbol-dl-starting-up" class="headerlink" title="relocation error: /usr/lib64/libc.so.6: symbol _dl_starting_up,"></a>relocation error: /usr/lib64/libc.so.6: symbol _dl_starting_up,</h3><p>relocation error: /usr/lib64/libc.so.6: symbol _dl_starting_up, version GLIBC_PRIVATE not defined in file ld-linux-x86-64.so.2 with link time reference 问题解决<br>在建立一个错误的软连接到ld-linux-x86-64.so.2时，悲剧就这么发生了。此时大部分命令都不能使用，SSH当然也不能登录了。这个时候一定不要退出终端。</p>
 <p>有人说那就把软连接复原吧，可是ln也同样无法使用。。。这时候我们就可以使用可爱的sln命令就可以了，哈哈。</p>
 <p>lsn /usr/lib64/ld-2.17.so /usr/lib64/ld-linux-x86-64.so.2 </p>
-<h3 id="linux死亡操作"><a href="#linux死亡操作" class="headerlink" title="linux死亡操作"></a>linux死亡操作</h3><p>随意动<code>/usr/lib64</code>或<code>/lib64</code>下的库，特别是<code>ld、libc</code>之类的，<strong>覆盖、移动和删除</strong>效果都差不多，基本就是系统爆破级别的。</p>
+<h3 id="linux死亡操作"><a href="#linux死亡操作" class="headerlink" title="linux死亡操作"></a>linux死亡操作</h3><p>随意动<code>/usr/lib64</code>或<code>/lib64</code>下的库，特别是<code>ld、libc</code>之类的，<strong>覆盖、移动和删除</strong>效果都差不多，基本就是系统爆破级别的。特别注意升级openssl，gcc都容易出现这种问题。附上linux文件目录结构（<a href="https://www.runoob.com/linux/linux-system-contents.html" target="_blank" rel="noopener">参考</a>）：<br><img src="/2020/09/14/技术札记/linux%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84.jpg" alt></p>
 
       
     </div>
@@ -805,7 +817,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-count">21</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -945,7 +957,7 @@
 		  <span class="post-meta-item-text">本站总字数</span>
 		
 		<span title="本站总字数">
-		  32.3k
+		  32.8k
 		</span>
 	</div>
    
