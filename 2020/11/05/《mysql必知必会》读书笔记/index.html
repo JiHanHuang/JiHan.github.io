@@ -104,7 +104,7 @@
 <meta property="og:site_name" content="JiHan&#39;s Blog">
 <meta property="og:description" content="mysql初学者报道(•̀⌄•́)　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan  以下内容都是根据书中的内容，以及自己觉得有价值的部分进行记录。可供mysql的信息快捷检索">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-12-16T10:25:25.000Z">
+<meta property="og:updated_time" content="2021-01-25T03:30:58.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《mysql必知必会》读书笔记">
 <meta name="twitter:description" content="mysql初学者报道(•̀⌄•́)　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan  以下内容都是根据书中的内容，以及自己觉得有价值的部分进行记录。可供mysql的信息快捷检索">
@@ -167,6 +167,8 @@
 
 
 
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -416,7 +418,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  3k
+                  4.2k
                 </span>
               
 
@@ -432,7 +434,7 @@
                   <span class="post-meta-item-text">阅读时长</span>
                 
                 <span title="阅读时长">
-                  11
+                  16
                 </span>
               
             </div>
@@ -472,10 +474,10 @@
 </ul>
 <p><strong>外键（foreign key）</strong>外键为某个表中的一列，它包含另一个表的主键值，定义了两个表之间的关系。<br><strong>关系表</strong>的设计就是要保证把信息分解成多个表，一类数据一个表。各表通过某些常用的值（即关系设计中的关系（relational））互相关联。<br><strong>可伸缩性（scale</strong>）能够适应不断增加的工作量而不失败。设计良好的数据库或应用程序称之为可伸缩性好（scale well）。</p>
 <h2 id="MySQL简介"><a href="#MySQL简介" class="headerlink" title="MySQL简介"></a>MySQL简介</h2><p>分为客户端(mysql)，和服务端(mysqld)。</p>
-<h2 id="使用MySQL"><a href="#使用MySQL" class="headerlink" title="使用MySQL"></a>使用MySQL</h2><p><strong>先看本书的目录，进行环境安装和基础表的导入</strong> <a href="./《mysql必知必会》读书笔记/mysql_scripts.zip">下载</a><br>linux，只用命令行。我的环境：CLOUD<br><strong>使用前准备</strong><br>服务端安装：<br>mysql版本5.7</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ yum install mysql？？？？感觉还缺点啥</span><br><span class="line">$ systemctl start mysqld</span><br></pre></td></tr></table></figure>
+<h2 id="使用MySQL"><a href="#使用MySQL" class="headerlink" title="使用MySQL"></a>使用MySQL</h2><p><strong>先看本书的目录，进行环境安装和基础表的导入</strong> <a href="./%E3%80%8Amysql%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/mysql_scripts.zip">下载</a><br>linux，只用命令行。我的环境：CLOUD<br><strong>使用前准备</strong><br>服务端安装：<br>mysql版本5.7</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ yum install mysql？？？？感觉还缺点啥</span><br><span class="line">$ systemctl start mysqld</span><br></pre></td></tr></tbody></table></figure>
 
-<p>安装完成后，会在日志里产生一个随机密码，通过这个随机密码，进入数据库。<br>下面的命令可以修改密码：<br><code>mysql -u$db_user -p&quot;$tmpPass&quot; --connect-expired-password -e &quot;ALTER USER &#39;$db_user&#39;@&#39;localhost&#39; IDENTIFIED BY &#39;$new_pass&#39;;flush privileges;&quot;</code><br>mysql默认配置文件<code>/etc/my.cnf</code><br>mysql默认日志输出<code>/var/log/mysqld.log</code></p>
+<p>安装完成后，会在日志里产生一个随机密码，通过这个随机密码，进入数据库。<br>下面的命令可以修改密码：<br><code>mysql -u$db_user -p"$tmpPass" --connect-expired-password -e "ALTER USER '$db_user'@'localhost' IDENTIFIED BY '$new_pass';flush privileges;"</code><br>mysql默认配置文件<code>/etc/my.cnf</code><br>mysql默认日志输出<code>/var/log/mysqld.log</code></p>
 <p>当我们需要用客户端连接到服务端时，需要：</p>
 <ul>
 <li>主机名（计算机名）——如果连接到本地MySQL服务器，为localhost；</li>
@@ -485,7 +487,7 @@
 </ul>
 <p>链接mysql：<code>mysql -uroot -pxxx -P 3306 -h localhost</code>（具体看<code>mysql --help</code>）</p>
 <p>导入示例数据：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ unzip mysql_scripts.zip</span><br><span class="line">mysql&gt; CREATE DATABASE test;</span><br><span class="line">mysql&gt; USE test;</span><br><span class="line">mysql&gt; source /path/create.sql</span><br><span class="line">mysql&gt; source ~/populate.sql</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ unzip mysql_scripts.zip</span><br><span class="line">mysql&gt; CREATE DATABASE test;</span><br><span class="line">mysql&gt; USE test;</span><br><span class="line">mysql&gt; source /path/create.sql</span><br><span class="line">mysql&gt; source ~/populate.sql</span><br></pre></td></tr></tbody></table></figure>
 
 <h3 id="mysql的sql命令"><a href="#mysql的sql命令" class="headerlink" title="mysql的sql命令"></a>mysql的sql命令</h3><p>sql命令不区分大小写，但是表、数据库等名称是区分大小写的。<br>过个空格或者分行，等同于一个空格。<br>单个命令，我们称为一个子句，例如SELECT和FROM</p>
 <h4 id="帮助"><a href="#帮助" class="headerlink" title="帮助:"></a>帮助:</h4><p><code>HELP cmd;</code><br><code>HELP SHOW;</code></p>
@@ -493,14 +495,206 @@
 <h4 id="表相关："><a href="#表相关：" class="headerlink" title="表相关："></a>表相关：</h4><h5 id="信息显示："><a href="#信息显示：" class="headerlink" title="信息显示："></a>信息显示：</h5><p>表列表：<code>SHOW tables;</code><br>列显示：<code>SHOW columns FROM table_name;</code></p>
 <h5 id="普通检索："><a href="#普通检索：" class="headerlink" title="普通检索："></a>普通检索：</h5><p>检索单个列：<code>SELECT prod_name FROM table_name;</code>（没有明确排序的情况，顺序不能保证一致性。）<br>检索多个列：<code>SELECT prod_name1,  prod_name2 FROM table_name;</code><br>检索所有列：<code>SELECT * FROM table_name \G;</code> (\G是更加友好是输出方式)<br>检索列值不同的行：<code>SELECT DISTINCT prod_name1 FROM table_name;</code> (不会显示prod_name1值相同的行)<br>检索行限制：<code>SELECT prod_name1 FROM table_name LIMIT 5;</code> (LIMIT 3,4 表示从3行开始的4行)<br>检索列和表限制：<code>SELECT products.prod_name FROM test.products;</code> (假设test数据库存在)</p>
 <h5 id="数据排序："><a href="#数据排序：" class="headerlink" title="数据排序："></a>数据排序：</h5><p>mysql在排序时认为A和a是一样的。<br>根据某列排序：<code>SELECT prod_name FROM products ORDER BY prod_id;</code><br>根据多行排序：<code>SELECT prod_id, prod_price, prod_name FROM products ORDER BY prod_price, prod_name;</code> （先按照价格排序，再按照名称排序）<br>排序方向：<code>SELECT prod_name FROM products ORDER BY prod_id DESC;</code>(默认情况下是升序，降序需要指定关键字<code>DESC</code>)<br>先降后升：<code>SELECT prod_id, prod_price, prod_name FROM products ORDER BY prod_price DESC, prod_name;</code> (升序关键字<code>ASC</code>,一般默认升序，所以没啥用)</p>
-<h5 id="数据过滤："><a href="#数据过滤：" class="headerlink" title="数据过滤："></a>数据过滤：</h5><p><strong>常用过滤</strong>：<br><code>SELECT prod_price, prod_name FROM products WHERE prod_price = 2.50;</code>(字符比较时，默认不区分大小写)<br>范围检查：<code>SELECT prod_price, prod_name FROM products WHERE prod_price BETWEEN 5 AND 10;</code><br>空值检查：<code>SELECT cust_id FROM customers WHERE cust_email IS NULL;</code><br>WHERE操作符：<br>| 操作符 | 说明|<br>|–|–|<br>|= |等于|<br>|&lt;&gt; |不等于|<br>|!=| 不等于|<br>|&lt; |小于|<br>|&lt;=| 小于等于|<br>|&gt; |大于|<br>|&gt;=| 大于等于|<br>|BETWEEN |在指定的两个值之间|<br>|IS NULL| 检查空值|</p>
-<p>多个逻辑过滤组合，AND优先。最好是加上<code>()</code>确保逻辑正确。<br>逻辑过滤：<code>SELECT prod_price, prod_name FROM products WHERE vend_id = 1002 OR vend_id=1003;</code><br>逻辑过滤：<code>SELECT prod_price, prod_name FROM products WHERE vend_id IN (1002,1003);</code>（效果同上的OR操作）<br>WHERE逻辑操作符：<br>| 操作符 | 说明|<br>|–|–|<br>|AND|同时满足|<br>|OR|满足其一|<br>|IN|满足其一|<br>|NOT|取反|</p>
-<p><strong>通配符过滤</strong>：<br><code>SELECT prod_id, prod_name FROM products WHERE prod_name LIKE &#39;jet%&#39;</code>（<code>%</code>类似正则里的<code>*</code>）<br>| 通配符 | 说明|<br>|–|–|<br>|%|0~n个任意字符|<br>|_|1个任意字符|</p>
-<p><strong>正则匹配</strong>：<br><code>SELECT prod_id, prod_name FROM products WHERE prod_name REGEXP &#39;1000&#39;;</code></p>
-<p><strong>字符类</strong><br>|类| 说明|<br>|–|–|<br>|[:alnum:]| 任意字母和数字（同[a-zA-Z0-9]）|<br>|[:alpha:]| 任意字符（同[a-zA-Z]）|<br>|[:blank:]| 空格和制表（同[\t]）|<br>|[:cntrl:]| ASCII控制字符（ASCII 0到31和127）[:digit:] 任意数字（同[0-9]）|<br>|[:graph:] |与[:print:]相同，但不包括空格|<br>|[:lower:] |任意小写字母（同[a-z]）|<br>|[:print:]| 任意可打印字符|<br>|[:punct:] |既不在[:alnum:]又不在[:cntrl:]中的任意字符|<br>|[:space:]| 包括空格在内的任意空白字符（同[\f\n\r\t\v]）|<br>|[:upper:]| 任意大写字母（同[A-Z]）|<br>|[:xdigit:] |任意十六进制数字（同[a-fA-F0-9]）|</p>
-<p><strong>重复元字符元</strong><br>| 字|  符说  明|<br>|–|–|<br>|* |0个或多个匹配|<br>|+ |1个或多个匹配（等于{1,}）|<br>|? |0个或1个匹配（等于{0,1}）|<br>|{n}| 指定数目的匹配|<br>|{n,} |不少于指定数目的匹配|<br>|{n,m} |匹配数目的范围（m不超过255）|</p>
-<p><strong>定位元字符元</strong><br>| 字|  符说  明|<br>|–|–|<br>|^ |文本的开始|<br>|$ |文本的结尾|<br>| [[:&lt;:]] |词的开始|<br>| [[:&gt;:]] |词的结尾|</p>
-<h5 id="计算字段："><a href="#计算字段：" class="headerlink" title="计算字段："></a>计算字段：</h5><p>拼接字段：<code>SELECT concat(vend_name ,&#39;(&#39;, vend_country,&#39;)&#39;) FROM vendors;</code>（concat关键字做拼接）<br><code>RTrim()</code>去除右侧多余空格<br><code>LTrim()</code>去除左侧多余空格<br>使用别名：<code>SELECT concat(vend_name ,&#39;(&#39;, vend_country,&#39;)&#39;) AS new_name FROM vendors;</code>（AS字段赋予新的列名）<br>算术计算：<code>SELECT prod_id, quantity * item_price AS expanded_price FROM orderitems;</code> 算术操作符(+、-、*、/)</p>
+<h5 id="数据过滤："><a href="#数据过滤：" class="headerlink" title="数据过滤："></a>数据过滤：</h5><p><strong>常用过滤</strong>：<br><code>SELECT prod_price, prod_name FROM products WHERE prod_price = 2.50;</code>(字符比较时，默认不区分大小写)<br>范围检查：<code>SELECT prod_price, prod_name FROM products WHERE prod_price BETWEEN 5 AND 10;</code><br>空值检查：<code>SELECT cust_id FROM customers WHERE cust_email IS NULL;</code><br>WHERE操作符：</p>
+<table>
+<thead>
+<tr>
+<th>操作符</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>=</td>
+<td>等于</td>
+</tr>
+<tr>
+<td>&lt;&gt;</td>
+<td>不等于</td>
+</tr>
+<tr>
+<td>!=</td>
+<td>不等于</td>
+</tr>
+<tr>
+<td>&lt;</td>
+<td>小于</td>
+</tr>
+<tr>
+<td>&lt;=</td>
+<td>小于等于</td>
+</tr>
+<tr>
+<td>&gt;</td>
+<td>大于</td>
+</tr>
+<tr>
+<td>&gt;=</td>
+<td>大于等于</td>
+</tr>
+<tr>
+<td>BETWEEN</td>
+<td>在指定的两个值之间</td>
+</tr>
+<tr>
+<td>IS NULL</td>
+<td>检查空值</td>
+</tr>
+</tbody></table>
+<p>多个逻辑过滤组合，AND优先。最好是加上<code>()</code>确保逻辑正确。<br>逻辑过滤：<code>SELECT prod_price, prod_name FROM products WHERE vend_id = 1002 OR vend_id=1003;</code><br>逻辑过滤：<code>SELECT prod_price, prod_name FROM products WHERE vend_id IN (1002,1003);</code>（效果同上的OR操作）<br>WHERE逻辑操作符：</p>
+<table>
+<thead>
+<tr>
+<th>操作符</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>AND</td>
+<td>同时满足</td>
+</tr>
+<tr>
+<td>OR</td>
+<td>满足其一</td>
+</tr>
+<tr>
+<td>IN</td>
+<td>满足其一</td>
+</tr>
+<tr>
+<td>NOT</td>
+<td>取反</td>
+</tr>
+</tbody></table>
+<p><strong>通配符过滤</strong>：<br><code>SELECT prod_id, prod_name FROM products WHERE prod_name LIKE 'jet%'</code>（<code>%</code>类似正则里的<code>*</code>）</p>
+<table>
+<thead>
+<tr>
+<th>通配符</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>%</td>
+<td>0~n个任意字符</td>
+</tr>
+<tr>
+<td>_</td>
+<td>1个任意字符</td>
+</tr>
+</tbody></table>
+<p><strong>正则匹配</strong>：<br><code>SELECT prod_id, prod_name FROM products WHERE prod_name REGEXP '1000';</code></p>
+<p><strong>字符类</strong></p>
+<table>
+<thead>
+<tr>
+<th>类</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>[:alnum:]</td>
+<td>任意字母和数字（同[a-zA-Z0-9]）</td>
+</tr>
+<tr>
+<td>[:alpha:]</td>
+<td>任意字符（同[a-zA-Z]）</td>
+</tr>
+<tr>
+<td>[:blank:]</td>
+<td>空格和制表（同[\t]）</td>
+</tr>
+<tr>
+<td>[:cntrl:]</td>
+<td>ASCII控制字符（ASCII 0到31和127）[:digit:] 任意数字（同[0-9]）</td>
+</tr>
+<tr>
+<td>[:graph:]</td>
+<td>与[:print:]相同，但不包括空格</td>
+</tr>
+<tr>
+<td>[:lower:]</td>
+<td>任意小写字母（同[a-z]）</td>
+</tr>
+<tr>
+<td>[:print:]</td>
+<td>任意可打印字符</td>
+</tr>
+<tr>
+<td>[:punct:]</td>
+<td>既不在[:alnum:]又不在[:cntrl:]中的任意字符</td>
+</tr>
+<tr>
+<td>[:space:]</td>
+<td>包括空格在内的任意空白字符（同[\f\n\r\t\v]）</td>
+</tr>
+<tr>
+<td>[:upper:]</td>
+<td>任意大写字母（同[A-Z]）</td>
+</tr>
+<tr>
+<td>[:xdigit:]</td>
+<td>任意十六进制数字（同[a-fA-F0-9]）</td>
+</tr>
+</tbody></table>
+<p><strong>重复元字符元</strong></p>
+<table>
+<thead>
+<tr>
+<th>字</th>
+<th>符说  明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>*</td>
+<td>0个或多个匹配</td>
+</tr>
+<tr>
+<td>+</td>
+<td>1个或多个匹配（等于{1,}）</td>
+</tr>
+<tr>
+<td>?</td>
+<td>0个或1个匹配（等于{0,1}）</td>
+</tr>
+<tr>
+<td>{n}</td>
+<td>指定数目的匹配</td>
+</tr>
+<tr>
+<td>{n,}</td>
+<td>不少于指定数目的匹配</td>
+</tr>
+<tr>
+<td>{n,m}</td>
+<td>匹配数目的范围（m不超过255）</td>
+</tr>
+</tbody></table>
+<p><strong>定位元字符元</strong></p>
+<table>
+<thead>
+<tr>
+<th>字</th>
+<th>符说  明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>^</td>
+<td>文本的开始</td>
+</tr>
+<tr>
+<td>$</td>
+<td>文本的结尾</td>
+</tr>
+<tr>
+<td>[[:&lt;:]]</td>
+<td>词的开始</td>
+</tr>
+<tr>
+<td>[[:&gt;:]]</td>
+<td>词的结尾</td>
+</tr>
+</tbody></table>
+<h5 id="计算字段："><a href="#计算字段：" class="headerlink" title="计算字段："></a>计算字段：</h5><p>拼接字段：<code>SELECT concat(vend_name ,'(', vend_country,')') FROM vendors;</code>（concat关键字做拼接）<br><code>RTrim()</code>去除右侧多余空格<br><code>LTrim()</code>去除左侧多余空格<br>使用别名：<code>SELECT concat(vend_name ,'(', vend_country,')') AS new_name FROM vendors;</code>（AS字段赋予新的列名）<br>算术计算：<code>SELECT prod_id, quantity * item_price AS expanded_price FROM orderitems;</code> 算术操作符(+、-、*、/)</p>
 <h5 id="函数："><a href="#函数：" class="headerlink" title="函数："></a>函数：</h5><p>函数可移植性不如SQL语句。<br>SQL支持的一些函数：</p>
 <ol>
 <li>文本处理函数</li>
@@ -508,10 +702,222 @@
 <li>日期处理</li>
 <li>返回DBMS正使用的特殊信息</li>
 </ol>
-<p><strong>常用的文本处理函数</strong><br>| 函  数 |  符说  明|<br>|–|–|<br>|Left() |返回串左边的字符|<br>|Length()| 返回串的长度|<br>|Locate()| 找出串的一个子串|<br>|Lower() |将串转换为小写|<br>|LTrim() |去掉串左边的空格|<br>|Right() |返回串右边的字符|<br>|RTrim() |去掉串右边的空格|<br>|Soundex()| 返回串的SOUNDEX值，读音相近值|<br>|SubString() |返回子串的字符|<br>|Upper() |将串转换为大写|<br>示例：<code>SELECT cust_name, cust_contact FROM customers WHERE Soundex(cust_contact) = Soundex(&#39;Y Lie&#39;);</code></p>
-<p><strong>常用日期和时间处理函数</strong><br>| 函  数 |  符说  明|<br>|–|–|<br>|AddDate() |增加一个日期（天、周等）|<br>|AddTime() |增加一个时间（时、分等）|<br>|CurDate() |返回当前日期|<br>|CurTime() |返回当前时间|<br>|Date() |返回日期时间的日期部分|<br>|DateDiff() |计算两个日期之差|<br>|Date_Add()| 高度灵活的日期运算函数|<br>|Date_Format()| 返回一个格式化的日期或时间串|<br>|Day() |返回一个日期的天数部分|<br>|DayOfWeek() |对于一个日期，返回对应的星期几|<br>|Hour() |返回一个时间的小时部分|<br>|Minute() |返回一个时间的分钟部分|<br>|Month() |返回一个日期的月份部分|<br>|Now()| 返回当前日期和时间|<br>|Second()| 返回一个时间的秒部分|<br>|Time()| 返回一个日期时间的时间部分|<br>|Year() |返回一个日期的年份部分|<br>示例：<code>SELECT * FROM orders WHERE Date(order_date) BETWEEN &#39;2005-09-01&#39; AND &#39;2005-09-30&#39;;</code></p>
-<p><strong>常用数值处理函数</strong><br>| 函  数 |  符说  明|<br>|–|–|<br>|Abs() |返回一个数的绝对值|<br>|Cos() |返回一个角度的余弦|<br>|Exp() |返回一个数的指数值|<br>|Mod() |返回除操作的余数|<br>|Pi() |返回圆周率|<br>|Rand() |返回一个随机数|<br>|Sin() |返回一个角度的正弦|<br>|Sqrt() |返回一个数的平方根|<br>|Tan() |返回一个角度的正切|</p>
-<p><strong>SQL聚集函数</strong>针对行组的操作函数<br>| 函  数 |  符说  明|<br>|–|–|<br>|AVG() |返回某列的平均值|<br>|COUNT() |返回某列的行数|<br>|MAX() |返回某列的最大值|<br>|MIN() |返回某列的最小值|<br>|SUM() |返回某列值之和|<br>示例：<code>SELECT AVG(prod_price) AS avg_price FROM products;</code>，计算改列平均值。<br>COUNT(*)返回满足条件的数据行数，包括NULL，COUNT(column)不包含NULL</p>
+<p><strong>常用的文本处理函数</strong></p>
+<table>
+<thead>
+<tr>
+<th>函  数</th>
+<th>符说  明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Left()</td>
+<td>返回串左边的字符</td>
+</tr>
+<tr>
+<td>Length()</td>
+<td>返回串的长度</td>
+</tr>
+<tr>
+<td>Locate()</td>
+<td>找出串的一个子串</td>
+</tr>
+<tr>
+<td>Lower()</td>
+<td>将串转换为小写</td>
+</tr>
+<tr>
+<td>LTrim()</td>
+<td>去掉串左边的空格</td>
+</tr>
+<tr>
+<td>Right()</td>
+<td>返回串右边的字符</td>
+</tr>
+<tr>
+<td>RTrim()</td>
+<td>去掉串右边的空格</td>
+</tr>
+<tr>
+<td>Soundex()</td>
+<td>返回串的SOUNDEX值，读音相近值</td>
+</tr>
+<tr>
+<td>SubString()</td>
+<td>返回子串的字符</td>
+</tr>
+<tr>
+<td>Upper()</td>
+<td>将串转换为大写</td>
+</tr>
+<tr>
+<td>示例：<code>SELECT cust_name, cust_contact FROM customers WHERE Soundex(cust_contact) = Soundex('Y Lie');</code></td>
+<td></td>
+</tr>
+</tbody></table>
+<p><strong>常用日期和时间处理函数</strong></p>
+<table>
+<thead>
+<tr>
+<th>函  数</th>
+<th>符说  明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>AddDate()</td>
+<td>增加一个日期（天、周等）</td>
+</tr>
+<tr>
+<td>AddTime()</td>
+<td>增加一个时间（时、分等）</td>
+</tr>
+<tr>
+<td>CurDate()</td>
+<td>返回当前日期</td>
+</tr>
+<tr>
+<td>CurTime()</td>
+<td>返回当前时间</td>
+</tr>
+<tr>
+<td>Date()</td>
+<td>返回日期时间的日期部分</td>
+</tr>
+<tr>
+<td>DateDiff()</td>
+<td>计算两个日期之差</td>
+</tr>
+<tr>
+<td>Date_Add()</td>
+<td>高度灵活的日期运算函数</td>
+</tr>
+<tr>
+<td>Date_Format()</td>
+<td>返回一个格式化的日期或时间串</td>
+</tr>
+<tr>
+<td>Day()</td>
+<td>返回一个日期的天数部分</td>
+</tr>
+<tr>
+<td>DayOfWeek()</td>
+<td>对于一个日期，返回对应的星期几</td>
+</tr>
+<tr>
+<td>Hour()</td>
+<td>返回一个时间的小时部分</td>
+</tr>
+<tr>
+<td>Minute()</td>
+<td>返回一个时间的分钟部分</td>
+</tr>
+<tr>
+<td>Month()</td>
+<td>返回一个日期的月份部分</td>
+</tr>
+<tr>
+<td>Now()</td>
+<td>返回当前日期和时间</td>
+</tr>
+<tr>
+<td>Second()</td>
+<td>返回一个时间的秒部分</td>
+</tr>
+<tr>
+<td>Time()</td>
+<td>返回一个日期时间的时间部分</td>
+</tr>
+<tr>
+<td>Year()</td>
+<td>返回一个日期的年份部分</td>
+</tr>
+<tr>
+<td>示例：<code>SELECT * FROM orders WHERE Date(order_date) BETWEEN '2005-09-01' AND '2005-09-30';</code></td>
+<td></td>
+</tr>
+</tbody></table>
+<p><strong>常用数值处理函数</strong></p>
+<table>
+<thead>
+<tr>
+<th>函  数</th>
+<th>符说  明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Abs()</td>
+<td>返回一个数的绝对值</td>
+</tr>
+<tr>
+<td>Cos()</td>
+<td>返回一个角度的余弦</td>
+</tr>
+<tr>
+<td>Exp()</td>
+<td>返回一个数的指数值</td>
+</tr>
+<tr>
+<td>Mod()</td>
+<td>返回除操作的余数</td>
+</tr>
+<tr>
+<td>Pi()</td>
+<td>返回圆周率</td>
+</tr>
+<tr>
+<td>Rand()</td>
+<td>返回一个随机数</td>
+</tr>
+<tr>
+<td>Sin()</td>
+<td>返回一个角度的正弦</td>
+</tr>
+<tr>
+<td>Sqrt()</td>
+<td>返回一个数的平方根</td>
+</tr>
+<tr>
+<td>Tan()</td>
+<td>返回一个角度的正切</td>
+</tr>
+</tbody></table>
+<p><strong>SQL聚集函数</strong>针对行组的操作函数</p>
+<table>
+<thead>
+<tr>
+<th>函  数</th>
+<th>符说  明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>AVG()</td>
+<td>返回某列的平均值</td>
+</tr>
+<tr>
+<td>COUNT()</td>
+<td>返回某列的行数</td>
+</tr>
+<tr>
+<td>MAX()</td>
+<td>返回某列的最大值</td>
+</tr>
+<tr>
+<td>MIN()</td>
+<td>返回某列的最小值</td>
+</tr>
+<tr>
+<td>SUM()</td>
+<td>返回某列值之和</td>
+</tr>
+<tr>
+<td>示例：<code>SELECT AVG(prod_price) AS avg_price FROM products;</code>，计算改列平均值。</td>
+<td></td>
+</tr>
+<tr>
+<td>COUNT(*)返回满足条件的数据行数，包括NULL，COUNT(column)不包含NULL</td>
+<td></td>
+</tr>
+</tbody></table>
 <h5 id="分组数据"><a href="#分组数据" class="headerlink" title="分组数据"></a>分组数据</h5><p>创建分组：<code>SELECT vend_id, COUNT(*) AS num_prods FROM products GROUP BY vend_id;</code> 其中<code>GROUP BY</code>按照<code>vend_id</code>排序进行分组。<br>GROUP BY子句必须出现在WHERE子句之后，ORDER BY子句之前。<br>过滤分组：<code>SELECT vend_id, COUNT(*) AS num_prods FROM products GROUP BY vend_id HAVING COUNT(*) &gt;= 3;</code><br><code>HAVING</code>和<code>WHERE</code>的差别: WHERE在数据分组前进行过滤，HAVING在数据分组后进行过滤.</p>
 <h5 id="SELECT子句顺序"><a href="#SELECT子句顺序" class="headerlink" title="SELECT子句顺序"></a>SELECT子句顺序</h5><table>
 <thead>
@@ -537,10 +943,67 @@
 <td>否</td>
 </tr>
 </tbody></table>
-<h5 id="子查询"><a href="#子查询" class="headerlink" title="子查询"></a>子查询</h5><p>意味着把子查询语句查询的结果作为查询语句<code>where</code>的条件<br>示例：<code>SELECT cust_id FROM orders WHERE order_num IN (SELECT order_num FROM orderitems WHERE prod_id = &#39;TNT2&#39;);</code><br>应当保证<code>where</code>子句中的列和子查询中<code>select</code>的列相同<br>也可以在计算字段使用子查询：<code>SELECT cust_name, cust_state, (SELECT COUNT(*) FROM orders WHERE orders.cust_id = customers.cust_id ) AS orders FROM customers;</code><br>在进行子查询使用时，注意限制歧义性列名，比如这里用的<code>orders.cust_id = customers.cust_id</code><br><em>编写子查询的时候最好逐步进行，一层层嵌套验证</em></p>
+<h5 id="子查询"><a href="#子查询" class="headerlink" title="子查询"></a>子查询</h5><p>意味着把子查询语句查询的结果作为查询语句<code>where</code>的条件<br>示例：<code>SELECT cust_id FROM orders WHERE order_num IN (SELECT order_num FROM orderitems WHERE prod_id = 'TNT2');</code><br>应当保证<code>where</code>子句中的列和子查询中<code>select</code>的列相同<br>也可以在计算字段使用子查询：<code>SELECT cust_name, cust_state, (SELECT COUNT(*) FROM orders WHERE orders.cust_id = customers.cust_id ) AS orders FROM customers;</code><br>在进行子查询使用时，注意限制歧义性列名，比如这里用的<code>orders.cust_id = customers.cust_id </code><br><em>编写子查询的时候最好逐步进行，一层层嵌套验证</em></p>
 <h5 id="联结查询"><a href="#联结查询" class="headerlink" title="联结查询"></a>联结查询</h5><p>其实就是多条件查询，不过把主键和外键相互关联而已。链接的表越多，性能下降越厉害，毕竟需要提前列出行乘积的量。<br>等值联结示例：<code>SELECT vend_name, prod_name, prod_price FROM vendors, products WHERE vendors.vend_id = products.vend_id ORDER BY vend_name , prod_name ;</code>（注意避免出现列名的二义性），如果没有where语句，那么列出的数据将是对应数据在所在表的行乘积(不懂就自己试试)。<br>内部联结示例(能达到上例一样的结果)：<code>SELECT vend_name, prod_name, prod_price FROM vendors INNER JOIN products ON vendors.vend_id = products.vend_id  ORDER BY vend_name , prod_name ;</code><br>还有自连接、自然链接和外部链接。但是我感觉用where都能实现，就不搞这些了。</p>
-<h5 id="组合查询"><a href="#组合查询" class="headerlink" title="组合查询"></a>组合查询</h5><p>将多个select查询语句，组合成单个查询语句返回。(多个查询语句的返回结果相似)<br>示例：<br><code>SELECT vend_id ,prod_id,prod_price FROM products WHERE prod_price &lt;= 5;</code> + <code>SELECT vend_id ,prod_id,prod_price FROM products WHERE vend_id IN (1001,1002);</code><br>=<br><code>SELECT vend_id ,prod_id,prod_price FROM products WHERE prod_price &lt;= 5 UNION SELECT vend_id ,prod_id,prod_price FROM products WHERE vend_id IN (1001,1002);</code><br>=<br><code>SELECT vend_id ,prod_id,prod_price FROM products WHERE prod_price &lt;= 5 OR vend_id IN (101001,1002);</code><br><code>UNION</code>和<code>WHERE OR</code>都能去除重复行，但如果要包含重复行，只有<code>UNION ALL</code>可以。<code>UNION</code>只能在最后一个<code>SELECT</code>子句中包含<code>ORDER BY</code>子句</p>
-<h5 id="插入数据"><a href="#插入数据" class="headerlink" title="插入数据"></a>插入数据</h5><h4 id="其他："><a href="#其他：" class="headerlink" title="其他："></a>其他：</h4><p>服务器状态信息：<code>SHOW status;</code><br>显示用户安全权限：<code>SHOW grants;</code><br>显示日志信息：<code>SHOW errors/warnings;</code></p>
+<h5 id="组合查询"><a href="#组合查询" class="headerlink" title="组合查询"></a>组合查询</h5><p>将多个select查询语句，组合成单个查询语句返回。(多个查询语句的返回结果相似)<br>示例：<br><code>SELECT vend_id ,prod_id,prod_price FROM products WHERE prod_price &lt;= 5;</code> + <code>SELECT vend_id ,prod_id,prod_price FROM products WHERE vend_id IN (1001,1002);</code><br>=<br><code>SELECT vend_id ,prod_id,prod_price FROM products WHERE prod_price &lt;= 5 UNION SELECT vend_id ,prod_id,prod_price FROM products WHERE vend_id IN (1001,1002);</code><br>=<br><code>SELECT vend_id ,prod_id,prod_price FROM products WHERE prod_price &lt;= 5 OR vend_id IN (101001,1002);</code><br><code>UNION</code>和<code>WHERE OR</code>都能去除重复行，但如果要包含重复行，只有<code>UNION ALL</code>可以。<code>UNION </code>只能在最后一个<code>SELECT</code>子句中包含<code>ORDER BY</code>子句</p>
+<h5 id="全文本搜索"><a href="#全文本搜索" class="headerlink" title="全文本搜索"></a>全文本搜索</h5><p>需要引擎支持一般MyISAM支持，InnoDB不支持<br>需要启动全文本搜索支持(FULLTEXT)，mysql会建立相关索引<br>建立全文搜索：<code>CREATE TABLE productfulltext ( note_id int NOT NULL AUTO_INCREMENT, prod_id char(10) NOT NULL, note_text text  NULL, PRIMARY KEY(note_id), FULLTEXT(note_text)) ENGINE=MyISAM;</code><br>建议不要在导入数据时使用FULLTEXT，导入后修改表定义FULLTEXT会快点。<br>执行全文搜索：<code>SELECT note_text FROM productnotes WHERE Match(note_text) Against('rabbit');</code> Match()指定被搜索的列，Against()指定要使用的搜索表达式。<br>Match()参数必须和FULLTEXT中定义的相同，如果是多列，必须一致。<br>同样效果：<code>SELECT note_text FROM productnotes WHERE note_text LIKE '%rabbit%';</code>. 区别在于<code>LIKE</code>返回的数据顺序不确定，<code>Match</code>有良好的排序。<br>使用扩展查询：<code>SELECT note_text FROM productnotes WHERE Match(note_text) Against('rabbit' WITH QUERY EXPANSION);</code><br>使用布尔文本搜索(在没有<code>FULLTEXT</code>下也能使用，但很缓慢)：``SELECT note_text FROM productnotes WHERE Match(note_text) Against(‘rabbit’ IN BOOLEAN MODE);`<br>布尔搜索支持通配：</p>
+<table>
+<thead>
+<tr>
+<th>布尔操作符</th>
+<th>说  明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>+</td>
+<td>包含，词必须存在</td>
+</tr>
+<tr>
+<td>-</td>
+<td>排除，词必须不出现</td>
+</tr>
+<tr>
+<td>&gt;</td>
+<td>包含，而且增加等级值</td>
+</tr>
+<tr>
+<td>&lt;</td>
+<td>包含，且减少等级值</td>
+</tr>
+<tr>
+<td>()</td>
+<td>把词组成子表达式（允许这些子表达式作为一个组被包含、排除、排列等）</td>
+</tr>
+<tr>
+<td>~</td>
+<td>取消一个词的排序值</td>
+</tr>
+<tr>
+<td>*</td>
+<td>词尾的通配符</td>
+</tr>
+<tr>
+<td>“”</td>
+<td>定义一个短语（与单个词的列表不一样，它匹配整个短语以便包含或排除这个短语）</td>
+</tr>
+</tbody></table>
+<p>一些特殊说明：</p>
+<ul>
+<li>在索引全文本数据时，短词被忽略且从索引中排除。短词定义为那些具有3个或3个以下字符的词（如果需要，这个数目可以更改）。</li>
+<li>MySQL带有一个内建的非用词（stopword）列表，这些词在索引全文本数据时总是被忽略。如果需要，可以覆盖这个列表（请参阅MySQL文档以了解如何完成此工作）。</li>
+<li>许多词出现的频率很高，搜索它们没有用处（返回太多的结果）。因此，MySQL规定了一条50%规则，如果一个词出现在50%以上的行中，则将它作为一个非用词忽略。50%规则不用于IN BOOLEAN MODE。</li>
+<li>如果表中的行数少于3行，则全文本搜索不返回结果（因为每个词或者不出现，或者至少出现在50%的行中） 。</li>
+<li>忽略词中的单引号。例如，don’t索引为dont。</li>
+<li>不具有词分隔符（包括日语和汉语）的语言不能恰当地返回全文本搜索结果。如前所述，仅在MyISAM数据库引擎中支持全文本搜索。</li>
+</ul>
+<h5 id="插入数据"><a href="#插入数据" class="headerlink" title="插入数据"></a>插入数据</h5><p>示例：<code>INSERT INTO customers VALUES(NULL, 'pep', '100 main', 'Los', 'CA', '90046', 'USA', NULL, NULL);</code><br>插入数据必须对应着每一个列。<br>更安全的示例：<code>INSERT INTO customers(cust_name, cust_address, cust_city, cust_state, cust_zip, cust_country, cust_contact, cust_email) VALUES(NULL, 'pep', '100 main', 'Los', 'CA', '90046', 'USA', NULL, NULL);</code> 这种方式，后面的数据只需要和前面列名相对于就行(但是省略掉的列必须可为空或者有默认值)。<br><code>INSERT LOW_PRIORITY INTO</code>方式插入可以降低插入的优先级，保证查询的效率。<br>插入多个列示例：<code>INSERT INTO customers(cust_name, cust_address, cust_city, cust_state, cust_zip, cust_country, cust_contact, cust_email) VALUES(NULL, 'pep', '100 main', 'Los', 'CA', '90046', 'USA', NULL, NULL), (NULL, 'pep', '100 main', 'Los', 'CA', '90046', 'USA', NULL, NULL)</code><br>将数据从一张表导入到另外一张表：<code>INSERT INTO customers(cust_name, cust_address, cust_city, cust_state, cust_zip, cust_country, cust_contact, cust_email) SELECT cust_name, cust_address, cust_city, cust_state, cust_zip, cust_country, cust_contact, cust_email FROM custnew;</code></p>
+<h5 id="更新数据"><a href="#更新数据" class="headerlink" title="更新数据"></a>更新数据</h5><p>示例：<code>UPDATE customers SET cust_email = 'elmer@fudd.com' WHERE cust_id = 10005;</code><br>更新多列：<code>UPDATE customers SET cust_name = 'foo', cust_email = 'elmer@fudd.com' WHERE cust_id = 10005;</code> 更新多行默认情况下其中一个更新出错，所有更新数据都会恢复。如果需要发生错误也要继续更新，可使用关键字<code>IGNORE</code><br>删除相应值，可以将其<code>UPDATE</code>为<code>NULL</code>（前提允许为<code>NULL</code>）<br><strong>如果忽略<code>WHERE</code>就会更新所有行</strong></p>
+<h5 id="删除数据"><a href="#删除数据" class="headerlink" title="删除数据"></a>删除数据</h5><p>删除行：<code>DELETE FROM customers WHERE cust_id = 10006;</code><br><strong>同样，如果忽略<code>WHERE</code>就会删除所有行</strong><br>如果需要删除表中所有行，使用<code>TRUNCATE TABLE</code>更佳<br>最好使用强制实施引用完整性的数据库，这样MySQL将不允许删除具有与其他表相关联的数据的行。</p>
+<h5 id="创建表"><a href="#创建表" class="headerlink" title="创建表"></a>创建表</h5><p>示例：</p>
+<figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> customers</span><br><span class="line">(</span><br><span class="line">  cust_id      <span class="built_in">int</span>       <span class="keyword">NOT</span> <span class="literal">NULL</span> AUTO_INCREMENT,</span><br><span class="line">  cust_name    <span class="built_in">char</span>(<span class="number">50</span>)  <span class="keyword">NOT</span> <span class="literal">NULL</span> ,</span><br><span class="line">  cust_address <span class="built_in">char</span>(<span class="number">50</span>)  <span class="literal">NULL</span> ,</span><br><span class="line">  cust_city    <span class="built_in">char</span>(<span class="number">50</span>)  <span class="literal">NULL</span> ,</span><br><span class="line">  cust_state   <span class="built_in">char</span>(<span class="number">5</span>)   <span class="literal">NULL</span> ,</span><br><span class="line">  cust_zip     <span class="built_in">char</span>(<span class="number">10</span>)  <span class="literal">NULL</span> ,</span><br><span class="line">  cust_country <span class="built_in">char</span>(<span class="number">50</span>)  <span class="literal">NULL</span> ,</span><br><span class="line">  cust_contact <span class="built_in">char</span>(<span class="number">50</span>)  <span class="literal">NULL</span> ,</span><br><span class="line">  cust_email   <span class="built_in">char</span>(<span class="number">255</span>) <span class="literal">NULL</span> ,</span><br><span class="line">  PRIMARY <span class="keyword">KEY</span> (cust_id)</span><br><span class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span>;</span><br></pre></td></tr></tbody></table></figure>
+
+<p>创建表时需要改表名不存在，不然会报错。<br>创建表的时候，<code>NULL</code>和空串不是一回事。<code>NULL</code>代表没有值，空串代表有值且值为<code>''</code><br>创建主键：<code>PRIMARY KEY (vend_id, ...)</code>主键支持一个或多个，但行值必须唯一。主键不能配置为<code>NULL</code>值</p>
+<h4 id="其他："><a href="#其他：" class="headerlink" title="其他："></a>其他：</h4><p>服务器状态信息：<code>SHOW status;</code><br>显示用户安全权限：<code>SHOW grants;</code><br>显示日志信息：<code>SHOW errors/warnings;</code></p>
 <p>mysql性能优化：</p>
 <ol>
 <li>尽量在数据库中进行过滤，而不是到客户端进行过滤。可有效减少带宽，并且数据库对过滤做了优化。</li>
@@ -678,7 +1141,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-count">23</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -766,7 +1229,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#《mysql必知必会》读书笔记"><span class="nav-number">1.</span> <span class="nav-text">《mysql必知必会》读书笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#了解mysql"><span class="nav-number">1.1.</span> <span class="nav-text">了解mysql</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MySQL简介"><span class="nav-number">1.2.</span> <span class="nav-text">MySQL简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用MySQL"><span class="nav-number">1.3.</span> <span class="nav-text">使用MySQL</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#mysql的sql命令"><span class="nav-number">1.3.1.</span> <span class="nav-text">mysql的sql命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#帮助"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">帮助:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据库相关："><span class="nav-number">1.3.1.2.</span> <span class="nav-text">数据库相关：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#表相关："><span class="nav-number">1.3.1.3.</span> <span class="nav-text">表相关：</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#信息显示："><span class="nav-number">1.3.1.3.1.</span> <span class="nav-text">信息显示：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#普通检索："><span class="nav-number">1.3.1.3.2.</span> <span class="nav-text">普通检索：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#数据排序："><span class="nav-number">1.3.1.3.3.</span> <span class="nav-text">数据排序：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#数据过滤："><span class="nav-number">1.3.1.3.4.</span> <span class="nav-text">数据过滤：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#计算字段："><span class="nav-number">1.3.1.3.5.</span> <span class="nav-text">计算字段：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#函数："><span class="nav-number">1.3.1.3.6.</span> <span class="nav-text">函数：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#分组数据"><span class="nav-number">1.3.1.3.7.</span> <span class="nav-text">分组数据</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#SELECT子句顺序"><span class="nav-number">1.3.1.3.8.</span> <span class="nav-text">SELECT子句顺序</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#子查询"><span class="nav-number">1.3.1.3.9.</span> <span class="nav-text">子查询</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#联结查询"><span class="nav-number">1.3.1.3.10.</span> <span class="nav-text">联结查询</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#组合查询"><span class="nav-number">1.3.1.3.11.</span> <span class="nav-text">组合查询</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#插入数据"><span class="nav-number">1.3.1.3.12.</span> <span class="nav-text">插入数据</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#其他："><span class="nav-number">1.3.1.4.</span> <span class="nav-text">其他：</span></a></li></ol></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#《mysql必知必会》读书笔记"><span class="nav-number">1.</span> <span class="nav-text">《mysql必知必会》读书笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#了解mysql"><span class="nav-number">1.1.</span> <span class="nav-text">了解mysql</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MySQL简介"><span class="nav-number">1.2.</span> <span class="nav-text">MySQL简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用MySQL"><span class="nav-number">1.3.</span> <span class="nav-text">使用MySQL</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#mysql的sql命令"><span class="nav-number">1.3.1.</span> <span class="nav-text">mysql的sql命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#帮助"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">帮助:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据库相关："><span class="nav-number">1.3.1.2.</span> <span class="nav-text">数据库相关：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#表相关："><span class="nav-number">1.3.1.3.</span> <span class="nav-text">表相关：</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#信息显示："><span class="nav-number">1.3.1.3.1.</span> <span class="nav-text">信息显示：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#普通检索："><span class="nav-number">1.3.1.3.2.</span> <span class="nav-text">普通检索：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#数据排序："><span class="nav-number">1.3.1.3.3.</span> <span class="nav-text">数据排序：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#数据过滤："><span class="nav-number">1.3.1.3.4.</span> <span class="nav-text">数据过滤：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#计算字段："><span class="nav-number">1.3.1.3.5.</span> <span class="nav-text">计算字段：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#函数："><span class="nav-number">1.3.1.3.6.</span> <span class="nav-text">函数：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#分组数据"><span class="nav-number">1.3.1.3.7.</span> <span class="nav-text">分组数据</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#SELECT子句顺序"><span class="nav-number">1.3.1.3.8.</span> <span class="nav-text">SELECT子句顺序</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#子查询"><span class="nav-number">1.3.1.3.9.</span> <span class="nav-text">子查询</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#联结查询"><span class="nav-number">1.3.1.3.10.</span> <span class="nav-text">联结查询</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#组合查询"><span class="nav-number">1.3.1.3.11.</span> <span class="nav-text">组合查询</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#全文本搜索"><span class="nav-number">1.3.1.3.12.</span> <span class="nav-text">全文本搜索</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#插入数据"><span class="nav-number">1.3.1.3.13.</span> <span class="nav-text">插入数据</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#更新数据"><span class="nav-number">1.3.1.3.14.</span> <span class="nav-text">更新数据</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#删除数据"><span class="nav-number">1.3.1.3.15.</span> <span class="nav-text">删除数据</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#创建表"><span class="nav-number">1.3.1.3.16.</span> <span class="nav-text">创建表</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#其他："><span class="nav-number">1.3.1.4.</span> <span class="nav-text">其他：</span></a></li></ol></li></ol></li></ol></li></ol></div>
             
 
           </div>
@@ -818,13 +1281,21 @@
 		  <span class="post-meta-item-text">本站总字数</span>
 		
 		<span title="本站总字数">
-		  33.5k
+		  36.6k
 		</span>
 	</div>
    
  </div>
 
 
+
+
+  <script src="https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js"></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({theme: 'forest'});
+    }
+  </script>
 
 
         

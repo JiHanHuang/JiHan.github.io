@@ -104,10 +104,12 @@
 <meta property="og:site_name" content="JiHan&#39;s Blog">
 <meta property="og:description" content="久了不更新博客，就不知道怎么搞环境了，换了环境又得查。索性自己写个简单的(•̀⌄•́)　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-12-31T11:56:41.000Z">
+<meta property="og:image" content="https://github.githubassets.com/images/icons/emoji/unicode/1f60e.png?v8">
+<meta property="og:updated_time" content="2021-01-25T03:29:39.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="hexo博客使用指南">
 <meta name="twitter:description" content="久了不更新博客，就不知道怎么搞环境了，换了环境又得查。索性自己写个简单的(•̀⌄•́)　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan">
+<meta name="twitter:image" content="https://github.githubassets.com/images/icons/emoji/unicode/1f60e.png?v8">
 
 
 
@@ -167,6 +169,8 @@
 
 
 
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -416,7 +420,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  962
+                  2.8k
                 </span>
               
 
@@ -432,7 +436,7 @@
                   <span class="post-meta-item-text">阅读时长</span>
                 
                 <span title="阅读时长">
-                  3
+                  12
                 </span>
               
             </div>
@@ -467,19 +471,19 @@
 <li><p>git安装<br>windows直接点安装<br>Liunx <code>sudo yum install git</code>或<code>sudo apt install git</code></p>
 </li>
 <li><p>安装hexo</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">npm i hexo-cli -g</span><br><span class="line"></span><br><span class="line"> #配置git扩展，在你自己的博客里肯定已经配置了项目地址关联</span><br><span class="line">npm i hexo-deployer-git</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">npm i hexo-cli -g</span><br><span class="line"></span><br><span class="line"> #配置git扩展，在你自己的博客里肯定已经配置了项目地址关联</span><br><span class="line">npm i hexo-deployer-git</span><br></pre></td></tr></tbody></table></figure>
 </li>
 <li><p>可能有必要<br>如果项目里没有node_modules文件夹，需要到博客根目录重新安装一波：<code>npm install</code></p>
 </li>
 </ol>
 <h3 id="已有环境，新发文"><a href="#已有环境，新发文" class="headerlink" title="已有环境，新发文"></a>已有环境，新发文</h3><p>发文常用命令(通常都是顺序执行)：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 新建文章</span><br><span class="line">hexo new post &quot;article title&quot;</span><br><span class="line"># 生成博客网页文件</span><br><span class="line">hexo g  </span><br><span class="line"># 本地预览博客</span><br><span class="line">hexo s  </span><br><span class="line"># 上传网页文件到github</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 新建文章</span><br><span class="line">hexo new post "article title"</span><br><span class="line"># 生成博客网页文件</span><br><span class="line">hexo g  </span><br><span class="line"># 本地预览博客</span><br><span class="line">hexo s  </span><br><span class="line">hexo s -i 0.0.0.0 -p 8080 #指定监听地址端口</span><br><span class="line"># 上传网页文件到github</span><br><span class="line">hexo d</span><br></pre></td></tr></tbody></table></figure>
 
 <p>博客源码备份：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">git add -u</span><br><span class="line">git commit -m &quot;new post&quot;</span><br><span class="line">git push</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">git add -u</span><br><span class="line">git commit -m "new post"</span><br><span class="line">git push</span><br></pre></td></tr></tbody></table></figure>
 
 <h3 id="常用Markdown语法"><a href="#常用Markdown语法" class="headerlink" title="常用Markdown语法"></a>常用Markdown语法</h3><p>主要针对GitHub，参考<a href="https://docs.github.com/cn/free-pro-team@latest/github/writing-on-github/basic-writing-and-formatting-syntax" target="_blank" rel="noopener">官方文档</a><br><em>注意语法中的空格</em></p>
-<h4 id="标题"><a href="#标题" class="headerlink" title="标题"></a>标题</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 最大标题</span><br><span class="line">## 第二大标题</span><br><span class="line">###### 最小标题</span><br></pre></td></tr></table></figure>
+<h4 id="标题"><a href="#标题" class="headerlink" title="标题"></a>标题</h4><figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 最大标题</span><br><span class="line">## 第二大标题</span><br><span class="line">###### 最小标题</span><br></pre></td></tr></tbody></table></figure>
 
 <h4 id="样式文本"><a href="#样式文本" class="headerlink" title="样式文本"></a>样式文本</h4><table>
 <thead>
@@ -498,7 +502,7 @@
 </tr>
 <tr>
 <td>删除线</td>
-<td><del>~ ~</del></td>
+<td>~~ ~~</td>
 </tr>
 <tr>
 <td>粗体和嵌入的斜体</td>
@@ -509,42 +513,201 @@
 <td><strong>* *</strong></td>
 </tr>
 </tbody></table>
-<h4 id="引用文本"><a href="#引用文本" class="headerlink" title="引用文本"></a>引用文本</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; 引用的文本</span><br></pre></td></tr></table></figure>
+<h4 id="引用文本"><a href="#引用文本" class="headerlink" title="引用文本"></a>引用文本</h4><figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; 引用的文本</span><br></pre></td></tr></tbody></table></figure>
 
-<h4 id="引用代码"><a href="#引用代码" class="headerlink" title="引用代码"></a>引用代码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">`单行代码引用`</span><br></pre></td></tr></table></figure>
+<h4 id="引用代码"><a href="#引用代码" class="headerlink" title="引用代码"></a>引用代码</h4><figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">`单行代码引用`</span><br></pre></td></tr></tbody></table></figure>
 
-<blockquote>
-<p>&lt;!–￼6–&gt;</p>
-</blockquote>
-<h4 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[普通链接](https://jihanhuang.github.io/)</span><br><span class="line">![图片链接](./技术札记/ssh免密登录原理.png)</span><br><span class="line">[下载链接](./《mysql必知必会》读书笔记/mysql_scripts.zip)</span><br><span class="line">[文章导航链接](#已有博客环境迁移)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">```json(代码类型)</span><br><span class="line"> 多行代码引用</span><br><span class="line">```</span><br></pre></td></tr></tbody></table></figure>
 
-<h4 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1. James Madison</span><br><span class="line">2. James Monroe</span><br><span class="line">3. John Quincy Adams</span><br></pre></td></tr></table></figure>
+<p>如果想在代码块中显示```, 只需要外层的` 比内层的多即可：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">```` 代码块标识</span><br><span class="line">```json</span><br><span class="line">显示的代码</span><br><span class="line">```</span><br><span class="line">````</span><br></pre></td></tr></tbody></table></figure>
+
+<h4 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h4><figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[普通链接](https://jihanhuang.github.io/)</span><br><span class="line">![图片链接](./技术札记/ssh免密登录原理.png)</span><br><span class="line">[下载链接](./《mysql必知必会》读书笔记/mysql_scripts.zip)</span><br><span class="line">[文章导航链接](#已有博客环境迁移)</span><br></pre></td></tr></tbody></table></figure>
+
+<h4 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h4><figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1. James Madison</span><br><span class="line">2. James Monroe</span><br><span class="line">3. John Quincy Adams</span><br></pre></td></tr></tbody></table></figure>
 
 <p><code>*</code>或<code>-</code>都可以</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- George Washington</span><br><span class="line">- John Adams</span><br><span class="line">- Thomas Jefferson</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- George Washington</span><br><span class="line">- John Adams</span><br><span class="line">- Thomas Jefferson</span><br></pre></td></tr></tbody></table></figure>
 
 <p>嵌套(子列表的<code>-</code>需在父列表的第一个字下)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1. 第一个列表项</span><br><span class="line">   -  第一个嵌套列表项</span><br><span class="line">     - 第二个嵌套列表项</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1. 第一个列表项</span><br><span class="line">   -  第一个嵌套列表项</span><br><span class="line">     - 第二个嵌套列表项</span><br></pre></td></tr></tbody></table></figure>
 
 <p>任务：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- [x] 完成更改</span><br><span class="line">- [ ] 推送提交到 GitHub</span><br><span class="line">- [ ] 打开拉取请求</span><br><span class="line">- [ ] \(Optional) 规避[]后的()</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- [x] 完成更改</span><br><span class="line">- [ ] 推送提交到 GitHub</span><br><span class="line">- [ ] 打开拉取请求</span><br><span class="line">- [ ] \(Optional) 规避[]后的()</span><br></pre></td></tr></tbody></table></figure>
 
-<h4 id="表格"><a href="#表格" class="headerlink" title="表格"></a>表格</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">|列标题	|列标题|</span><br><span class="line">|---|---|</span><br><span class="line">|数据11|	数据21 &lt;br&gt; br表示换行	|</span><br><span class="line">|数据12|	数据22	|</span><br></pre></td></tr></table></figure>
+<h4 id="表格"><a href="#表格" class="headerlink" title="表格"></a>表格</h4><figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">|列标题	|列标题|</span><br><span class="line">|---|---|</span><br><span class="line">|数据11|	数据21 &lt;br&gt; br表示换行	|</span><br><span class="line">|数据12|	数据22	|</span><br></pre></td></tr></tbody></table></figure>
 
-<h4 id="绘图"><a href="#绘图" class="headerlink" title="绘图"></a>绘图</h4><p>自身不支持绘图，只能自己画好贴上去。<br>语法绘图：<br>graphviz：较为复杂，特别是时序图，但功能强大。<a href="https://sketchviz.com/new" target="_blank" rel="noopener">graphviz在线绘图</a>，<a href="https://onlookerliu.github.io/2017/12/28/dot%E8%AF%AD%E6%B3%95%E6%80%BB%E7%BB%93/#1-%E7%AE%80%E4%BB%8B" target="_blank" rel="noopener">graphviz dot语法总结</a><br>plantuml：绘图风格单一(个人不觉得丑)，但画时序图很快，模板多，本体使用需要java支持。<a href="https://www.planttext.com/" target="_blank" rel="noopener">plantmul在线绘图</a>：多个模板供选择。能接受画面的，还是推荐使用<br>Mermaid：功能简单，绘图较快，美观度还可以，很多Markdown编辑器都支持。<a href="https://mermaid-js.github.io/mermaid/#/" target="_blank" rel="noopener">语法</a>，个人使用感觉功能太少(可能是插件支持不友好)</p>
+<h4 id="绘图"><a href="#绘图" class="headerlink" title="绘图"></a>绘图</h4><p>hexo自身都不支持Markdown标准绘图和Mermaid。需要进行配置：<br>执行以下命令：</p>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm install --save hexo-filter-mermaid-diagrams</span><br><span class="line">npm install --save hexo-filter-sequence</span><br><span class="line">npm install --save hexo-filter-flowchart</span><br></pre></td></tr></tbody></table></figure>
+
+<p>Mermaid配置可以阅读：<a href="https://tyloafer.github.io/posts/7790/" target="_blank" rel="noopener">Hexo中引入Mermaid流程图</a>，引用部分如下：</p>
+<blockquote>
+<p>Mermaid还需要进行配置(根目录下_config.yml)，增加如下内容：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&gt; # mermaid chart</span><br><span class="line">&gt; mermaid: ## mermaid url https://github.com/knsv/mermaid</span><br><span class="line">&gt;   enable: true  # default true</span><br><span class="line">&gt;   version: "7.1.2" # default v7.1.2</span><br><span class="line">&gt;   options:  # find more api options from https://github.com/knsv/mermaid/blob/master/src/mermaidAPI.js</span><br><span class="line">&gt;     #startOnload: true  // default true</span><br><span class="line">&gt;</span><br></pre></td></tr></tbody></table></figure>
+</blockquote>
+<blockquote>
+<p>以及修改js，我这里使用的是<code>next</code>主题。在文件<code>themes/next/layout/_partials/footer.swig</code>后&gt;加上：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&gt; {% if (theme.mermaid.enable)  %}</span><br><span class="line">&gt;   &lt;script src='https://unpkg.com/mermaid@{{ theme.mermaid.version }}/dist/mermaid.min.js'&gt;&lt;/script&gt;</span><br><span class="line">&gt;   &lt;script&gt;</span><br><span class="line">&gt;     if (window.mermaid) {</span><br><span class="line">&gt;       mermaid.initialize({theme: 'forest'});</span><br><span class="line">&gt;     }</span><br><span class="line">&gt;   &lt;/script&gt;</span><br><span class="line">&gt; {% endif %}</span><br><span class="line">&gt;</span><br></pre></td></tr></tbody></table></figure>
+</blockquote>
+<p>语法绘图：<br>graphviz：较为复杂，特别是时序图，但功能强大。<a href="https://sketchviz.com/new" target="_blank" rel="noopener">graphviz在线绘图</a>，<a href="https://onlookerliu.github.io/2017/12/28/dot%E8%AF%AD%E6%B3%95%E6%80%BB%E7%BB%93/#1-%E7%AE%80%E4%BB%8B" target="_blank" rel="noopener">graphviz dot语法总结</a><br>plantuml：绘图风格单一(个人不觉得丑)，但画时序图很快，模板多，本体使用需要java支持。<a href="https://www.planttext.com/" target="_blank" rel="noopener">plantmul在线绘图</a>：多个模板供选择。能接受画面的，还是推荐使用<br>Mermaid：功能简单，绘图较快，美观度还可以，很多Markdown编辑器都支持。<a href="https://mermaid-js.github.io/mermaid/#/" target="_blank" rel="noopener">语法</a>，个人使用感觉功能太少(可能是插件支持不友好)</p>
+<h5 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h5><p><em><a href="https://www.runoob.com/markdown/md-advance.html" target="_blank" rel="noopener">来源</a></em><br><strong>Markdown标准支持：</strong><br>流程图：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id="flowchart-0" class="flow-chart"&gt;&lt;/div&gt;</span><br></pre></td></tr></tbody></table></figure>
+
+<p>效果：</p>
+<div id="flowchart-1" class="flow-chart"></div>
+
+<p>流程图(横向)：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id="flowchart-2" class="flow-chart"&gt;&lt;/div&gt;</span><br></pre></td></tr></tbody></table></figure>
+
+<p>效果：</p>
+<div id="flowchart-3" class="flow-chart"></div>
+UML样例：
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id="sequence-0"&gt;&lt;/div&gt;</span><br></pre></td></tr></tbody></table></figure>
+
+<p>效果：</p>
+<div id="sequence-1"></div>
+UML复杂样例：
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id="sequence-2"&gt;&lt;/div&gt;</span><br></pre></td></tr></tbody></table></figure>
+
+<p>效果：</p>
+<div id="sequence-3"></div>
+
+<p><strong>Mermaid：</strong><br><a href="https://mermaid-js.github.io/mermaid/#/" target="_blank" rel="noopener">语法</a><br>流程图：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;pre class="mermaid"&gt;graph TD</span><br><span class="line">A[方形] --&gt; B(圆角)</span><br><span class="line">    B --&gt; C{条件a}</span><br><span class="line">    C --&gt; |a=1| D[结果1]</span><br><span class="line">    C --&gt; |a=2| E[结果2]</span><br><span class="line">    F[竖向流程图]&lt;/pre&gt;</span><br></pre></td></tr></tbody></table></figure>
+
+<p>效果：</p>
+<pre class="mermaid">graph TD
+A[方形] --&gt; B(圆角)
+    B --&gt; C{条件a}
+    C --&gt; |a=1| D[结果1]
+    C --&gt; |a=2| E[结果2]
+    F[竖向流程图]</pre>
+<p>UML样例：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;pre class="mermaid"&gt;  sequenceDiagram</span><br><span class="line">    participant 张三</span><br><span class="line">    participant 李四</span><br><span class="line">    张三-&gt;王五: 王五你好吗？</span><br><span class="line">    loop 健康检查</span><br><span class="line">        王五-&gt;王五: 与疾病战斗</span><br><span class="line">    end</span><br><span class="line">    Note right of 王五: 合理 食物 &lt;br/&gt;看医生...</span><br><span class="line">    李四--&gt;&gt;张三: 很好!</span><br><span class="line">    王五-&gt;李四: 你怎么样?</span><br><span class="line">    李四--&gt;王五: 很好!&lt;/pre&gt;</span><br></pre></td></tr></tbody></table></figure>
+
+<p>效果：</p>
+<pre class="mermaid">  sequenceDiagram
+    participant 张三
+    participant 李四
+    张三-&gt;王五: 王五你好吗？
+    loop 健康检查
+        王五-&gt;王五: 与疾病战斗
+    end
+    Note right of 王五: 合理 食物 <br>看医生...
+    李四--&gt;&gt;张三: 很好!
+    王五-&gt;李四: 你怎么样?
+    李四--&gt;王五: 很好!</pre>
+
+<p>甘特图：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;pre class="mermaid"&gt;      gantt</span><br><span class="line">        dateFormat  YYYY-MM-DD</span><br><span class="line">        title 软件开发甘特图</span><br><span class="line">        section 设计</span><br><span class="line">        需求                      :done,    des1, 2014-01-06,2014-01-08</span><br><span class="line">        原型                      :active,  des2, 2014-01-09, 3d</span><br><span class="line">        UI设计                     :         des3, after des2, 5d</span><br><span class="line">    未来任务                     :         des4, after des3, 5d</span><br><span class="line">        section 开发</span><br><span class="line">        学习准备理解需求                      :crit, done, 2014-01-06,24h</span><br><span class="line">        设计框架                             :crit, done, after des2, 2d</span><br><span class="line">        开发                                 :crit, active, 3d</span><br><span class="line">        未来任务                              :crit, 5d</span><br><span class="line">        耍                                   :2d</span><br><span class="line">        section 测试</span><br><span class="line">        功能测试                              :active, a1, after des3, 3d</span><br><span class="line">        压力测试                               :after a1  , 20h</span><br><span class="line">        测试报告                               : 48h&lt;/pre&gt;</span><br></pre></td></tr></tbody></table></figure>
+
+<p>效果：</p>
+<pre class="mermaid">      gantt
+        dateFormat  YYYY-MM-DD
+        title 软件开发甘特图
+        section 设计
+        需求                      :done,    des1, 2014-01-06,2014-01-08
+        原型                      :active,  des2, 2014-01-09, 3d
+        UI设计                     :         des3, after des2, 5d
+    未来任务                     :         des4, after des3, 5d
+        section 开发
+        学习准备理解需求                      :crit, done, 2014-01-06,24h
+        设计框架                             :crit, done, after des2, 2d
+        开发                                 :crit, active, 3d
+        未来任务                              :crit, 5d
+        耍                                   :2d
+        section 测试
+        功能测试                              :active, a1, after des3, 3d
+        压力测试                               :after a1  , 20h
+        测试报告                               : 48h</pre>
+
+
+
 <h4 id="段落"><a href="#段落" class="headerlink" title="段落"></a>段落</h4><p>通过在文本行之间留一个空白行，可创建新段落。</p>
 <h4 id="忽略Markdown格式"><a href="#忽略Markdown格式" class="headerlink" title="忽略Markdown格式"></a>忽略Markdown格式</h4><ol>
 <li>使用代码块</li>
 <li>使用<code>\</code></li>
 </ol>
-<h4 id="使用表情符号"><a href="#使用表情符号" class="headerlink" title="使用表情符号"></a>使用表情符号</h4><p>通过键入 <code>:EMOJICODE:</code> 可在您的写作中添加表情符号。<br>比如<code>:+1:</code> :+1:<br>更多表情符号参考<a href="https://www.webfx.com/tools/emoji-cheat-sheet/" target="_blank" rel="noopener">emoji-cheat-sheet</a>:sunglasses: </p>
-<h3 id="可能遇到问题"><a href="#可能遇到问题" class="headerlink" title="可能遇到问题"></a>可能遇到问题</h3><p><strong>发布图片视频音频：</strong><br>图片发布很简单：<br>你在<code>hexo new post &quot;xxx&quot;</code>会在__posts下生成一个对应xxx.md和一个xxx文件夹。图片放在文件夹里，文章里引用：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">![hello](xxx/image.jpg)</span><br></pre></td></tr></table></figure>
+<h4 id="使用表情符号"><a href="#使用表情符号" class="headerlink" title="使用表情符号"></a>使用表情符号</h4><p>通过键入 <code>:EMOJICODE:</code> 可在您的写作中添加表情符号。<br>比如<code>:+1:</code> :+1:<br>hexo默认是不支持表情符号的，因此我在<a href="https://novnan.github.io/Hexo/emojis-for-hexo-next/" target="_blank" rel="noopener">这儿</a>找到了解决方案：</p>
+<blockquote>
+<p>安装</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; npm install hexo-filter-github-emojis --save</span><br><span class="line">&gt;</span><br></pre></td></tr></tbody></table></figure>
+</blockquote>
+<blockquote>
+<p>打开配置文件(根目录下的<code>_config.yml</code>文件)，并增加：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&gt; githubEmojis:</span><br><span class="line">&gt;   enable: true</span><br><span class="line">&gt;   className: github-emoji</span><br><span class="line">&gt;   unicode: false</span><br><span class="line">&gt;   styles:</span><br><span class="line">&gt;   localEmojis:</span><br><span class="line">&gt;</span><br></pre></td></tr></tbody></table></figure>
+</blockquote>
+<blockquote>
+<p>GitHubEmojis更多配置参考<a href="https://github.com/crimx/hexo-filter-github-emojis" target="_blank" rel="noopener">文档</a></p>
+</blockquote>
+<p>更多表情符号参考<a href="https://www.webfx.com/tools/emoji-cheat-sheet/" target="_blank" rel="noopener">emoji-cheat-sheet</a> <span class="github-emoji"><span>😎</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f60e.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> </p>
+<h3 id="可能遇到问题"><a href="#可能遇到问题" class="headerlink" title="可能遇到问题"></a>可能遇到问题</h3><p><strong>发布图片视频音频：</strong><br>图片发布很简单：<br>你在<code>hexo new post "xxx"</code>会在__posts下生成一个对应xxx.md和一个xxx文件夹。图片放在文件夹里，文章里引用：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">![hello](xxx/image.jpg)</span><br></pre></td></tr></tbody></table></figure>
 
 <p><a href="https://www.jianshu.com/p/26a7fc7cc185" target="_blank" rel="noopener">视频发布</a><br><strong>github配置域名发布后被清空：</strong><br>在对应source目录下新建一个CNAME文件，只放置一行你指向的域名。例如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># tree Blog/source/ -L 1</span><br><span class="line">Blog/source/</span><br><span class="line">|-- categories</span><br><span class="line">|-- CNAME</span><br><span class="line">|-- download</span><br><span class="line">|-- _posts</span><br><span class="line">|-- tags</span><br><span class="line">`-- uploads</span><br><span class="line"># cat Blog/source/CNAME </span><br><span class="line">xxx.com</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># tree Blog/source/ -L 1</span><br><span class="line">Blog/source/</span><br><span class="line">|-- categories</span><br><span class="line">|-- CNAME</span><br><span class="line">|-- download</span><br><span class="line">|-- _posts</span><br><span class="line">|-- tags</span><br><span class="line">`-- uploads</span><br><span class="line"># cat Blog/source/CNAME </span><br><span class="line">xxx.com</span><br></pre></td></tr></tbody></table></figure>
 
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.7/raphael.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/flowchart/1.6.5/flowchart.min.js"></script><textarea id="flowchart-0-code" style="display: none">st=&gt;start: 开始框
+op=&gt;operation: 处理框
+cond=&gt;condition: 判断框(是或否?)
+sub1=&gt;subroutine: 子流程
+io=&gt;inputoutput: 输入输出框
+e=&gt;end: 结束框
+st-&gt;op-&gt;cond
+cond(yes)-&gt;io-&gt;e
+cond(no)-&gt;sub1(right)-&gt;op</textarea><textarea id="flowchart-0-options" style="display: none">{"theme":"simple","scale":1,"line-width":2,"line-length":50,"text-margin":10,"font-size":12}</textarea><script>  var code = document.getElementById("flowchart-0-code").value;  var options = JSON.parse(decodeURIComponent(document.getElementById("flowchart-0-options").value));  var diagram = flowchart.parse(code);  diagram.drawSVG("flowchart-0", options);</script><textarea id="flowchart-1-code" style="display: none">st=&gt;start: 开始框
+op=&gt;operation: 处理框
+cond=&gt;condition: 判断框(是或否?)
+sub1=&gt;subroutine: 子流程
+io=&gt;inputoutput: 输入输出框
+e=&gt;end: 结束框
+st-&gt;op-&gt;cond
+cond(yes)-&gt;io-&gt;e
+cond(no)-&gt;sub1(right)-&gt;op</textarea><textarea id="flowchart-1-options" style="display: none">{"theme":"simple","scale":1,"line-width":2,"line-length":50,"text-margin":10,"font-size":12}</textarea><script>  var code = document.getElementById("flowchart-1-code").value;  var options = JSON.parse(decodeURIComponent(document.getElementById("flowchart-1-options").value));  var diagram = flowchart.parse(code);  diagram.drawSVG("flowchart-1", options);</script><textarea id="flowchart-2-code" style="display: none">st=&gt;start: 开始框
+op=&gt;operation: 处理框
+cond=&gt;condition: 判断框(是或否?)
+sub1=&gt;subroutine: 子流程
+io=&gt;inputoutput: 输入输出框
+e=&gt;end: 结束框
+st(right)-&gt;op(right)-&gt;cond
+cond(yes)-&gt;io(bottom)-&gt;e
+cond(no)-&gt;sub1(right)-&gt;op</textarea><textarea id="flowchart-2-options" style="display: none">{"theme":"simple","scale":1,"line-width":2,"line-length":50,"text-margin":10,"font-size":12}</textarea><script>  var code = document.getElementById("flowchart-2-code").value;  var options = JSON.parse(decodeURIComponent(document.getElementById("flowchart-2-options").value));  var diagram = flowchart.parse(code);  diagram.drawSVG("flowchart-2", options);</script><textarea id="flowchart-3-code" style="display: none">st=&gt;start: 开始框
+op=&gt;operation: 处理框
+cond=&gt;condition: 判断框(是或否?)
+sub1=&gt;subroutine: 子流程
+io=&gt;inputoutput: 输入输出框
+e=&gt;end: 结束框
+st(right)-&gt;op(right)-&gt;cond
+cond(yes)-&gt;io(bottom)-&gt;e
+cond(no)-&gt;sub1(right)-&gt;op</textarea><textarea id="flowchart-3-options" style="display: none">{"theme":"simple","scale":1,"line-width":2,"line-length":50,"text-margin":10,"font-size":12}</textarea><script>  var code = document.getElementById("flowchart-3-code").value;  var options = JSON.parse(decodeURIComponent(document.getElementById("flowchart-3-options").value));  var diagram = flowchart.parse(code);  diagram.drawSVG("flowchart-3", options);</script><script src="https://cdnjs.cloudflare.com/ajax/libs/webfont/1.6.27/webfontloader.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/snap.svg/0.4.1/snap.svg-min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/js-sequence-diagrams/1.0.6/sequence-diagram-min.js"></script><textarea id="sequence-0-code" style="display: none">对象A-&gt;对象B: 对象B你好吗?（请求）
+Note right of 对象B: 对象B的描述
+Note left of 对象A: 对象A的描述(提示)
+对象B--&gt;对象A: 我很好(响应)
+对象A-&gt;对象B: 你真的好吗？</textarea><textarea id="sequence-0-options" style="display: none">{"theme":"simple","scale":1,"line-width":2,"line-length":50,"text-margin":10,"font-size":12}</textarea><script>  var code = document.getElementById("sequence-0-code").value;  var options = JSON.parse(decodeURIComponent(document.getElementById("sequence-0-options").value));  var diagram = Diagram.parse(code);  diagram.drawSVG("sequence-0", options);</script><textarea id="sequence-1-code" style="display: none">对象A-&gt;对象B: 对象B你好吗?（请求）
+Note right of 对象B: 对象B的描述
+Note left of 对象A: 对象A的描述(提示)
+对象B--&gt;对象A: 我很好(响应)
+对象A-&gt;对象B: 你真的好吗？</textarea><textarea id="sequence-1-options" style="display: none">{"theme":"simple","scale":1,"line-width":2,"line-length":50,"text-margin":10,"font-size":12}</textarea><script>  var code = document.getElementById("sequence-1-code").value;  var options = JSON.parse(decodeURIComponent(document.getElementById("sequence-1-options").value));  var diagram = Diagram.parse(code);  diagram.drawSVG("sequence-1", options);</script><textarea id="sequence-2-code" style="display: none">Title: 标题：复杂使用
+对象A-&gt;对象B: 对象B你好吗?（请求）
+Note right of 对象B: 对象B的描述
+Note left of 对象A: 对象A的描述(提示)
+对象B--&gt;对象A: 我很好(响应)
+对象B-&gt;小三: 你好吗
+小三--&gt;&gt;对象A: 对象B找我了
+对象A-&gt;对象B: 你真的好吗？
+Note over 小三,对象B: 我们是朋友
+participant C
+Note right of C: 没人陪我玩</textarea><textarea id="sequence-2-options" style="display: none">{"theme":"simple","scale":1,"line-width":2,"line-length":50,"text-margin":10,"font-size":12}</textarea><script>  var code = document.getElementById("sequence-2-code").value;  var options = JSON.parse(decodeURIComponent(document.getElementById("sequence-2-options").value));  var diagram = Diagram.parse(code);  diagram.drawSVG("sequence-2", options);</script><textarea id="sequence-3-code" style="display: none">Title: 标题：复杂使用
+对象A-&gt;对象B: 对象B你好吗?（请求）
+Note right of 对象B: 对象B的描述
+Note left of 对象A: 对象A的描述(提示)
+对象B--&gt;对象A: 我很好(响应)
+对象B-&gt;小三: 你好吗
+小三--&gt;&gt;对象A: 对象B找我了
+对象A-&gt;对象B: 你真的好吗？
+Note over 小三,对象B: 我们是朋友
+participant C
+Note right of C: 没人陪我玩</textarea><textarea id="sequence-3-options" style="display: none">{"theme":"simple","scale":1,"line-width":2,"line-length":50,"text-margin":10,"font-size":12}</textarea><script>  var code = document.getElementById("sequence-3-code").value;  var options = JSON.parse(decodeURIComponent(document.getElementById("sequence-3-options").value));  var diagram = Diagram.parse(code);  diagram.drawSVG("sequence-3", options);</script>
       
     </div>
     
@@ -676,7 +839,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-count">23</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -764,7 +927,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#从0-1搭建hexo网站"><span class="nav-number">1.</span> <span class="nav-text">从0-1搭建hexo网站</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#已有博客，环境迁移"><span class="nav-number">2.</span> <span class="nav-text">已有博客，环境迁移</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#已有环境，新发文"><span class="nav-number">3.</span> <span class="nav-text">已有环境，新发文</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常用Markdown语法"><span class="nav-number">4.</span> <span class="nav-text">常用Markdown语法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#标题"><span class="nav-number">4.1.</span> <span class="nav-text">标题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#样式文本"><span class="nav-number">4.2.</span> <span class="nav-text">样式文本</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#引用文本"><span class="nav-number">4.3.</span> <span class="nav-text">引用文本</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#引用代码"><span class="nav-number">4.4.</span> <span class="nav-text">引用代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#链接"><span class="nav-number">4.5.</span> <span class="nav-text">链接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#列表"><span class="nav-number">4.6.</span> <span class="nav-text">列表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#表格"><span class="nav-number">4.7.</span> <span class="nav-text">表格</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#绘图"><span class="nav-number">4.8.</span> <span class="nav-text">绘图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#段落"><span class="nav-number">4.9.</span> <span class="nav-text">段落</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#忽略Markdown格式"><span class="nav-number">4.10.</span> <span class="nav-text">忽略Markdown格式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用表情符号"><span class="nav-number">4.11.</span> <span class="nav-text">使用表情符号</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可能遇到问题"><span class="nav-number">5.</span> <span class="nav-text">可能遇到问题</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#从0-1搭建hexo网站"><span class="nav-number">1.</span> <span class="nav-text">从0-1搭建hexo网站</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#已有博客，环境迁移"><span class="nav-number">2.</span> <span class="nav-text">已有博客，环境迁移</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#已有环境，新发文"><span class="nav-number">3.</span> <span class="nav-text">已有环境，新发文</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常用Markdown语法"><span class="nav-number">4.</span> <span class="nav-text">常用Markdown语法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#标题"><span class="nav-number">4.1.</span> <span class="nav-text">标题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#样式文本"><span class="nav-number">4.2.</span> <span class="nav-text">样式文本</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#引用文本"><span class="nav-number">4.3.</span> <span class="nav-text">引用文本</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#引用代码"><span class="nav-number">4.4.</span> <span class="nav-text">引用代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#链接"><span class="nav-number">4.5.</span> <span class="nav-text">链接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#列表"><span class="nav-number">4.6.</span> <span class="nav-text">列表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#表格"><span class="nav-number">4.7.</span> <span class="nav-text">表格</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#绘图"><span class="nav-number">4.8.</span> <span class="nav-text">绘图</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#示例"><span class="nav-number">4.8.1.</span> <span class="nav-text">示例</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#段落"><span class="nav-number">4.9.</span> <span class="nav-text">段落</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#忽略Markdown格式"><span class="nav-number">4.10.</span> <span class="nav-text">忽略Markdown格式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用表情符号"><span class="nav-number">4.11.</span> <span class="nav-text">使用表情符号</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可能遇到问题"><span class="nav-number">5.</span> <span class="nav-text">可能遇到问题</span></a></li></ol></div>
             
 
           </div>
@@ -816,13 +979,21 @@
 		  <span class="post-meta-item-text">本站总字数</span>
 		
 		<span title="本站总字数">
-		  33.5k
+		  36.6k
 		</span>
 	</div>
    
  </div>
 
 
+
+
+  <script src="https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js"></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({theme: 'forest'});
+    }
+  </script>
 
 
         
