@@ -96,17 +96,17 @@
 
 
 
-<meta name="description" content="测试新手上线 (•̀⌄•́)　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan">
+<meta name="description" content="测试新手上线 (•̀⌄•́) 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan">
 <meta property="og:type" content="article">
 <meta property="og:title" content="如何进行http压测">
 <meta property="og:url" content="http://yoursite.com/2020/12/25/如何进行http压测/index.html">
 <meta property="og:site_name" content="JiHan&#39;s Blog">
-<meta property="og:description" content="测试新手上线 (•̀⌄•́)　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan">
+<meta property="og:description" content="测试新手上线 (•̀⌄•́) 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2020-12-25T10:21:34.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="如何进行http压测">
-<meta name="twitter:description" content="测试新手上线 (•̀⌄•́)　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan">
+<meta name="twitter:description" content="测试新手上线 (•̀⌄•́) 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan">
 
 
 
@@ -166,8 +166,6 @@
 
 
 
-
-<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -455,13 +453,16 @@
       
 
       
-        <p>测试新手上线 (•̀⌄•́)<br>　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan</p>
+        <p>测试新手上线 (•̀⌄•́)<br>
+　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan</p>
 <hr>
 <a id="more"></a>
-
-
-<h2 id="如何进行http压测"><a href="#如何进行http压测" class="headerlink" title="如何进行http压测"></a>如何进行http压测</h2><h3 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h3><p>首先要准备2台设备，客户端，压测设备。如果是网关类型，需要增加后面的测试桩。<br>其次，我们需要选择压测工具，这里我使用的是<code>wrk</code>，由于io复用能在单机上产生很高的并发量。</p>
-<h3 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h3><p>压测目的：</p>
+<h2 id="如何进行http压测"><a class="header-anchor" href="#如何进行http压测"></a>如何进行http压测</h2>
+<h3 id="准备"><a class="header-anchor" href="#准备"></a>准备</h3>
+<p>首先要准备2台设备，客户端，压测设备。如果是网关类型，需要增加后面的测试桩。<br>
+其次，我们需要选择压测工具，这里我使用的是<code>wrk</code>，由于io复用能在单机上产生很高的并发量。</p>
+<h3 id="目的"><a class="header-anchor" href="#目的"></a>目的</h3>
+<p>压测目的：</p>
 <ol>
 <li>了解自身项目在某种环境下的最大承受业务。</li>
 <li>进行性能问题排查和优化。</li>
@@ -474,42 +475,94 @@
 <li>进行待测试项目测试</li>
 <li>分析总结</li>
 </ol>
-<h3 id="基准"><a href="#基准" class="headerlink" title="基准"></a>基准</h3><p>开始测试之前，我们需要测试对标的基准。通常可以在相应服务器上搭建一个nginx简单服务，进行压测得到基准参考数据。当然也可以找官方压测数据。<br>示例：<br><code>wrk -t 16 -c 1000 -d 60s --script=proxy_http.lua --latency http://192.168.1.11:5556/test10k.html</code></p>
-<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Running 1m test @ http://192.168.1.11:5556/test0k.html</span><br><span class="line">  16 threads and 1000 connections</span><br><span class="line">  Thread Stats   Avg      Stdev     Max   +/- Stdev</span><br><span class="line">    Latency     6.69ms    6.67ms 430.69ms   99.61%</span><br><span class="line">    Req/Sec     9.52k   825.25    25.95k    91.53%</span><br><span class="line">  Latency Distribution</span><br><span class="line">     50%    6.39ms</span><br><span class="line">     75%    6.88ms</span><br><span class="line">     90%    7.45ms</span><br><span class="line">     99%   10.20ms</span><br><span class="line">  9100687 requests in 1.00m, 2.13GB read</span><br><span class="line">Requests/sec: 151455.19</span><br><span class="line">Transfer/sec:     36.25MB</span><br></pre></td></tr></tbody></table></figure>
-
-<p>基准测试一般都需要考虑到平台环境和网络环境，测试出的结果是否是正常值。如果有较大偏差，则需要考虑是否有其他因素影响测试结果。<br><strong>影响测试结果的一些情况：</strong></p>
+<h3 id="基准"><a class="header-anchor" href="#基准"></a>基准</h3>
+<p>开始测试之前，我们需要测试对标的基准。通常可以在相应服务器上搭建一个nginx简单服务，进行压测得到基准参考数据。当然也可以找官方压测数据。<br>
+示例：<br>
+<code>wrk -t 16 -c 1000 -d 60s --script=proxy_http.lua --latency http://192.168.1.11:5556/test10k.html</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Running 1m test @ http://192.168.1.11:5556/test0k.html</span><br><span class="line">  16 threads and 1000 connections</span><br><span class="line">  Thread Stats   Avg      Stdev     Max   +/- Stdev</span><br><span class="line">    Latency     6.69ms    6.67ms 430.69ms   99.61%</span><br><span class="line">    Req/Sec     9.52k   825.25    25.95k    91.53%</span><br><span class="line">  Latency Distribution</span><br><span class="line">     50%    6.39ms</span><br><span class="line">     75%    6.88ms</span><br><span class="line">     90%    7.45ms</span><br><span class="line">     99%   10.20ms</span><br><span class="line">  9100687 requests in 1.00m, 2.13GB read</span><br><span class="line">Requests/sec: 151455.19</span><br><span class="line">Transfer/sec:     36.25MB</span><br></pre></td></tr></table></figure>
+<p>基准测试一般都需要考虑到平台环境和网络环境，测试出的结果是否是正常值。如果有较大偏差，则需要考虑是否有其他因素影响测试结果。<br>
+<strong>影响测试结果的一些情况：</strong></p>
 <ol>
-<li><p>linux文件/socket数目限制<br>可以通过以下配置查看</p>
- <figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">ubuntu:~$ ulimit -a</span><br><span class="line">core file size          (blocks, -c) 0</span><br><span class="line">data seg size           (kbytes, -d) unlimited</span><br><span class="line">scheduling priority             (-e) 20</span><br><span class="line">file size               (blocks, -f) unlimited</span><br><span class="line">pending signals                 (-i) 16382</span><br><span class="line">max locked memory       (kbytes, -l) 64</span><br><span class="line">max memory size         (kbytes, -m) unlimited</span><br><span class="line">open files                      (-n) 1024  #打开文件数目限制</span><br><span class="line">pipe size            (512 bytes, -p) 8</span><br><span class="line">POSIX message queues     (bytes, -q) 819200</span><br><span class="line">real-time priority              (-r) 0</span><br><span class="line">stack size              (kbytes, -s) 8192</span><br><span class="line">cpu time               (seconds, -t) unlimited</span><br><span class="line">max user processes              (-u) unlimited</span><br><span class="line">virtual memory          (kbytes, -v) unlimited</span><br><span class="line">file locks                      (-x) unlimited</span><br></pre></td></tr></tbody></table></figure>
-
-<p> 修改打开文件数目限制(临时)：<code>ulimit -n 2048</code><br> 永久设置方法(<a href="https://blog.csdn.net/fdipzone/article/details/34588803" target="_blank" rel="noopener">参考</a>)：</p>
+<li>
+<p>linux文件/socket数目限制<br>
+可以通过以下配置查看</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">ubuntu:~$ ulimit -a</span><br><span class="line">core file size          (blocks, -c) 0</span><br><span class="line">data seg size           (kbytes, -d) unlimited</span><br><span class="line">scheduling priority             (-e) 20</span><br><span class="line">file size               (blocks, -f) unlimited</span><br><span class="line">pending signals                 (-i) 16382</span><br><span class="line">max locked memory       (kbytes, -l) 64</span><br><span class="line">max memory size         (kbytes, -m) unlimited</span><br><span class="line">open files                      (-n) 1024  #打开文件数目限制</span><br><span class="line">pipe size            (512 bytes, -p) 8</span><br><span class="line">POSIX message queues     (bytes, -q) 819200</span><br><span class="line">real-time priority              (-r) 0</span><br><span class="line">stack size              (kbytes, -s) 8192</span><br><span class="line">cpu time               (seconds, -t) unlimited</span><br><span class="line">max user processes              (-u) unlimited</span><br><span class="line">virtual memory          (kbytes, -v) unlimited</span><br><span class="line">file locks                      (-x) unlimited</span><br></pre></td></tr></table></figure>
+<p>修改打开文件数目限制(临时)：<code>ulimit -n 2048</code><br>
+永久设置方法(<a href="https://blog.csdn.net/fdipzone/article/details/34588803" target="_blank" rel="noopener">参考</a>)：</p>
 <blockquote>
 <p><code>vim /etc/security/limits.conf</code>在最后加入:</p>
-<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;* soft nofile 4096</span><br><span class="line">&gt;* hard nofile 4096</span><br><span class="line">&gt;</span><br></pre></td></tr></tbody></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;* soft nofile 4096</span><br><span class="line">&gt;* hard nofile 4096</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
 </blockquote>
 <blockquote>
 <p>最前的 * 表示所有用户，可根据需要设置某一用户，例如:</p>
-<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;fdipzone soft nofile 8192</span><br><span class="line">&gt;fdipzone hard nofile 8192</span><br><span class="line">&gt;</span><br></pre></td></tr></tbody></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;fdipzone soft nofile 8192</span><br><span class="line">&gt;fdipzone hard nofile 8192</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
 </blockquote>
 <blockquote>
 <p>改完后注销一下就能生效。</p>
 </blockquote>
-<p> 查看某一进程打开进程数：<code>lsof -p pid | wc -l</code><br> 查看系统打开进程数：<code>lsof | wc -l</code></p>
+<p>查看某一进程打开进程数：<code>lsof -p pid | wc -l</code><br>
+查看系统打开进程数：<code>lsof | wc -l</code></p>
 </li>
-<li><p>网络因素<br>如果网络有其他人一起在用，可能出现网络波动，导致测试结果波动，或者<code>wrk</code>出现timeout。实际测试时，可以考虑单独直连网线。</p>
+<li>
+<p>网络因素<br>
+如果网络有其他人一起在用，可能出现网络波动，导致测试结果波动，或者<code>wrk</code>出现timeout。实际测试时，可以考虑单独直连网线。</p>
 </li>
-<li><p>大量timeout占用socket<br>可以通过<code>ss -ta | grep TIME-WAIT</code>命令查看是否有大量的time_wait。如果存在大量time_wait可通过配置<code> /etc/sysctl.conf</code>文件修改：</p>
-<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># Controls the use of TCP syncookies</span><br><span class="line">net.ipv4.tcp_syncookies = 1</span><br><span class="line"></span><br><span class="line"># The TIME-WAIT sockets for new connections can be reused</span><br><span class="line">net.ipv4.tcp_tw_reuse = 1</span><br><span class="line"></span><br><span class="line"># Enable fast recycling of TIME-WAIT sockets status</span><br><span class="line">net.ipv4.tcp_tw_recycle = 1</span><br><span class="line"></span><br><span class="line"># Decrease the time default value for tcp_fin_timeout connection</span><br><span class="line">net.ipv4.tcp_fin_timeout = 30</span><br></pre></td></tr></tbody></table></figure>
-
+<li>
+<p>大量timeout占用socket<br>
+可以通过<code>ss -ta | grep TIME-WAIT</code>命令查看是否有大量的time_wait。如果存在大量time_wait可通过配置<code> /etc/sysctl.conf</code>文件修改：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># Controls the use of TCP syncookies</span><br><span class="line">net.ipv4.tcp_syncookies = 1</span><br><span class="line"></span><br><span class="line"># The TIME-WAIT sockets for new connections can be reused</span><br><span class="line">net.ipv4.tcp_tw_reuse = 1</span><br><span class="line"></span><br><span class="line"># Enable fast recycling of TIME-WAIT sockets status</span><br><span class="line">net.ipv4.tcp_tw_recycle = 1</span><br><span class="line"></span><br><span class="line"># Decrease the time default value for tcp_fin_timeout connection</span><br><span class="line">net.ipv4.tcp_fin_timeout = 30</span><br></pre></td></tr></table></figure>
 <p>然后执行 <code>/sbin/sysctl -p</code> 让参数生效</p>
 </li>
-<li><p>系统IO<br>大量的系统IO会使程序性能降低很多，当然类似的mysql频繁读写也会(这里不谈)。<br><code>iotop</code>查看系统IO情况。<br>如果存在一些大量占用IO的情况，可通过<code>lsof -p &lt;pid&gt;</code>(或者<code>iostat </code>、<code>pidstat</code>都能达到相同效果)来确定进程关联的文件，是否有文件在进行大量读写操作。<br>如果上述没有找到可以文件，也可以通过<code>strace -p &lt;pid&gt;</code>来观察进程和系统的交互，来确定程序在哪里进行了大量IO操作。<a href="https://www.linuxidc.com/Linux/2018-01/150654.htm" target="_blank" rel="noopener">strace使用参考</a></p>
+<li>
+<p>系统IO<br>
+大量的系统IO会使程序性能降低很多，当然类似的mysql频繁读写也会(这里不谈)。<br>
+<code>iotop</code>查看系统IO情况。<br>
+如果存在一些大量占用IO的情况，可通过<code>lsof -p &lt;pid&gt;</code>(或者<code>iostat </code>、<code>pidstat</code>都能达到相同效果)来确定进程关联的文件，是否有文件在进行大量读写操作。<br>
+如果上述没有找到可以文件，也可以通过<code>strace -p &lt;pid&gt;</code>来观察进程和系统的交互，来确定程序在哪里进行了大量IO操作。<a href="https://www.linuxidc.com/Linux/2018-01/150654.htm" target="_blank" rel="noopener">strace使用参考</a></p>
 </li>
-<li><p>其他</p>
+<li>
+<p>其他</p>
 </li>
 </ol>
-<p>可根据项目重视的点来测试基准数据，并统计整理。<br>测试基准数据记录，除了基准的QPS，还要包括内存利用率，CPU利用率，网络带宽利用率，IO利用率这些基本情况。<a href="https://tlanyan.me/linux-traffic-commands/" target="_blank" rel="noopener">Linux查看网络流量</a></p>
-<h3 id="压测"><a href="#压测" class="headerlink" title="压测"></a>压测</h3><p>首先要<strong>确保环境的一致性</strong>，保证变量的单一性，不论环境，网络，系统配置都需要保持 一致。<br>简单示例结果：<br>|    |http+0k    |http+nk    |https+0k    |https+nk    |<br>|—|—|—|—|—|—|<br>|基准|    QPS:151455.19<br>CPU:93.6%<br>NET:125MB/s<br>IO:100KB/s<br>MEM:20%    |…    |…    |…    |<br>|project|    QPS:142234.19<br>CPU:97.8%<br>NET:122MB/s<br>IO:128KB/s<br>MEM:40%    |…    |…    |…    |<br>|结论|    …    |…    |…    |…    |</p>
+<p>可根据项目重视的点来测试基准数据，并统计整理。<br>
+测试基准数据记录，除了基准的QPS，还要包括内存利用率，CPU利用率，网络带宽利用率，IO利用率这些基本情况。<a href="https://tlanyan.me/linux-traffic-commands/" target="_blank" rel="noopener">Linux查看网络流量</a></p>
+<h3 id="压测"><a class="header-anchor" href="#压测"></a>压测</h3>
+<p>首先要<strong>确保环境的一致性</strong>，保证变量的单一性，不论环境，网络，系统配置都需要保持 一致。<br>
+简单示例结果：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>http+0k</th>
+<th>http+nk</th>
+<th>https+0k</th>
+<th>https+nk</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>基准</td>
+<td>QPS:151455.19<br>CPU:93.6%<br>NET:125MB/s<br>IO:100KB/s<br>MEM:20%</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+</tr>
+<tr>
+<td>project</td>
+<td>QPS:142234.19<br>CPU:97.8%<br>NET:122MB/s<br>IO:128KB/s<br>MEM:40%</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+</tr>
+<tr>
+<td>结论</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+</tr>
+</tbody>
+</table>
 
       
     </div>
@@ -776,7 +829,7 @@
 		  <span class="post-meta-item-text">本站总字数</span>
 		
 		<span title="本站总字数">
-		  36.6k
+		  36.8k
 		</span>
 	</div>
    

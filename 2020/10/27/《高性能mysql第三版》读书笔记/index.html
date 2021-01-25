@@ -96,19 +96,19 @@
 
 
 
-<meta name="description" content="学习一下mysql还是很有必要的(•̀⌄•́)　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan  以下内容都是根据书中的章节目录，并且根据自己的缺陷进行记录的。">
+<meta name="description" content="学习一下mysql还是很有必要的(•̀⌄•́) 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan  以下内容都是根据书中的章节目录，并且根据自己的缺陷进行记录的。">
 <meta name="keywords" content="mysql">
 <meta property="og:type" content="article">
 <meta property="og:title" content="《高性能mysql第三版》读书笔记">
 <meta property="og:url" content="http://yoursite.com/2020/10/27/《高性能mysql第三版》读书笔记/index.html">
 <meta property="og:site_name" content="JiHan&#39;s Blog">
-<meta property="og:description" content="学习一下mysql还是很有必要的(•̀⌄•́)　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan  以下内容都是根据书中的章节目录，并且根据自己的缺陷进行记录的。">
+<meta property="og:description" content="学习一下mysql还是很有必要的(•̀⌄•́) 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan  以下内容都是根据书中的章节目录，并且根据自己的缺陷进行记录的。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2020/10/27/《高性能mysql第三版》读书笔记/mysql%E6%9E%B6%E6%9E%84%E5%9B%BE.jpg">
 <meta property="og:updated_time" content="2020-11-05T08:10:26.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《高性能mysql第三版》读书笔记">
-<meta name="twitter:description" content="学习一下mysql还是很有必要的(•̀⌄•́)　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan  以下内容都是根据书中的章节目录，并且根据自己的缺陷进行记录的。">
+<meta name="twitter:description" content="学习一下mysql还是很有必要的(•̀⌄•́) 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan  以下内容都是根据书中的章节目录，并且根据自己的缺陷进行记录的。">
 <meta name="twitter:image" content="http://yoursite.com/2020/10/27/《高性能mysql第三版》读书笔记/mysql%E6%9E%B6%E6%9E%84%E5%9B%BE.jpg">
 
 
@@ -169,8 +169,6 @@
 
 
 
-
-<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -458,13 +456,29 @@
       
 
       
-        <p>学习一下mysql还是很有必要的(•̀⌄•́)<br>　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan</p>
+        <p>学习一下mysql还是很有必要的(•̀⌄•́)<br>
+　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan</p>
 <hr>
 <p><em>以下内容都是根据书中的章节目录，并且根据自己的缺陷进行记录的。</em></p>
 <a id="more"></a>
-
-<h3 id="第一章-mysql架构和历史"><a href="#第一章-mysql架构和历史" class="headerlink" title="第一章  mysql架构和历史"></a>第一章  mysql架构和历史</h3><p><strong>架构逻辑</strong>：<br>mysql将查询处理及其他系统任务和数据存储/提取进行分离<br><img src="/2020/10/27/《高性能mysql第三版》读书笔记/mysql%E6%9E%B6%E6%9E%84%E5%9B%BE.jpg"><br><em><a href="https://www.yinxiang.com/everhub/note/39051186-8641-4d49-852b-256cf80d3a22" target="_blank" rel="noopener">图片来源</a></em><br>存储引擎部分，仅仅是响应上层服务器请求，相互之间不会进行通信。<br>服务器会验证客户端密码或者证书，并且在认证通过后查询该客户端的权限。<br><strong>并发控制</strong>：<br>读写锁作为实现原理，锁的粒度作为性能的考量(锁的开销和安全性的平衡)，mysql提供了表锁和行级锁<br><strong>事务</strong>：<br>mysql中的一个原子性sql查询，或者独立工作单元<br>原子性，一致性，隔离性，持久性。<br>隔离级别：未提交读，提交读，可重复读，可串行读。<br>死锁：检测，死锁的循环依赖。解决，最少行级排他锁回滚。<br>事务日志：先将数据进行内存拷贝，再将需要进行的I/O读写操作写入到日志，由后台根据日志进行数据写入。如果数据本身还未写入磁盘，系统崩溃，相应的存储引擎也有相应的数据恢复策略。(怎么搞的？？)<br>mysql中默认自动提交，将每一次查询都当做一个事务提交。<br>事务是由存储引擎实现，如果使用多种存储引擎(事务型和非事务型)，会变得不可靠。</p>
-<p>**多版本并发控制(mvcc)**：</p>
+<h3 id="第一章-mysql架构和历史"><a class="header-anchor" href="#第一章-mysql架构和历史"></a>第一章  mysql架构和历史</h3>
+<p><strong>架构逻辑</strong>：<br>
+mysql将查询处理及其他系统任务和数据存储/提取进行分离<br>
+<img src="/2020/10/27/《高性能mysql第三版》读书笔记/mysql%E6%9E%B6%E6%9E%84%E5%9B%BE.jpg" alt><br>
+<em><a href="https://www.yinxiang.com/everhub/note/39051186-8641-4d49-852b-256cf80d3a22" target="_blank" rel="noopener">图片来源</a></em><br>
+存储引擎部分，仅仅是响应上层服务器请求，相互之间不会进行通信。<br>
+服务器会验证客户端密码或者证书，并且在认证通过后查询该客户端的权限。<br>
+<strong>并发控制</strong>：<br>
+读写锁作为实现原理，锁的粒度作为性能的考量(锁的开销和安全性的平衡)，mysql提供了表锁和行级锁<br>
+<strong>事务</strong>：<br>
+mysql中的一个原子性sql查询，或者独立工作单元<br>
+原子性，一致性，隔离性，持久性。<br>
+隔离级别：未提交读，提交读，可重复读，可串行读。<br>
+死锁：检测，死锁的循环依赖。解决，最少行级排他锁回滚。<br>
+事务日志：先将数据进行内存拷贝，再将需要进行的I/O读写操作写入到日志，由后台根据日志进行数据写入。如果数据本身还未写入磁盘，系统崩溃，相应的存储引擎也有相应的数据恢复策略。(怎么搞的？？)<br>
+mysql中默认自动提交，将每一次查询都当做一个事务提交。<br>
+事务是由存储引擎实现，如果使用多种存储引擎(事务型和非事务型)，会变得不可靠。</p>
+<p><strong>多版本并发控制(mvcc)</strong>：</p>
 
       
     </div>
@@ -737,7 +751,7 @@
 		  <span class="post-meta-item-text">本站总字数</span>
 		
 		<span title="本站总字数">
-		  36.6k
+		  36.8k
 		</span>
 	</div>
    

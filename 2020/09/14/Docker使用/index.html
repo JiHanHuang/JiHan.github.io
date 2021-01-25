@@ -96,17 +96,17 @@
 
 
 
-<meta name="description" content="苦于python环境的迁移，开始尝试使用docker来实现不同linux平台的环境搬迁。(•̀⌄•́)　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan  Docker官方参考教程1  参考教程2Docker Hub">
+<meta name="description" content="苦于python环境的迁移，开始尝试使用docker来实现不同linux平台的环境搬迁。(•̀⌄•́) 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan  Docker官方 参考教程1  参考教程2 Docker Hub">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Docker使用">
 <meta property="og:url" content="http://yoursite.com/2020/09/14/Docker使用/index.html">
 <meta property="og:site_name" content="JiHan&#39;s Blog">
-<meta property="og:description" content="苦于python环境的迁移，开始尝试使用docker来实现不同linux平台的环境搬迁。(•̀⌄•́)　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan  Docker官方参考教程1  参考教程2Docker Hub">
+<meta property="og:description" content="苦于python环境的迁移，开始尝试使用docker来实现不同linux平台的环境搬迁。(•̀⌄•́) 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan  Docker官方 参考教程1  参考教程2 Docker Hub">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2020-09-14T03:28:16.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Docker使用">
-<meta name="twitter:description" content="苦于python环境的迁移，开始尝试使用docker来实现不同linux平台的环境搬迁。(•̀⌄•́)　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan  Docker官方参考教程1  参考教程2Docker Hub">
+<meta name="twitter:description" content="苦于python环境的迁移，开始尝试使用docker来实现不同linux平台的环境搬迁。(•̀⌄•́) 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan  Docker官方 参考教程1  参考教程2 Docker Hub">
 
 
 
@@ -166,8 +166,6 @@
 
 
 
-
-<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -395,7 +393,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  769
+                  774
                 </span>
               
 
@@ -433,55 +431,70 @@
       
 
       
-        <p>苦于python环境的迁移，开始尝试使用docker来实现不同linux平台的环境搬迁。(•̀⌄•́)<br>　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan</p>
+        <p>苦于python环境的迁移，开始尝试使用docker来实现不同linux平台的环境搬迁。(•̀⌄•́)<br>
+　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan</p>
 <hr>
-<p><em><a href="https://www.docker.com/" target="_blank" rel="noopener">Docker官方</a></em><br><em><a href="https://www.runoob.com/docker/centos-docker-install.html" target="_blank" rel="noopener">参考教程1</a>  <a href="https://yeasy.gitbooks.io/docker_practice/install/mirror.html" target="_blank" rel="noopener">参考教程2</a></em><br><em><a href="https://hub.docker.com/" target="_blank" rel="noopener">Docker Hub</a></em></p>
+<p><em><a href="https://www.docker.com" target="_blank" rel="noopener">Docker官方</a></em><br>
+<em><a href="https://www.runoob.com/docker/centos-docker-install.html" target="_blank" rel="noopener">参考教程1</a>  <a href="https://yeasy.gitbooks.io/docker_practice/install/mirror.html" target="_blank" rel="noopener">参考教程2</a></em><br>
+<em><a href="https://hub.docker.com/" target="_blank" rel="noopener">Docker Hub</a></em></p>
 <a id="more"></a>
-
-<h3 id="创建基本镜像"><a href="#创建基本镜像" class="headerlink" title="创建基本镜像"></a>创建基本镜像</h3><p>我这儿的基础镜像是：<code>centos7+python3.7</code>  官方已经不支持centos7以下的版本了。<br>但是由于我想用这个基本镜像做开发，因此还根据我自己添加了其他的一些工具。<br>基本步骤如下<a href="https://docs.docker.com/install/linux/docker-ce/centos/" target="_blank" rel="noopener">参考</a>：<br><strong>脚本安装(懒人)：</strong></p>
-<figure class="highlight sh"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ curl -fsSL https://get.docker.com -o get-docker.sh</span><br><span class="line">$ sudo sh get-docker.sh</span><br></pre></td></tr></tbody></table></figure>
-
+<h3 id="创建基本镜像"><a class="header-anchor" href="#创建基本镜像"></a>创建基本镜像</h3>
+<p>我这儿的基础镜像是：<code>centos7+python3.7</code>  官方已经不支持centos7以下的版本了。<br>
+但是由于我想用这个基本镜像做开发，因此还根据我自己添加了其他的一些工具。<br>
+基本步骤如下<a href="https://docs.docker.com/install/linux/docker-ce/centos/" target="_blank" rel="noopener">参考</a>：<br>
+<strong>脚本安装(懒人)：</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ curl -fsSL https://get.docker.com -o get-docker.sh</span><br><span class="line">$ sudo sh get-docker.sh</span><br></pre></td></tr></table></figure>
 <p><strong>安装包安装(离线)：</strong></p>
 <ol>
-<li><p>下载安装包，这儿有三类安装包，保险都下：<a href="https://download.docker.com/linux/centos/7/x86_64/stable/Packages/" target="_blank" rel="noopener">https://download.docker.com/linux/centos/7/x86_64/stable/Packages/</a>  </p>
+<li>
+<p>下载安装包，这儿有三类安装包，保险都下：<a href="https://download.docker.com/linux/centos/7/x86_64/stable/Packages/" target="_blank" rel="noopener">https://download.docker.com/linux/centos/7/x86_64/stable/Packages/</a></p>
 </li>
-<li><p>安装：</p>
-<figure class="highlight sh"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo yum install /path/to/package.rpm</span><br></pre></td></tr></tbody></table></figure>
+<li>
+<p>安装：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo yum install /path/to/package.rpm</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>启动：</p>
-<figure class="highlight sh"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo systemctl start docker</span><br></pre></td></tr></tbody></table></figure>
+<li>
+<p>启动：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo systemctl start docker</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>验证：</p>
-<figure class="highlight sh"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo docker run hello-world</span><br></pre></td></tr></tbody></table></figure>
-
+<li>
+<p>验证：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo docker run hello-world</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
 <p><strong>社区版安装：</strong></p>
 <ol>
-<li><p>卸载旧版本docker</p>
-<figure class="highlight sh"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ sudo yum remove docker \</span><br><span class="line">               docker-client \</span><br><span class="line">               docker-client-latest \</span><br><span class="line">               docker-common \</span><br><span class="line">               docker-latest \</span><br><span class="line">               docker-latest-logrotate \</span><br><span class="line">               docker-logrotate \</span><br><span class="line">               docker-engine</span><br></pre></td></tr></tbody></table></figure>
+<li>
+<p>卸载旧版本docker</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ sudo yum remove docker \</span><br><span class="line">               docker-client \</span><br><span class="line">               docker-client-latest \</span><br><span class="line">               docker-common \</span><br><span class="line">               docker-latest \</span><br><span class="line">               docker-latest-logrotate \</span><br><span class="line">               docker-logrotate \</span><br><span class="line">               docker-engine</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>由于linux是社区版本(开源)，需要安装docker仓库，以便更新.</p>
-<figure class="highlight sh"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ sudo yum install -y yum-utils \</span><br><span class="line">     device-mapper-persistent-data \</span><br><span class="line">     lvm2</span><br></pre></td></tr></tbody></table></figure>
+<li>
+<p>由于linux是社区版本(开源)，需要安装docker仓库，以便更新.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ sudo yum install -y yum-utils \</span><br><span class="line">     device-mapper-persistent-data \</span><br><span class="line">     lvm2</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>设置仓库：</p>
-<figure class="highlight sh"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ sudo yum-config-manager \</span><br><span class="line">     --add-repo \</span><br><span class="line">     https://download.docker.com/linux/centos/docker-ce.repo</span><br></pre></td></tr></tbody></table></figure>
+<li>
+<p>设置仓库：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ sudo yum-config-manager \</span><br><span class="line">     --add-repo \</span><br><span class="line">     https://download.docker.com/linux/centos/docker-ce.repo</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>官网还有一些配置操作，我这儿做开发，基本用不到。跳过，直接安装。(如果网速慢，自行配置yum源)</p>
-<figure class="highlight sh"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo yum install docker-ce docker-ce-cli containerd.io</span><br></pre></td></tr></tbody></table></figure>
+<li>
+<p>官网还有一些配置操作，我这儿做开发，基本用不到。跳过，直接安装。(如果网速慢，自行配置yum源)</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo yum install docker-ce docker-ce-cli containerd.io</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>查看需要安装的版本：</p>
-<figure class="highlight sh"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ yum list docker-ce --showduplicates | sort -r</span><br><span class="line"> docker-ce.x86_64            3:19.03.5-3.el7                    docker-ce-stable </span><br><span class="line"> ...</span><br></pre></td></tr></tbody></table></figure>
+<li>
+<p>查看需要安装的版本：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ yum list docker-ce --showduplicates | sort -r</span><br><span class="line"> docker-ce.x86_64            3:19.03.5-3.el7                    docker-ce-stable </span><br><span class="line"> ...</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>安装docker：</p>
-<figure class="highlight sh"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo yum install docker-ce-&lt;VERSION_STRING&gt; docker-ce-cli-&lt;VERSION_STRING&gt; containerd.io</span><br><span class="line">$ sudo yum install docker-ce-19.03.5 docker-ce-cli-19.03.5 containerd.io</span><br></pre></td></tr></tbody></table></figure>
+<li>
+<p>安装docker：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo yum install docker-ce-&lt;VERSION_STRING&gt; docker-ce-cli-&lt;VERSION_STRING&gt; containerd.io</span><br><span class="line">$ sudo yum install docker-ce-19.03.5 docker-ce-cli-19.03.5 containerd.io</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>启动docker：</p>
-<figure class="highlight sh"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo systemctl start docker</span><br></pre></td></tr></tbody></table></figure>
+<li>
+<p>启动docker：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo systemctl start docker</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>检查安装是否成功：</p>
-<figure class="highlight sh"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo docker run hello-world</span><br></pre></td></tr></tbody></table></figure>
-
+<li>
+<p>检查安装是否成功：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo docker run hello-world</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
 <p><strong>创建镜像</strong></p>
@@ -489,30 +502,40 @@
 <li>最保险的方式，就是创建<code>系统+平台</code>这种镜像，但是缺点是镜像占用空间大。</li>
 <li>直接创建<code>平台</code>镜像，占用空间小，但是有可能在不同版本的系统上运行不畅。</li>
 </ol>
-<p>那么我们两种都试试。<br>老规矩，给docker hub加速，<a href="https://yeasy.gitbooks.io/docker_practice/install/mirror.html" target="_blank" rel="noopener">参考</a>：<br>Ubuntu 16.04+、Debian 8+、CentOS 7<br>对应<code>/etc/docker/daemon.json</code>文件中添加：</p>
-<figure class="highlight json"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">{</span><br><span class="line">  <span class="attr">"registry-mirrors"</span>: [</span><br><span class="line">    <span class="string">"https://dockerhub.azk8s.cn"</span>,</span><br><span class="line">    <span class="string">"https://hub-mirror.c.163.com"</span></span><br><span class="line">  ]</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
-
+<p>那么我们两种都试试。<br>
+老规矩，给docker hub加速，<a href="https://yeasy.gitbooks.io/docker_practice/install/mirror.html" target="_blank" rel="noopener">参考</a>：<br>
+Ubuntu 16.04+、Debian 8+、CentOS 7<br>
+对应<code>/etc/docker/daemon.json</code>文件中添加：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"registry-mirrors"</span>: [</span><br><span class="line">    <span class="string">"https://dockerhub.azk8s.cn"</span>,</span><br><span class="line">    <span class="string">"https://hub-mirror.c.163.com"</span></span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>重启服务：</p>
-<figure class="highlight sh"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo systemctl daemon-reload</span><br><span class="line">$ sudo systemctl restart docker</span><br></pre></td></tr></tbody></table></figure>
-
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo systemctl daemon-reload</span><br><span class="line">$ sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
 <ol>
-<li><p>系统+镜像  </p>
+<li>
+<p>系统+镜像</p>
 <ol>
-<li><p>上docker hub，注册（docker2jihan）</p>
-</li>
-<li><p>找个系统，我喜欢centos7，找个7.5纯净版的。<a href="https://hub.docker.com/_/centos?tab=tags" target="_blank" rel="noopener">官方镜像</a></p>
-<figure class="highlight sh"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ docker pull centos:centos7.5.1804</span><br><span class="line">$ docker images</span><br><span class="line">     REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">     centos              centos7.5.1804      cf49811e3cdb        9 months ago        200MB</span><br></pre></td></tr></tbody></table></figure>
-</li>
-<li><p>进入到相应该镜像：</p>
-<figure class="highlight sh"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker run -t -i centos:centos7.5.1804 /bin/bash</span><br><span class="line"> &lt;-i 参数后面跟镜像名:标签&gt;</span><br></pre></td></tr></tbody></table></figure>
-</li>
-<li><p>安装各种你所需要的东西，我这儿安装了常用命令，python等。宿主机到docker拷贝<code>docker cp .vimrc &lt;容器ID&gt;:/root/</code>，反正也一样。</p>
-</li>
-<li><p>制作镜像：</p>
-<figure class="highlight sh"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker commit -m=<span class="string">"init and conda"</span> -a=<span class="string">"jihan"</span> &lt;容器ID&gt; &lt;name&gt;:&lt;tag&gt;</span><br></pre></td></tr></tbody></table></figure>
-</li>
-<li><p>上传镜像或者导出镜像：<br>上传：<br>创建tag：<code>docker tag IMAGEID new_repository newTAG</code><br>登录验证：<code>docker login</code><br>上传docker hub：<code>docker push &lt;hub-user&gt;/&lt;repo-name&gt;:&lt;tag&gt;</code><br>导出：<br><code>docker save  &lt;repo-name&gt;:&lt;tag&gt; -o &lt;name&gt;.tar</code><br>导入：<br><code>docker import &lt;name&gt;.tar - &lt;repo-name&gt;:&lt;tag</code></p>
-</li>
+<li>上docker hub，注册（docker2jihan）</li>
+<li>找个系统，我喜欢centos7，找个7.5纯净版的。<a href="https://hub.docker.com/_/centos?tab=tags" target="_blank" rel="noopener">官方镜像</a></li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ docker pull centos:centos7.5.1804</span><br><span class="line">$ docker images</span><br><span class="line">     REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">     centos              centos7.5.1804      cf49811e3cdb        9 months ago        200MB</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>进入到相应该镜像：</li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker run -t -i centos:centos7.5.1804 /bin/bash</span><br><span class="line"> &lt;-i 参数后面跟镜像名:标签&gt;</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>安装各种你所需要的东西，我这儿安装了常用命令，python等。宿主机到docker拷贝<code>docker cp .vimrc &lt;容器ID&gt;:/root/</code>，反正也一样。</li>
+<li>制作镜像：</li>
+</ol>
+ <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker commit -m=<span class="string">"init and conda"</span> -a=<span class="string">"jihan"</span> &lt;容器ID&gt; &lt;name&gt;:&lt;tag&gt;</span><br></pre></td></tr></table></figure>
+<ol start="6">
+<li>上传镜像或者导出镜像：<br>
+上传：<br>
+创建tag：<code>docker tag IMAGEID new_repository newTAG</code><br>
+登录验证：<code>docker login</code><br>
+上传docker hub：<code>docker push &lt;hub-user&gt;/&lt;repo-name&gt;:&lt;tag&gt;</code><br>
+导出：<br>
+<code>docker save  &lt;repo-name&gt;:&lt;tag&gt; -o &lt;name&gt;.tar</code><br>
+导入：<br>
+<code>docker import &lt;name&gt;.tar - &lt;repo-name&gt;:&lt;tag</code></li>
 </ol>
 </li>
 </ol>
@@ -782,7 +805,7 @@
 		  <span class="post-meta-item-text">本站总字数</span>
 		
 		<span title="本站总字数">
-		  36.6k
+		  36.8k
 		</span>
 	</div>
    
