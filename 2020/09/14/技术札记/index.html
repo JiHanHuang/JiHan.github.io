@@ -106,7 +106,7 @@
 <meta property="og:image" content="http://yoursite.com/2020/09/14/技术札记/ssh%E5%85%8D%E5%AF%86%E7%99%BB%E5%BD%95%E5%8E%9F%E7%90%86.png">
 <meta property="og:image" content="http://yoursite.com/2020/09/14/技术札记/%E6%9F%A5%E6%89%BE%E4%B8%8E%E5%BD%93%E5%89%8D%E8%BF%9B%E7%A8%8B%E9%80%9A%E4%BF%A1%E7%9A%84%E6%89%80%E6%9C%89%E8%BF%9B%E7%A8%8B.jpg">
 <meta property="og:image" content="http://yoursite.com/2020/09/14/技术札记/linux%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84.jpg">
-<meta property="og:updated_time" content="2021-01-19T07:19:38.000Z">
+<meta property="og:updated_time" content="2021-02-04T08:05:53.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="技术札记">
 <meta name="twitter:description" content="谁知道这里面有多少小技巧，没准哪个能帮上你呢？(•̀⌄•́) 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan">
@@ -775,7 +775,7 @@ LD_LIBRARY_PATH环境变量：指定程序动态链接库文件搜索路径</p>
 <h3 id="有关linux下的目录"><a class="header-anchor" href="#有关linux下的目录"></a>有关linux下的目录</h3>
 <p><a href="#linux%E6%AD%BB%E4%BA%A1%E6%93%8D%E4%BD%9C">上述</a>有相关的linux目录结构，这里说明一下<code>/tmp</code>目录，在linux系统中，<code>/tmp</code>目录在一定周期或者重启等都有可能删除相应部分符合条件的文件。而删除方法是通过执行定时任务<code>/etc/cron.daily/tmpwatch</code>，此定时任务在系统最小安装的情况下，需要手动安装。</p>
 <h3 id="关于系统监控"><a class="header-anchor" href="#关于系统监控"></a>关于系统监控</h3>
-<p>相对大型系统，都需要进行系统监控。特别针对于微服务系统架构。个人理解需要从三个方面进行监控：</p>
+<p>相对大型系统，都需要进行系统监控。特别针对于微服务系统架构。个人理解需要从三个方面进行监控(另<a href="https://zhuanlan.zhihu.com/p/83654617" target="_blank" rel="noopener">可参考</a>)：</p>
 <ol>
 <li>业务逻辑层，负责统计业务访问状态，访问结果，异常等(常用方式log输出。比如syslog)——通常管理员用户都关注</li>
 <li>分布式链路追踪，又称为APM。用于追踪一个业务从开始到结束中间每个阶段的执行情况，用于多组件排错非常方便。(opentracing, Zipkin and Jaeger)——通常管理员关注</li>
@@ -916,7 +916,7 @@ LD_LIBRARY_PATH环境变量：指定程序动态链接库文件搜索路径</p>
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-count">26</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1056,7 +1056,7 @@ LD_LIBRARY_PATH环境变量：指定程序动态链接库文件搜索路径</p>
 		  <span class="post-meta-item-text">本站总字数</span>
 		
 		<span title="本站总字数">
-		  41.6k
+		  42.7k
 		</span>
 	</div>
    
