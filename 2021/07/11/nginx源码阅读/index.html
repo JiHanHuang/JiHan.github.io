@@ -1,0 +1,1466 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="JiHan's Blog" type="application/atom+xml">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="nginx源码阅读分析(•̀⌄•́) 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan  本人主要使用的nginx源码是nginx-1.0.15，以降低阅读难度，毕竟需要了解的是大体框架，和原理。最新的版本，代码量太大，没有必要。而本文的阅读方法，也按照基本使用-&amp;gt;代码内部实现逻辑-&amp;gt;相关联版块实现逻辑-&amp;gt;整体nginx逻辑框架的方法来写文档。最">
+<meta property="og:type" content="article">
+<meta property="og:title" content="nginx源码阅读">
+<meta property="og:url" content="http://yoursite.com/2021/07/11/nginx源码阅读/index.html">
+<meta property="og:site_name" content="JiHan&#39;s Blog">
+<meta property="og:description" content="nginx源码阅读分析(•̀⌄•́) 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan  本人主要使用的nginx源码是nginx-1.0.15，以降低阅读难度，毕竟需要了解的是大体框架，和原理。最新的版本，代码量太大，没有必要。而本文的阅读方法，也按照基本使用-&amp;gt;代码内部实现逻辑-&amp;gt;相关联版块实现逻辑-&amp;gt;整体nginx逻辑框架的方法来写文档。最">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2021/07/11/nginx源码阅读/nginx%E6%9E%B6%E6%9E%84.png">
+<meta property="og:updated_time" content="2021-08-15T08:39:21.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="nginx源码阅读">
+<meta name="twitter:description" content="nginx源码阅读分析(•̀⌄•́) 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan  本人主要使用的nginx源码是nginx-1.0.15，以降低阅读难度，毕竟需要了解的是大体框架，和原理。最新的版本，代码量太大，没有必要。而本文的阅读方法，也按照基本使用-&amp;gt;代码内部实现逻辑-&amp;gt;相关联版块实现逻辑-&amp;gt;整体nginx逻辑框架的方法来写文档。最">
+<meta name="twitter:image" content="http://yoursite.com/2021/07/11/nginx源码阅读/nginx%E6%9E%B6%E6%9E%84.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always","offset":12,"offset_float":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2021/07/11/nginx源码阅读/">
+
+
+
+
+
+  <title>nginx源码阅读 | JiHan's Blog</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-144130643-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">JiHan's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">随笔写写啦 (๑`･ᴗ･´๑)</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/07/11/nginx源码阅读/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiHan">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/touxiang.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiHan's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">nginx源码阅读</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-07-11T17:09:05+08:00">
+                2021-07-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/07/11/nginx源码阅读/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2021/07/11/nginx源码阅读/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 阅读次数
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  4.1k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  16
+                </span>
+              
+            </div>
+          
+			
+          
+
+        </div>
+      </header>
+    
+
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>nginx源码阅读分析(•̀⌄•́)<br>
+　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan</p>
+<hr>
+<p>本人主要使用的nginx源码是<a href="http://nginx.org/download/nginx-1.0.15.tar.gz" target="_blank" rel="noopener">nginx-1.0.15</a>，以降低阅读难度，毕竟需要了解的是大体框架，和原理。最新的版本，代码量太大，没有必要。而本文的阅读方法，也按照<strong>基本使用-&gt;代码内部实现逻辑-&gt;相关联版块实现逻辑-&gt;整体nginx逻辑框架</strong>的方法来写文档。最后会提出一个实际问题，通过阅读源码后来提出相应的解决方案。<br>
+有必要可以增加一个如何编写nginx的module的文章，单开篇，就不在这里写了。</p>
+<a id="more"></a>
+<h2 id="序"><a class="header-anchor" href="#序"></a>序</h2>
+<p>首先你必须要有一定的C功底，linux功底，以及初步了解过nginx最好也初步使用过，本文对于这几项会几乎略过，当然会给出一个基本使用示例。<br>
+由于本人也是才工作不久的新人，初次阅读源码，菜是自然的，有问题的地方，欢迎讨论。<br>
+其他：本文的客户端(浏览器)在windows上，使用Chrome；服务器在linux(centos 7.6)上，其他平台的编译执行请自行处理。</p>
+<h2 id="nginx应用示例"><a class="header-anchor" href="#nginx应用示例"></a>nginx应用示例</h2>
+<p>我们第一步很简单，先把它用起来。这里我们给出两个nginx的经典应用场景，1. 作为web服务器，即在服务器放一个html文件，然后浏览器通过nginx访问该html的网页。2. 作为反向代理，即在服务器A上安装一个nginx做反向代理到服务器B，客户端通过服务器A访问服务器B资源。我们先配置场景1<br>
+在此之前，先干下面的事情：</p>
+<ol>
+<li>下载nginx源码</li>
+<li>编译</li>
+<li>修改配置文件</li>
+<li>执行nginx，并测试场景1成功</li>
+</ol>
+<h3 id="源码下载编译"><a class="header-anchor" href="#源码下载编译"></a>源码下载编译</h3>
+<p>更加详细的编译和配置可以参考：<a href="https://zhuanlan.zhihu.com/p/92995126" target="_blank" rel="noopener">最全Nginx 配置文件详解及安装</a><br>
+下载：<a href="http://nginx.org/download/nginx-1.0.15.tar.gz" target="_blank" rel="noopener">nginx-1.0.15</a><br>
+编译：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">wget http://nginx.org/download/nginx-1.0.15.tar.gz</span><br><span class="line">tar -xzvf nginx-1.0.15.tar.gz</span><br><span class="line">cd nginx-1.0.15/</span><br><span class="line">./configure</span><br><span class="line">make</span><br></pre></td></tr></table></figure>
+<p>不出意外就成功了，如果有错误，自行解决。相应的可执行程序在<code>objs/nginx</code></p>
+<h3 id="配置场景"><a class="header-anchor" href="#配置场景"></a>配置场景</h3>
+<h4 id="环境准备"><a class="header-anchor" href="#环境准备"></a>环境准备</h4>
+<p>我们把刚刚编好的nginx可执行程序放到一个新目录：<code>nginx_learning</code><br>
+然后再拷贝一个默认的conf文件(习惯了用root直接搞，别学我):</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"># cp nginx-1.0.15/conf/ nginx_learning/ -rf</span><br><span class="line"># cp nginx-1.0.15/objs/nginx nginx_learning/</span><br><span class="line"># cd nginx_learning</span><br><span class="line"># mkdir logs /tmp/www</span><br><span class="line"># cd logs</span><br><span class="line"># touch error.log access.log</span><br><span class="line"># tree</span><br><span class="line">.</span><br><span class="line">|-- conf</span><br><span class="line">|   |-- fastcgi.conf</span><br><span class="line">|   |-- fastcgi_params</span><br><span class="line">|   |-- koi-utf</span><br><span class="line">|   |-- koi-win</span><br><span class="line">|   |-- mime.types</span><br><span class="line">|   |-- nginx.conf</span><br><span class="line">|   |-- scgi_params</span><br><span class="line">|   |-- uwsgi_params</span><br><span class="line">|   `-- win-utf</span><br><span class="line">|-- logs</span><br><span class="line">|   |-- access.log</span><br><span class="line">|   `-- error.log</span><br><span class="line">|-- nginx</span><br><span class="line">`-- www</span><br></pre></td></tr></table></figure>
+<p>这里的<code>www</code>是我建立的软连接，链接的<code>/tmp/www</code>方便我找(tmp目录下的数据可能被系统清掉，后面我换了/data目录)。<br>
+<em>注意：<code>www</code>目录放到其他位置，注意权限问题，可以通过<code>logs/error.log</code>查看。权限问题处理方式可参考：<a href="https://stackoverflow.com/questions/6795350/nginx-403-forbidden-for-all-files" target="_blank" rel="noopener">Nginx 403 forbidden for all files</a>，翻不了墙的同学，自行百度</em></p>
+<h4 id="修改配置文件"><a class="header-anchor" href="#修改配置文件"></a>修改配置文件</h4>
+<p>上述完成后，我们进行场景1和2的配置文件修改，得到<code>nginx.conf</code>如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line">#user  nobody;</span><br><span class="line">worker_processes  1;</span><br><span class="line"></span><br><span class="line">error_log  logs/error.log;</span><br><span class="line">#error_log  logs/error.log  notice;</span><br><span class="line">#error_log  logs/error.log  info;</span><br><span class="line"></span><br><span class="line">#pid        logs/nginx.pid;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">events &#123;</span><br><span class="line">    worker_connections  1024;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">http &#123;</span><br><span class="line">    include       mime.types;</span><br><span class="line">    default_type  application/octet-stream;</span><br><span class="line"></span><br><span class="line">    log_format  main  &apos;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &apos;</span><br><span class="line">                      &apos;$status $body_bytes_sent &quot;$http_referer&quot; &apos;</span><br><span class="line">                      &apos;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&apos;;</span><br><span class="line"></span><br><span class="line">    access_log  logs/access.log  main;</span><br><span class="line"></span><br><span class="line">    sendfile        on;</span><br><span class="line">    #tcp_nopush     on;</span><br><span class="line"></span><br><span class="line">    #keepalive_timeout  0;</span><br><span class="line">    keepalive_timeout  65;</span><br><span class="line"></span><br><span class="line">    #gzip  on;</span><br><span class="line"></span><br><span class="line">    server &#123;</span><br><span class="line">        listen       8080;</span><br><span class="line">        server_name  localhost;</span><br><span class="line"></span><br><span class="line">        #charset koi8-r;</span><br><span class="line"></span><br><span class="line">        #access_log  logs/host.access.log  main;</span><br><span class="line"></span><br><span class="line">        location / &#123;</span><br><span class="line">			root /tmp/www;</span><br><span class="line">            index  index.html index.htm;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        #error_page  404              /404.html;</span><br><span class="line"></span><br><span class="line">        # redirect server error pages to the static page /50x.html</span><br><span class="line">        #</span><br><span class="line">        error_page   500 502 503 504  /50x.html;</span><br><span class="line">        location = /50x.html &#123;</span><br><span class="line">            root   html;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        # proxy the PHP scripts to Apache listening on 127.0.0.1:80</span><br><span class="line">        #</span><br><span class="line">        location /proxy &#123;</span><br><span class="line">            proxy_pass   http://127.0.0.1:8000/;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>配置文件的<code>root</code>配置根据个人情况修改。</p>
+<h4 id="构建资源"><a class="header-anchor" href="#构建资源"></a>构建资源</h4>
+<p>然后我们在<code>www</code>目录下新建一个<code>index.html</code>文件，作为场景1的服务端资源：<br>
+index.html:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;h1&gt; Hello nginx &lt;/h1&gt;</span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">对于场景2，我们需要构建反向代理的后端服务，可以自己启动一个http的文件服务器。比如：</span><br></pre></td></tr></table></figure>
+<p>nohub python3 -m http.server --bind 127.0.0.1 8000 &amp;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">可以本地curl一下以验证启动效果：</span><br></pre></td></tr></table></figure>
+<p>curl <a href="http://127.0.0.1:8000" target="_blank" rel="noopener">http://127.0.0.1:8000</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">最后我们启动nginx：</span><br></pre></td></tr></table></figure>
+<p>nginx_learning/nginx -p /&lt;your_path&gt;/nginx_learning/</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">#### 测试效果</span><br><span class="line">我们可以看下场景1的展示效果：</span><br><span class="line">![场景1](./nginx源码阅读/场景1效果.png)</span><br><span class="line">我这里使用的是我自己的一个桩。访问效果如下：</span><br><span class="line">![场景2](./nginx源码阅读/场景2效果.png)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## 场景1源码实现</span><br><span class="line">我们上面已经实现了场景1和场景2的展示，那么现在开始分析场景1的流程。</span><br><span class="line">### 源码分析</span><br><span class="line">我们可以从main函数开始，一步一步的分析场景1是如何实现的。分析过程中，遇到变量结构太复杂可以先记录下来，跳过，等实际应用的时候再回头分析。记住，这时候我们的主要目的是梳理出整个执行逻辑，而不是细节，不必在对流程不重要的细节上花费太多时间，以阻碍主流程梳理进度。</span><br><span class="line">#### main函数</span><br><span class="line">**mian函数局部变量定义：**</span><br><span class="line">找到main函数，一开始就是四个数据结构：</span><br></pre></td></tr></table></figure>
+<pre><code>ngx_int_t         i;
+ngx_log_t        *log; //猜测用于日志记录
+ngx_cycle_t      *cycle, init_cycle; //猜测是个贯穿整个流程重要的数据结构，里面包含的东西很多，暂时不管
+ngx_core_conf_t  *ccf;//猜测配置相关内容，细节再说
+</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">可以大致看一看，猜测一下它们作用。大致看一下各个数据结构类型。我这里好奇它的[命名习惯](#nginx中的命名习惯)，因此初步进行梳理。`ngx_cycle_t`和`ngx_core_conf_t`结构有些多，后面梳理(你也可以提前看看[nginx中数据结构](#nginx中数据结构))。</span><br><span class="line">**初始化和参数分析：**</span><br><span class="line">1. `ngx_strerror_init`初始化了一个自己的errnum 列表。关于error number，有这样一个解释：[参考](https://blog.csdn.net/baishuwei/article/details/2535484)</span><br><span class="line">   &gt;在没有解释这些错误定义之前，先让我们看看为什么要知道这些常用error number？ 对于写C程序的人来说，errno并不是一个陌生的变量，无论你是在用户态还是在内核态。简短来说，errno是用来保存错误信息，这些信息反应了相应错误原因。因此，一个小小errno就可以连接user space programmer 与 kernel space programmers，可见其重要性。但是，我们的programmers确又常常忽略这些，他们往往只看中正确与错误，而不是去访问强大的errno获取更多的信息。对于普通的程序，为此可能仅仅是&quot;没关系，大不了可以重启&quot;。但是，对于一些重要的任务，重启可能意味着灾难的发生，尤其是在重要的领域。为此，这里我想给大家列出常见的errno，提醒大家在处理设备时，&quot;check errno when your routine failed!&quot;.</span><br><span class="line"></span><br><span class="line">   和[手册](https://man7.org/linux/man-pages/man3/errno.3.html)中的描述差距不大：</span><br><span class="line">   &gt;The &lt;errno.h&gt; header file defines the integer variable errno,</span><br><span class="line">       which is set by system calls and some library functions in the</span><br><span class="line">       event of an error to indicate what went wrong.</span><br><span class="line">2. `ngx_get_options`参数分析，nginx主要依赖配置文件，因此命令行参数很简单。</span><br><span class="line">3. `ngx_time_init`初始化nginx中时间记录格式。</span><br><span class="line">4. `ngx_regex_init`(可先跳过)</span><br><span class="line">5. `ngx_log_init`(可先跳过)</span><br><span class="line">6. `ngx_ssl_init`(可先跳过)</span><br><span class="line">7. `ngx_create_pool`知道是初始化内存池的就行。</span><br><span class="line">8. `ngx_save_argv`(可先跳过)</span><br><span class="line">9. `ngx_process_options`(可先跳过) </span><br><span class="line">10. `ngx_os_init`获取一些系统相关信息</span><br><span class="line">11. `ngx_crc32_table_init`(可先跳过)</span><br><span class="line">12. `ngx_add_inherited_sockets`(可先跳过)看起来像获取NGINX系统变量，然后干些事情，和主流程似乎不影响。毕竟有`inherited == NULL`这种判断</span><br><span class="line">13.  </span><br><span class="line">14. `ngx_init_cycle`这个玩意儿，里面包含了很多东西，粗看一眼，牵涉到系统socket监听，配置文件分析，和主流程是紧密相关，不能跳过了。看 一下其流程</span><br><span class="line">    1. 分配一些内存池，更新一些时间戳，以及一些链表。</span><br><span class="line">    2. `ngx_conf_param` 读取配置文件外的全局内容，实际工作方式调用`ngx_conf_parse`</span><br><span class="line">    3. `ngx_conf_parse(&amp;conf, &amp;cycle-&gt;conf_file)` 读取配置文件内容</span><br><span class="line">        1. `if (filename)` 判断是打开配置文件以及获取基本信息。</span><br><span class="line">        2. `for ( ;; )`中的`ngx_conf_read_token`进行每一个token的分析。这里1个`;`所包含的为一个token</span><br><span class="line">            1. 当找到完整的有用的单词，就会标记`found = 1`,然后进行下面的赋值处理：</span><br><span class="line">            ```c</span><br><span class="line">                if (found) &#123;</span><br><span class="line">                //每当找到一个可用配置，比如‘worker_processes  1;’</span><br><span class="line">                //就会先后将‘worker_processes’和‘1’放到cf-&gt;args中，</span><br><span class="line">                //至于这个ngx_array_t结构如何,待后续分析。TODO</span><br><span class="line">                word = ngx_array_push(cf-&gt;args);</span><br><span class="line">                if (word == NULL) &#123;</span><br><span class="line">                    return NGX_ERROR;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                //分配相应内存给数据</span><br><span class="line">                word-&gt;data = ngx_pnalloc(cf-&gt;pool, b-&gt;pos - start + 1);</span><br><span class="line">                if (word-&gt;data == NULL) &#123;</span><br><span class="line">                    return NGX_ERROR;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                //拷贝找到的值</span><br><span class="line">                for (dst = word-&gt;data, src = start, len = 0;</span><br><span class="line">                     src &lt; b-&gt;pos - 1;</span><br><span class="line">                     len++)&#123;</span><br><span class="line">                         ....</span><br><span class="line">                     &#125;</span><br><span class="line">                if (ch == &apos;;&apos;) &#123;</span><br><span class="line">                    return NGX_OK;</span><br><span class="line">                &#125;</span><br></pre></td></tr></table></figure>
+<pre><code>        2. `ngx_conf_handler`用于将命令行参数载入扩展module。TODO细节
+4. `for (i = 0; ngx_modules[i]; i++)` 赋值相应的配置变量给扩展的module
+5. `ngx_create_pathes`创建文件夹路径
+6. `part = &amp;cycle-&gt;open_files.part; file = part-&gt;elts; for (i = 0; /* void */ ; i++) {` 打开要用到的文件。
+7. `part = &amp;cycle-&gt;shared_memory.part; shm_zone = part-&gt;elts;`创建共享内存
+8. `if (old_cycle-&gt;listening.nelts)`赋值相关监听所需值
+9. `ngx_open_listening_sockets`启动监听
+10. 释放一些不用的内存，打开的文件，以及socket
+11. `failed`出错处理，配置回滚。
+</code></pre>
+<ol start="15">
+<li>
+<p><code>ngx_signal_process</code>(可先跳过)</p>
+</li>
+<li>
+<p><code>ngx_init_signals</code>注册信号量的回调函数，信号量和回调函数的关联关系在<code>signals</code>全局量中。控制相关标记位来间接控制master进程中的动作</p>
+</li>
+<li>
+<p><code>ngx_os_status</code>打印系统状态</p>
+</li>
+<li>
+<p>获取配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ccf = (ngx_core_conf_t *) ngx_get_conf(cycle-&gt;conf_ctx, ngx_core_module);</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>标识是否是master进程：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">if (ccf-&gt;master &amp;&amp; ngx_process == NGX_PROCESS_SINGLE) &#123;</span><br><span class="line">    ngx_process = NGX_PROCESS_MASTER;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><code>ngx_daemon</code>fork进程，具体操作后续继续阅读</p>
+</li>
+<li>
+<p><code>ngx_create_pidfile</code>创建pidfile</p>
+</li>
+<li>
+<p>创建worker进程或者master进程</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">if (ngx_process == NGX_PROCESS_SINGLE) &#123;</span><br><span class="line">    ngx_single_process_cycle(cycle);</span><br><span class="line"></span><br><span class="line">&#125; else &#123;</span><br><span class="line">    ngx_master_process_cycle(cycle);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p><strong>结构流程：</strong><br>
+从上面的函数大概分析，我们基本能够梳理出整个main函数的逻辑：</p>
+<pre class="mermaid">flowchart TD
+A(初始化errnum)
+B(解析命令行传入参数)
+C1(时间格式,SSL,内存池初始化)
+C2(获取系统的一些信息)
+C3(其他一些不影响的初始化)
+D1(读取解析额外配置)
+D2(读取解析配置文件)
+D3(赋值配置到module)
+D4(创建文件夹,打开需要使用的文件)
+D5(创建共享内存)
+D6(启动监听)
+D7(释放多余内存,文件,状态)
+D8(错误处理和配置回滚)
+E{标识是否为master}
+F1(创建子进程)
+F2(创建主进程)
+
+    subgraph C [其他初始化]
+        C1 --> C2 
+        C2 --> C3
+    end
+    subgraph D [初始化cycle]
+        D1 --> D2
+        D2 --> D3
+        D3 --> D4
+        D4 --OK--> D5
+        D5 --OK--> D6
+        D6 --OK--> D7
+        D7 --> D8
+        D6 --failed-->D8
+        D5 --failed-->D8
+        D4 --failed-->D8
+    end
+
+    A --> B
+    B --> C
+    C --> D
+    D -->E
+    E --否--> F1
+    E --是--> F2</pre>
+<p>从上述流程图，基本可以了解到主函数所做的工作。接下来就开始梳理master进程和worker进程分别做了什么工作。</p>
+<h4 id="master进程"><a class="header-anchor" href="#master进程"></a>master进程</h4>
+<ol>
+<li>注册许多的信号量，并设置成阻塞，延后处理。<a href="https://blog.csdn.net/ShaoLiang_Ge/article/details/57984123" target="_blank" rel="noopener">sigprocmask</a>函数讲解</li>
+<li>设置进程标记</li>
+<li><code>ngx_start_worker_processes</code>控制子进程启动(这里的fork干嘛用的？)
+<ol>
+<li><code>for ngx_get_cpu_affinity</code>循环子进程个数</li>
+<li><code>ngx_spawn_process</code>创建和子进程通信的套接字。
+<ol>
+<li><code>ngx_worker_process_cycle</code>回调函数，具体作用是解析收到的消息，放到状态机里处理。消息从何而来？未知，主要是fork函数作用？</li>
+</ol>
+</li>
+<li><code>ngx_pass_open_channel</code>往套接字里发送消息，消息转发给子进程。</li>
+</ol>
+</li>
+<li><code>ngx_start_cache_manager_processes</code>, 其抽象作用和<code>ngx_start_worker_processes</code>差不多，都是发送消息给子进程，只是功能作用上是进行cache的管理启动。主要调用的也是下面两个函数：
+<ol>
+<li><code>ngx_spawn_process</code> 内容是：‘cache manager process’</li>
+<li><code>ngx_pass_open_channel</code></li>
+</ol>
+</li>
+<li>主进程的主要<code>for ( ;; )</code>
+<ol>
+<li>是否进行delay
+<ol>
+<li>使用<code>setitimer</code>控制进程延时</li>
+</ol>
+</li>
+<li><code>sigsuspend</code>恢复之前的sigprocmask阻塞信号的处理</li>
+<li>根据接收到的信号(用户或系统发送)，修改标记位来控制相应的子进程，给子进程发送相应的信号，或者套接字消息(类似上面的ngx_start_worker_processes的方式)。<br>
+这里我们会疑惑，哪里修改的标记位？哪里接受处理的信号。全局搜索一下可以找到：设置接收信号的回调函数在<code>main</code>中的<code>ngx_init_signals</code>函数中完成，根据对应的信号量调用<code>ngx_signal_handler</code>函数来修改相应标记位。</li>
+</ol>
+</li>
+</ol>
+<h4 id="worker进程"><a class="header-anchor" href="#worker进程"></a>worker进程</h4>
+<ol>
+<li>设置环境变量，是nginx中的全局变量<code>environ</code></li>
+<li>执行<code>ngx_modules</code>中的<code>init_process</code>函数，也就是利用nginx中模块注册机制。</li>
+<li>主<code>for ( ;; )</code>循环。
+<ol>
+<li>
+<p><code>ngx_process_events_and_timers</code>非常核心的函数，包含了事件处理，和延时处理。<code>nginx</code>中所有事务都是围绕这个函数中事件处理来完成的。也就是利用了状态机的机制，每次事件的触发，执行触发的相应事件，就是在该函数中完成。</p>
+<ol>
+<li>timer初始化，如果ngx开了线程处理方式，则timer初始化和处理有所差异。</li>
+<li><code>ngx_process_events</code>核心函数。define为<code>ngx_event_actions.process_events</code>, <code>ngx_event_actions</code>是一个全局变量，这个全局变量可以注册不同的事件触发器模块(只能注册一个事件触发器，注册方式和普通模块注册一致)，比如你使用<code>epoll</code>做事件触发器，那么就使用<code>ngx_epool_module</code>中的事件触发器的<code>process_events</code>函数。而所有的事件都在<code>ngx_event.h</code>中有定义：</li>
+</ol>
+  <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">    <span class="keyword">ngx_int_t</span>  (*add)(<span class="keyword">ngx_event_t</span> *ev, <span class="keyword">ngx_int_t</span> event, <span class="keyword">ngx_uint_t</span> flags);</span><br><span class="line">    <span class="keyword">ngx_int_t</span>  (*del)(<span class="keyword">ngx_event_t</span> *ev, <span class="keyword">ngx_int_t</span> event, <span class="keyword">ngx_uint_t</span> flags);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">ngx_int_t</span>  (*enable)(<span class="keyword">ngx_event_t</span> *ev, <span class="keyword">ngx_int_t</span> event, <span class="keyword">ngx_uint_t</span> flags);</span><br><span class="line">    <span class="keyword">ngx_int_t</span>  (*disable)(<span class="keyword">ngx_event_t</span> *ev, <span class="keyword">ngx_int_t</span> event, <span class="keyword">ngx_uint_t</span> flags);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">ngx_int_t</span>  (*add_conn)(<span class="keyword">ngx_connection_t</span> *c);</span><br><span class="line">    <span class="keyword">ngx_int_t</span>  (*del_conn)(<span class="keyword">ngx_connection_t</span> *c, <span class="keyword">ngx_uint_t</span> flags);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">ngx_int_t</span>  (*process_changes)(<span class="keyword">ngx_cycle_t</span> *cycle, <span class="keyword">ngx_uint_t</span> nowait);</span><br><span class="line">    <span class="keyword">ngx_int_t</span>  (*process_events)(<span class="keyword">ngx_cycle_t</span> *cycle, <span class="keyword">ngx_msec_t</span> timer,</span><br><span class="line">                <span class="keyword">ngx_uint_t</span> flags);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">ngx_int_t</span>  (*init)(<span class="keyword">ngx_cycle_t</span> *cycle, <span class="keyword">ngx_msec_t</span> timer);</span><br><span class="line">    <span class="keyword">void</span>       (*done)(<span class="keyword">ngx_cycle_t</span> *cycle);</span><br><span class="line">&#125; <span class="keyword">ngx_event_actions_t</span>;</span><br></pre></td></tr></table></figure>
+<p>这里肯定有一些列的事件轮转机制，需要绘图列出TODO<br>
+3. 执行相应延时。<br>
+4. <code>posted_events</code>相应的事件还不清楚干啥用的TODO</p>
+</li>
+<li>
+<p>处理接收到的系统信号或者主进程信号：<code>ngx_terminate</code>,<code>ngx_quit</code>,<code>ngx_reconfigure</code>或<code>ngx_reopen</code>。这里面的所代表的功能都很好理解，细节需要的时候再看。</p>
+</li>
+</ol>
+</li>
+</ol>
+<h1>NEXT：</h1>
+<ol start="2">
+<li>事件轮转机制如何工作？可执行示例1来进行学习和说明。</li>
+</ol>
+<h4 id="nginx中的命名习惯"><a class="header-anchor" href="#nginx中的命名习惯"></a>nginx中的命名习惯</h4>
+<ol>
+<li>几乎所有的通用变量都使用ngx_xxx进行了重定义，比如<code>intptr_t-&gt;ngx_int_t</code>。至于<code>intptr_t</code>数据结构的解析，<a href="https://www.cnblogs.com/yinbiao/p/12566738.html" target="_blank" rel="noopener">可参考</a></li>
+<li>nginx中，_s结尾的都代表是定义的结构体，_t都代表在声明变量时需要使用的类型，比如：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">typedef struct ngx_log_s         ngx_log_t;</span><br><span class="line">struct ngx_log_s &#123; //_s用于定义结构</span><br><span class="line"> ngx_uint_t           log_level;</span><br><span class="line"> ngx_open_file_t     *file;</span><br><span class="line"> ...</span><br><span class="line"> &#125;;</span><br><span class="line"> ngx_log_t        *log;  //_t用于声明变量</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="nginx中数据结构"><a class="header-anchor" href="#nginx中数据结构"></a>nginx中数据结构</h4>
+<h4 id="nginx的数据共享"><a class="header-anchor" href="#nginx的数据共享"></a>nginx的数据共享</h4>
+<h4 id="nginx启动-找个地方来放着"><a class="header-anchor" href="#nginx启动-找个地方来放着"></a>nginx启动(找个地方来放着)</h4>
+<p>一开始，需要从程序如何启动来研究，而nginx启动后，我们可以看到两个进程，一个master，一个worker。这里涉及到nginx的大架构，引用网上一张图来表示(<a href="http://tengine.taobao.org/book/chapter_02.html" target="_blank" rel="noopener">图片来源</a>)：<br>
+<img src="/2021/07/11/nginx源码阅读/nginx%E6%9E%B6%E6%9E%84.png" alt="架构图"></p>
+<h3 id="分析验证"><a class="header-anchor" href="#分析验证"></a>分析验证</h3>
+<p>重新编译debug版本，来验证我们的猜想，或者使用gdb跟踪也是可以的。gdb跟踪更方便快捷，但是在多进程分析的时候，debug模式往往更方便。</p>
+<h3 id="整体流程图"><a class="header-anchor" href="#整体流程图"></a>整体流程图</h3>
+<h2 id="其他"><a class="header-anchor" href="#其他"></a>其他</h2>
+<h3 id="nginx中的一些骚操作"><a class="header-anchor" href="#nginx中的一些骚操作"></a>nginx中的一些骚操作</h3>
+<h4 id="内存节约"><a class="header-anchor" href="#内存节约"></a>内存节约</h4>
+<ol>
+<li><code>unsigned    recycled:1;</code><br>
+使用了<a href="https://www.runoob.com/cprogramming/c-bit-fields.html" target="_blank" rel="noopener">位域</a>的方法来减少内存的使用。<code>unsigned</code> == <code>unsigned int</code></li>
+</ol>
+<h3 id="参考"><a class="header-anchor" href="#参考"></a>参考</h3>
+<p><a href="http://tengine.taobao.org/book/index.html" target="_blank" rel="noopener">Nginx开发从入门到精通</a></p>
+<h4 id="可以列出相关的看过的书籍，或者问题参考链接网页一类的。"><a class="header-anchor" href="#可以列出相关的看过的书籍，或者问题参考链接网页一类的。"></a>可以列出相关的看过的书籍，或者问题参考链接网页一类的。</h4>
+<p>备注：<br>
+可以进行单独开帖：</p>
+<ol>
+<li>nginx中的一些骚操作</li>
+<li>nginx中数据结构</li>
+<li>nginx的数据共享</li>
+<li>nginx的模块机制
+<ol>
+<li>都可以在编译后的objs/ngx_modules.c查看哪些被注册。</li>
+<li>模块分为几大类：
+<ol>
+<li>事件模块，构建不同的事件触发框架，类似<code>epoll</code>, <code>poll</code>。这类模块不实现具体功能，只是配置不同的的事件触发器。</li>
+<li>功能模块，如http模块…</li>
+</ol>
+</li>
+<li>模块注册方式：
+<ol>
+<li>有configure来控制文件拷贝，进而控制全局变量<code>ngx_modules</code>和<code>ngx_event_actions</code>，以此达到模块注册效果。</li>
+<li>configure内容解析？？TODO</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>nginx中的events以及进程间通信</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+	<div>
+		
+			<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+		
+	</div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/07/10/《鲁迅全集》读书笔记/" rel="next" title="《鲁迅全集》读书笔记">
+                <i class="fa fa-chevron-left"></i> 《鲁迅全集》读书笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/07/17/《代码整洁之道》读书笔记/" rel="prev" title="《代码整洁之道》读书笔记">
+                《代码整洁之道》读书笔记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+		<div>
+		</div>
+    
+  </div>
+ 
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/touxiang.jpg" alt="JiHan">
+          <p class="site-author-name" itemprop="name">JiHan</p>
+           
+              <p class="site-description motion-element" itemprop="description">瘫着贼舒服</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">35</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/JiHanHuang/" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:Mr.JiHan.Mail@gmail.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                    
+                      E-Mail
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#序"><span class="nav-number">1.</span> <span class="nav-text">序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#nginx应用示例"><span class="nav-number">2.</span> <span class="nav-text">nginx应用示例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#源码下载编译"><span class="nav-number">2.1.</span> <span class="nav-text">源码下载编译</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置场景"><span class="nav-number">2.2.</span> <span class="nav-text">配置场景</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#环境准备"><span class="nav-number">2.2.1.</span> <span class="nav-text">环境准备</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修改配置文件"><span class="nav-number">2.2.2.</span> <span class="nav-text">修改配置文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#构建资源"><span class="nav-number">2.2.3.</span> <span class="nav-text">构建资源</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#master进程"><span class="nav-number">2.2.4.</span> <span class="nav-text">master进程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#worker进程"><span class="nav-number">2.2.5.</span> <span class="nav-text">worker进程</span></a></li></ol></li></ol></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#null"><span class="nav-number"></span> <span class="nav-text">NEXT：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#nginx中的命名习惯"><span class="nav-number">0.0.1.</span> <span class="nav-text">nginx中的命名习惯</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#nginx中数据结构"><span class="nav-number">0.0.2.</span> <span class="nav-text">nginx中数据结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#nginx的数据共享"><span class="nav-number">0.0.3.</span> <span class="nav-text">nginx的数据共享</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#nginx启动-找个地方来放着"><span class="nav-number">0.0.4.</span> <span class="nav-text">nginx启动(找个地方来放着)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分析验证"><span class="nav-number">0.1.</span> <span class="nav-text">分析验证</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#整体流程图"><span class="nav-number">0.2.</span> <span class="nav-text">整体流程图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他"><span class="nav-number">1.</span> <span class="nav-text">其他</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#nginx中的一些骚操作"><span class="nav-number">1.1.</span> <span class="nav-text">nginx中的一些骚操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#内存节约"><span class="nav-number">1.1.1.</span> <span class="nav-text">内存节约</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-number">1.2.</span> <span class="nav-text">参考</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#可以列出相关的看过的书籍，或者问题参考链接网页一类的。"><span class="nav-number">1.2.1.</span> <span class="nav-text">可以列出相关的看过的书籍，或者问题参考链接网页一类的。</span></a></li></ol></li></ol></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">JiHan</span>
+
+
+  
+	<div class="post-wordcount">
+		
+		  <span class="post-meta-divider">|</span>
+		
+		<span class="post-meta-item-icon">
+		  <i class="fa fa-area-chart"></i>
+		</span>
+		
+		  <span class="post-meta-item-text">本站总字数</span>
+		
+		<span title="本站总字数">
+		  65.3k
+		</span>
+	</div>
+   
+ </div>
+
+
+
+
+  <script src="https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js"></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({theme: 'forest'});
+    }
+  </script>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 本站访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'VgnMRYmQLHYX1MQApA7bN511-gzGzoHsz',
+        appKey: 'A37Y5jPoqc8cxMaOoNiXSh9s',
+        placeholder: '小伙子，我看你骨骼惊奇...',
+        avatar:'mp',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body>
+</html>

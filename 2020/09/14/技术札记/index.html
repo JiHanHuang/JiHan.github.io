@@ -106,7 +106,7 @@
 <meta property="og:image" content="http://yoursite.com/2020/09/14/技术札记/ssh%E5%85%8D%E5%AF%86%E7%99%BB%E5%BD%95%E5%8E%9F%E7%90%86.png">
 <meta property="og:image" content="http://yoursite.com/2020/09/14/技术札记/%E6%9F%A5%E6%89%BE%E4%B8%8E%E5%BD%93%E5%89%8D%E8%BF%9B%E7%A8%8B%E9%80%9A%E4%BF%A1%E7%9A%84%E6%89%80%E6%9C%89%E8%BF%9B%E7%A8%8B.jpg">
 <meta property="og:image" content="http://yoursite.com/2020/09/14/技术札记/linux%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84.jpg">
-<meta property="og:updated_time" content="2021-06-10T03:32:58.000Z">
+<meta property="og:updated_time" content="2021-08-19T03:29:05.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="技术札记">
 <meta name="twitter:description" content="谁知道这里面有多少小技巧，没准哪个能帮上你呢？(•̀⌄•́) 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan">
@@ -419,7 +419,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  4.9k
+                  5.3k
                 </span>
               
 
@@ -435,7 +435,7 @@
                   <span class="post-meta-item-text">阅读时长</span>
                 
                 <span title="阅读时长">
-                  19
+                  21
                 </span>
               
             </div>
@@ -760,8 +760,8 @@ LD_LIBRARY_PATH环境变量：指定程序动态链接库文件搜索路径</p>
 <p>对于排查链接问题方法：<br>
 <code>ldd &lt;your_lib&gt;</code>：查看可执行程序或者动态库运行时的链接库<br>
 <code>readelf -d &lt;your_lib&gt;</code>：和ldd类似，不用运行程序，查看可执行程序或动态库<a href="https://en.wikipedia.org/wiki/Executable_and_Linkable_Format" target="_blank" rel="noopener">ELF</a><br>
-<code>LD_DEBUG=libs ./&lt;your_exe&gt;</code>：查看程序执行时的动态库调度过程。<br>
-<code>ldconfig</code>：它会遍历默认所有共享库目录，比如/lib，/usr/lib等，然后更新所有的软链接，使她们指向最新共享库。</p>
+<code>LD_DEBUG=libs ./&lt;your_exe&gt;</code>：查看程序执行时的动态库调度过程。很有用。<br>
+<code>ldconfig</code>：它会遍历默认所有共享库目录，比如/lib，/usr/lib等，然后更新所有的软链接，使她们指向最新共享库。替换了新的动态库，有时需要使用该命令来清除<code>search cache</code></p>
 <p>指定动态库版本或路径：<br>
 <code>-Wl,-rpath,&lt;your_lib_path&gt;</code>: 指定程序运行时动态库链接路径。<br>
 将<code>-lxxx</code>直接修改为<code>/you/path/libxxx</code>，可以指定动态库的绝对路径。</p>
@@ -800,6 +800,32 @@ LD_LIBRARY_PATH环境变量：指定程序动态链接库文件搜索路径</p>
 如果是个人的环境变更，可以修改<code>~/.bash_profile</code>，如果需要执行一些公共方法，或者别名(alias)之类的，可以在<code>~/.bashrc</code>中增加。</li>
 </ol>
 <p><a href="https://blog.csdn.net/wackycrazy/article/details/47998747" target="_blank" rel="noopener">参考</a></p>
+<h3 id="设计模式的六大原则："><a class="header-anchor" href="#设计模式的六大原则："></a>设计模式的六大原则：</h3>
+<p><a href="http://www.uml.org.cn/sjms/201211023.asp" target="_blank" rel="noopener">参考</a><br>
+<strong>单一职责原则</strong>：<br>
+即一个类只负责一项职责<br>
+<strong>里氏替换原则</strong>：<br>
+类B继承类A时，除添加新的方法完成新增功能P2外，尽量不要重写父类A的方法，也尽量不要重载父类A的方法。<br>
+<strong>依赖倒置原则</strong>：<br>
+高层模块不应该依赖低层模块，二者都应该依赖其抽象；抽象不应该依赖细节；细节应该依赖抽象。<br>
+<strong>接口隔离原则</strong>：<br>
+一个模块不应该依赖它不需要的接口；一个类对另一个类的依赖应该建立在最小的接口上。<br>
+<strong>迪米特法则</strong>：<br>
+一个对象应该对其他对象保持最少的了解。<br>
+<strong>开闭原则</strong>：<br>
+一个软件实体如类、模块和函数应该对扩展开放，对修改关闭。<br>
+即：当软件需要变化时，尽量通过扩展软件实体的行为来实现变化，而不是通过修改已有的代码来实现变化。</p>
+<h3 id="mysql-bin-log："><a class="header-anchor" href="#mysql-bin-log："></a>mysql-bin-log：</h3>
+<ol>
+<li>只有特定版本以上支持binlog</li>
+<li>有三种binlog记录模式：row，statement，mixed。<a href="https://www.linuxidc.com/Linux/2018-08/153612.htm" target="_blank" rel="noopener">详情</a></li>
+<li><code>unknown variable 'default-character-set=utf8'</code>解决方法：增加参数<code>--no-defaults</code></li>
+<li>row模式下查看详细sql语句，在mysqlbinlog下增加<code>-v</code>参数。</li>
+<li>mysql5.7.30对应的mysqlbinlog版本是3.4，可以通过<code>mysqlbinlog --version</code>查看</li>
+<li>binlog的查看方式<a href="https://blog.csdn.net/nuli888/article/details/52117646" target="_blank" rel="noopener">参考</a></li>
+</ol>
+<h3 id="linux下载离线rpm包"><a class="header-anchor" href="#linux下载离线rpm包"></a>linux下载离线rpm包</h3>
+<p><a href="https://www.cnblogs.com/daodaotest/p/12452290.html#5" target="_blank" rel="noopener">https://www.cnblogs.com/daodaotest/p/12452290.html#5</a></p>
 
       
     </div>
@@ -926,7 +952,7 @@ LD_LIBRARY_PATH环境变量：指定程序动态链接库文件搜索路径</p>
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">32</span>
+                <span class="site-state-item-count">35</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1014,7 +1040,7 @@ LD_LIBRARY_PATH环境变量：指定程序动态链接库文件搜索路径</p>
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#ssh免密登录"><span class="nav-number">1.</span> <span class="nav-text">ssh免密登录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#VSCODE"><span class="nav-number">2.</span> <span class="nav-text">VSCODE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#C-段错误处理-Linux"><span class="nav-number">3.</span> <span class="nav-text">C 段错误处理(Linux)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进程运行状态查看"><span class="nav-number">4.</span> <span class="nav-text">进程运行状态查看</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#断言assert"><span class="nav-number">5.</span> <span class="nav-text">断言assert</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ipset源码技巧"><span class="nav-number">6.</span> <span class="nav-text">ipset源码技巧</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一些工具"><span class="nav-number">7.</span> <span class="nav-text">一些工具</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#go好用的开源组件"><span class="nav-number">8.</span> <span class="nav-text">go好用的开源组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Go技巧"><span class="nav-number">9.</span> <span class="nav-text">Go技巧</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#xrags"><span class="nav-number">10.</span> <span class="nav-text">xrags</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#shell调试"><span class="nav-number">11.</span> <span class="nav-text">shell调试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查找与当前进程通信的所有进程"><span class="nav-number">12.</span> <span class="nav-text">查找与当前进程通信的所有进程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#程序执行时的系统调用"><span class="nav-number">13.</span> <span class="nav-text">程序执行时的系统调用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#程序内存检测"><span class="nav-number">14.</span> <span class="nav-text">程序内存检测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux文件锁定"><span class="nav-number">15.</span> <span class="nav-text">Linux文件锁定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux-内核小版本升级"><span class="nav-number">16.</span> <span class="nav-text">Linux 内核小版本升级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#linux源码编译"><span class="nav-number">17.</span> <span class="nav-text">linux源码编译</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内核模块源码编译安装"><span class="nav-number">18.</span> <span class="nav-text">内核模块源码编译安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux-内核模块加载"><span class="nav-number">19.</span> <span class="nav-text">Linux 内核模块加载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux路由操作"><span class="nav-number">20.</span> <span class="nav-text">Linux路由操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mysql-性能优化"><span class="nav-number">21.</span> <span class="nav-text">mysql 性能优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sudo、su和sudo-s的差别"><span class="nav-number">22.</span> <span class="nav-text">sudo、su和sudo -s的差别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#relocation-error-usr-lib64-libc-so-6-symbol-dl-starting-up"><span class="nav-number">23.</span> <span class="nav-text">relocation error: /usr/lib64/libc.so.6: symbol _dl_starting_up,</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#linux死亡操作"><span class="nav-number">24.</span> <span class="nav-text">linux死亡操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Gcc静-动态链接库链接顺序"><span class="nav-number">25.</span> <span class="nav-text">Gcc静/动态链接库链接顺序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#有关linux下的目录"><span class="nav-number">26.</span> <span class="nav-text">有关linux下的目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于系统监控"><span class="nav-number">27.</span> <span class="nav-text">关于系统监控</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于软件项目方案评估"><span class="nav-number">28.</span> <span class="nav-text">关于软件项目方案评估</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tcpdump"><span class="nav-number">29.</span> <span class="nav-text">tcpdump</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#linux环境加载"><span class="nav-number">30.</span> <span class="nav-text">linux环境加载</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#ssh免密登录"><span class="nav-number">1.</span> <span class="nav-text">ssh免密登录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#VSCODE"><span class="nav-number">2.</span> <span class="nav-text">VSCODE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#C-段错误处理-Linux"><span class="nav-number">3.</span> <span class="nav-text">C 段错误处理(Linux)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进程运行状态查看"><span class="nav-number">4.</span> <span class="nav-text">进程运行状态查看</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#断言assert"><span class="nav-number">5.</span> <span class="nav-text">断言assert</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ipset源码技巧"><span class="nav-number">6.</span> <span class="nav-text">ipset源码技巧</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一些工具"><span class="nav-number">7.</span> <span class="nav-text">一些工具</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#go好用的开源组件"><span class="nav-number">8.</span> <span class="nav-text">go好用的开源组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Go技巧"><span class="nav-number">9.</span> <span class="nav-text">Go技巧</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#xrags"><span class="nav-number">10.</span> <span class="nav-text">xrags</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#shell调试"><span class="nav-number">11.</span> <span class="nav-text">shell调试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查找与当前进程通信的所有进程"><span class="nav-number">12.</span> <span class="nav-text">查找与当前进程通信的所有进程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#程序执行时的系统调用"><span class="nav-number">13.</span> <span class="nav-text">程序执行时的系统调用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#程序内存检测"><span class="nav-number">14.</span> <span class="nav-text">程序内存检测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux文件锁定"><span class="nav-number">15.</span> <span class="nav-text">Linux文件锁定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux-内核小版本升级"><span class="nav-number">16.</span> <span class="nav-text">Linux 内核小版本升级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#linux源码编译"><span class="nav-number">17.</span> <span class="nav-text">linux源码编译</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内核模块源码编译安装"><span class="nav-number">18.</span> <span class="nav-text">内核模块源码编译安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux-内核模块加载"><span class="nav-number">19.</span> <span class="nav-text">Linux 内核模块加载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux路由操作"><span class="nav-number">20.</span> <span class="nav-text">Linux路由操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mysql-性能优化"><span class="nav-number">21.</span> <span class="nav-text">mysql 性能优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sudo、su和sudo-s的差别"><span class="nav-number">22.</span> <span class="nav-text">sudo、su和sudo -s的差别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#relocation-error-usr-lib64-libc-so-6-symbol-dl-starting-up"><span class="nav-number">23.</span> <span class="nav-text">relocation error: /usr/lib64/libc.so.6: symbol _dl_starting_up,</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#linux死亡操作"><span class="nav-number">24.</span> <span class="nav-text">linux死亡操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Gcc静-动态链接库链接顺序"><span class="nav-number">25.</span> <span class="nav-text">Gcc静/动态链接库链接顺序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#有关linux下的目录"><span class="nav-number">26.</span> <span class="nav-text">有关linux下的目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于系统监控"><span class="nav-number">27.</span> <span class="nav-text">关于系统监控</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于软件项目方案评估"><span class="nav-number">28.</span> <span class="nav-text">关于软件项目方案评估</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tcpdump"><span class="nav-number">29.</span> <span class="nav-text">tcpdump</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#linux环境加载"><span class="nav-number">30.</span> <span class="nav-text">linux环境加载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设计模式的六大原则："><span class="nav-number">31.</span> <span class="nav-text">设计模式的六大原则：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mysql-bin-log："><span class="nav-number">32.</span> <span class="nav-text">mysql-bin-log：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#linux下载离线rpm包"><span class="nav-number">33.</span> <span class="nav-text">linux下载离线rpm包</span></a></li></ol></div>
             
 
           </div>
@@ -1066,7 +1092,7 @@ LD_LIBRARY_PATH环境变量：指定程序动态链接库文件搜索路径</p>
 		  <span class="post-meta-item-text">本站总字数</span>
 		
 		<span title="本站总字数">
-		  55.2k
+		  65.3k
 		</span>
 	</div>
    
