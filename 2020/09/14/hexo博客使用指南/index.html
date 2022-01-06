@@ -1,0 +1,1478 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="工具,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="JiHan's Blog" type="application/atom+xml">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="久了不更新博客，就不知道怎么搞环境了，换了环境又得查。索性自己写个简单的(•̀⌄•́) 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan">
+<meta name="keywords" content="工具">
+<meta property="og:type" content="article">
+<meta property="og:title" content="hexo博客使用指南">
+<meta property="og:url" content="http://yoursite.com/2020/09/14/hexo博客使用指南/index.html">
+<meta property="og:site_name" content="JiHan&#39;s Blog">
+<meta property="og:description" content="久了不更新博客，就不知道怎么搞环境了，换了环境又得查。索性自己写个简单的(•̀⌄•́) 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2021-08-24T02:50:03.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="hexo博客使用指南">
+<meta name="twitter:description" content="久了不更新博客，就不知道怎么搞环境了，换了环境又得查。索性自己写个简单的(•̀⌄•́) 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always","offset":12,"offset_float":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/09/14/hexo博客使用指南/">
+
+
+
+
+
+  <title>hexo博客使用指南 | JiHan's Blog</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-144130643-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">JiHan's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">随笔写写啦 (๑`･ᴗ･´๑)</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/09/14/hexo博客使用指南/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiHan">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/touxiang.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiHan's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">hexo博客使用指南</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-09-14T09:45:23+08:00">
+                2020-09-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术杂谈/" itemprop="url" rel="index">
+                    <span itemprop="name">技术杂谈</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/09/14/hexo博客使用指南/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/09/14/hexo博客使用指南/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 阅读次数
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  2.6k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  11
+                </span>
+              
+            </div>
+          
+			
+          
+
+        </div>
+      </header>
+    
+
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>久了不更新博客，就不知道怎么搞环境了，换了环境又得查。索性自己写个简单的(•̀⌄•́)<br>
+　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan</p>
+<hr>
+<a id="more"></a>
+<p>可根据自己的需求进行快速定位，本文对应的发布环境是GitHub</p>
+<h3 id="从0-1搭建hexo网站"><a class="header-anchor" href="#从0-1搭建hexo网站"></a>从0-1搭建hexo网站</h3>
+<p>我就不做copper了，直接上链接：<br>
+<a href="https://godweiyang.com/2018/04/13/hexo-blog/" target="_blank" rel="noopener">超详细Hexo+Github博客搭建小白教程</a><br>
+<a href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">hexo主题next</a>（我自己用的）<br>
+<a href="https://www.zhihu.com/question/24422335" target="_blank" rel="noopener">hexo主题推荐</a><br>
+<a href="https://www.jianshu.com/p/3ff20be8574c" target="_blank" rel="noopener">hexo主题美化1</a><br>
+<a href="https://blog.csdn.net/nightmare_dimple/article/details/86661502" target="_blank" rel="noopener">hexo主题美化2</a><br>
+<a href="https://valine.js.org/" target="_blank" rel="noopener">评论系统</a></p>
+<h3 id="已有博客，环境迁移"><a class="header-anchor" href="#已有博客，环境迁移"></a>已有博客，环境迁移</h3>
+<p>主要是相应环境安装：</p>
+<ol>
+<li>
+<p>node.js <a href="https://nodejs.org/zh-cn/download/releases/" target="_blank" rel="noopener">官方下载</a>, 我这里选择的是12.x的版本。<br>
+windows直接点安装<br>
+Linux下载解压后，配置路径<code>export PATH=$PATH:xxxx/node-v14.10.0-linux-x64/bin</code></p>
+</li>
+<li>
+<p>git安装<br>
+windows直接点安装<br>
+Liunx <code>sudo yum install git</code>或<code>sudo apt install git</code></p>
+</li>
+<li>
+<p>安装hexo</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">npm i hexo-cli -g</span><br><span class="line"></span><br><span class="line"> #配置git扩展，在你自己的博客里肯定已经配置了项目地址关联</span><br><span class="line">npm i hexo-deployer-git</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>可能有必要<br>
+如果项目里没有node_modules文件夹，需要到博客根目录重新安装一波：<code>npm install</code></p>
+</li>
+</ol>
+<h3 id="已有环境，新发文"><a class="header-anchor" href="#已有环境，新发文"></a>已有环境，新发文</h3>
+<p>发文常用命令(通常都是顺序执行)：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 新建文章</span><br><span class="line">hexo new post &quot;article title&quot;</span><br><span class="line"># 生成博客网页文件</span><br><span class="line">hexo g  </span><br><span class="line"># 本地预览博客</span><br><span class="line">hexo s  </span><br><span class="line">hexo s -i 0.0.0.0 -p 8080 #指定监听地址端口</span><br><span class="line"># 上传网页文件到github</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
+<p>博客源码备份：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">git add -u</span><br><span class="line">git commit -m &quot;new post&quot;</span><br><span class="line">git push</span><br></pre></td></tr></table></figure>
+<h3 id="常用Markdown语法"><a class="header-anchor" href="#常用Markdown语法"></a>常用Markdown语法</h3>
+<p>主要针对GitHub，参考<a href="https://docs.github.com/cn/free-pro-team@latest/github/writing-on-github/basic-writing-and-formatting-syntax" target="_blank" rel="noopener">官方文档</a><br>
+<em>注意语法中的空格</em></p>
+<h4 id="标题"><a class="header-anchor" href="#标题"></a>标题</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 最大标题</span><br><span class="line">## 第二大标题</span><br><span class="line">###### 最小标题</span><br></pre></td></tr></table></figure>
+<h4 id="样式文本"><a class="header-anchor" href="#样式文本"></a>样式文本</h4>
+<table>
+<thead>
+<tr>
+<th>样式</th>
+<th>语法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>粗体</td>
+<td>** ** 或 __ __</td>
+</tr>
+<tr>
+<td>斜体</td>
+<td>* * 或 _ _</td>
+</tr>
+<tr>
+<td>删除线</td>
+<td>~~ ~~</td>
+</tr>
+<tr>
+<td>粗体和嵌入的斜体</td>
+<td>** ** 和 _ _</td>
+</tr>
+<tr>
+<td>全部粗体和斜体</td>
+<td>*** ***</td>
+</tr>
+</tbody>
+</table>
+<h4 id="引用文本"><a class="header-anchor" href="#引用文本"></a>引用文本</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; 引用的文本</span><br></pre></td></tr></table></figure>
+<h4 id="引用代码"><a class="header-anchor" href="#引用代码"></a>引用代码</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">`单行代码引用`</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">```json(代码类型)</span><br><span class="line"> 多行代码引用</span><br><span class="line">```</span><br></pre></td></tr></table></figure>
+<p>如果想在代码块中显示```, 只需要外层的` 比内层的多即可：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">```` 代码块标识</span><br><span class="line">```json</span><br><span class="line">显示的代码</span><br><span class="line">```</span><br><span class="line">````</span><br></pre></td></tr></table></figure>
+<h4 id="链接"><a class="header-anchor" href="#链接"></a>链接</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[普通链接](https://jihanhuang.github.io/)</span><br><span class="line">![图片链接](./技术札记/ssh免密登录原理.png)</span><br><span class="line">[下载链接](./《mysql必知必会》读书笔记/mysql_scripts.zip)</span><br><span class="line">[文章导航链接](#已有博客环境迁移)</span><br></pre></td></tr></table></figure>
+<h4 id="列表"><a class="header-anchor" href="#列表"></a>列表</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1. James Madison</span><br><span class="line">2. James Monroe</span><br><span class="line">3. John Quincy Adams</span><br></pre></td></tr></table></figure>
+<p><code>*</code>或<code>-</code>都可以</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- George Washington</span><br><span class="line">- John Adams</span><br><span class="line">- Thomas Jefferson</span><br></pre></td></tr></table></figure>
+<p>嵌套(子列表的<code>-</code>需在父列表的第一个字下)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1. 第一个列表项</span><br><span class="line">   -  第一个嵌套列表项</span><br><span class="line">     - 第二个嵌套列表项</span><br></pre></td></tr></table></figure>
+<p>任务：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- [x] 完成更改</span><br><span class="line">- [ ] 推送提交到 GitHub</span><br><span class="line">- [ ] 打开拉取请求</span><br><span class="line">- [ ] \(Optional) 规避[]后的()</span><br></pre></td></tr></table></figure>
+<h4 id="表格"><a class="header-anchor" href="#表格"></a>表格</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">|列标题	|列标题|</span><br><span class="line">|---|---|</span><br><span class="line">|数据11|	数据21 &lt;br&gt; br表示换行	|</span><br><span class="line">|数据12|	数据22	|</span><br></pre></td></tr></table></figure>
+<h4 id="绘图"><a class="header-anchor" href="#绘图"></a>绘图</h4>
+<p>hexo自身都不支持Markdown标准绘图和Mermaid。需要进行配置：<br>
+执行以下命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm install --save hexo-filter-mermaid-diagrams</span><br><span class="line">npm install --save hexo-filter-sequence</span><br><span class="line">npm install --save hexo-filter-flowchart</span><br></pre></td></tr></table></figure>
+<p>Mermaid配置可以阅读：<a href="https://tyloafer.github.io/posts/7790/" target="_blank" rel="noopener">Hexo中引入Mermaid流程图</a>，引用部分如下：</p>
+<blockquote>
+<p>Mermaid还需要进行配置(根目录下_config.yml)，增加如下内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&gt; # mermaid chart</span><br><span class="line">&gt; mermaid: ## mermaid url https://github.com/knsv/mermaid</span><br><span class="line">&gt;   enable: true  # default true</span><br><span class="line">&gt;   version: &quot;7.1.2&quot; # default v7.1.2</span><br><span class="line">&gt;   options:  # find more api options from https://github.com/knsv/mermaid/blob/master/src/mermaidAPI.js</span><br><span class="line">&gt;     #startOnload: true  // default true</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<blockquote>
+<p>以及修改js，我这里使用的是<code>next</code>主题。在文件<code>themes/next/layout/_partials/footer.swig</code>后&gt;加上：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&gt; &#123;% if (theme.mermaid.enable)  %&#125;</span><br><span class="line">&gt;   &lt;script src=&apos;https://unpkg.com/mermaid@&#123;&#123; theme.mermaid.version &#125;&#125;/dist/mermaid.min.js&apos;&gt;&lt;/script&gt;</span><br><span class="line">&gt;   &lt;script&gt;</span><br><span class="line">&gt;     if (window.mermaid) &#123;</span><br><span class="line">&gt;       mermaid.initialize(&#123;theme: &apos;forest&apos;&#125;);</span><br><span class="line">&gt;     &#125;</span><br><span class="line">&gt;   &lt;/script&gt;</span><br><span class="line">&gt; &#123;% endif %&#125;</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>语法绘图：<br>
+graphviz：较为复杂，特别是时序图，但功能强大。<a href="https://sketchviz.com/new" target="_blank" rel="noopener">graphviz在线绘图</a>，<a href="https://onlookerliu.github.io/2017/12/28/dot%E8%AF%AD%E6%B3%95%E6%80%BB%E7%BB%93/#1-%E7%AE%80%E4%BB%8B" target="_blank" rel="noopener">graphviz dot语法总结</a><br>
+plantuml：绘图风格单一(个人不觉得丑)，但画时序图很快，模板多，本体使用需要java支持。<a href="https://www.planttext.com/" target="_blank" rel="noopener">plantmul在线绘图</a>：多个模板供选择。能接受画面的，还是推荐使用<br>
+Mermaid：功能简单，绘图较快，美观度还可以，很多Markdown编辑器都支持。<a href="https://mermaid-js.github.io/mermaid/#/" target="_blank" rel="noopener">语法</a>，个人使用感觉功能太少(可能是插件支持不友好)</p>
+<h5 id="示例"><a class="header-anchor" href="#示例"></a>示例</h5>
+<p><em><a href="https://www.runoob.com/markdown/md-advance.html" target="_blank" rel="noopener">来源</a></em></p>
+<p><strong>Mermaid：</strong><br>
+<a href="https://mermaid-js.github.io/mermaid/#/" target="_blank" rel="noopener">语法</a><br>
+流程图：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">```&lt;添加标签：mermaid&gt;</span><br><span class="line">graph TD</span><br><span class="line">A[方形] --&gt; B(圆角)</span><br><span class="line">    B --&gt; C&#123;条件a&#125;</span><br><span class="line">    C --&gt; |a=1| D[结果1]</span><br><span class="line">    C --&gt; |a=2| E[结果2]</span><br><span class="line">    F[竖向流程图]</span><br><span class="line">```</span><br></pre></td></tr></table></figure>
+<p>效果：</p>
+<pre class="mermaid">graph TD
+A[方形] --> B(圆角)
+    B --> C{条件a}
+    C --> |a=1| D[结果1]
+    C --> |a=2| E[结果2]
+    F[竖向流程图]</pre>
+<p>UML样例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">```&lt;添加标签：mermaid&gt;</span><br><span class="line">  sequenceDiagram</span><br><span class="line">    participant 张三</span><br><span class="line">    participant 李四</span><br><span class="line">    张三-&gt;王五: 王五你好吗？</span><br><span class="line">    loop 健康检查</span><br><span class="line">        王五-&gt;王五: 与疾病战斗</span><br><span class="line">    end</span><br><span class="line">    Note right of 王五: 合理 食物 &lt;br/&gt;看医生...</span><br><span class="line">    李四--&gt;&gt;张三: 很好!</span><br><span class="line">    王五-&gt;李四: 你怎么样?</span><br><span class="line">    李四--&gt;王五: 很好!</span><br><span class="line">```</span><br></pre></td></tr></table></figure>
+<p>效果：</p>
+<pre class="mermaid">  sequenceDiagram
+    participant 张三
+    participant 李四
+    张三->王五: 王五你好吗？
+    loop 健康检查
+        王五->王五: 与疾病战斗
+    end
+    Note right of 王五: 合理 食物 <br>看医生...
+    李四-->>张三: 很好!
+    王五->李四: 你怎么样?
+    李四-->王五: 很好!</pre>
+<p>甘特图：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">````&lt;添加标签：mermaid&gt;</span><br><span class="line">      gantt</span><br><span class="line">        dateFormat  YYYY-MM-DD</span><br><span class="line">        title 软件开发甘特图</span><br><span class="line">        section 设计</span><br><span class="line">        需求                      :done,    des1, 2014-01-06,2014-01-08</span><br><span class="line">        原型                      :active,  des2, 2014-01-09, 3d</span><br><span class="line">        UI设计                     :         des3, after des2, 5d</span><br><span class="line">    未来任务                     :         des4, after des3, 5d</span><br><span class="line">        section 开发</span><br><span class="line">        学习准备理解需求                      :crit, done, 2014-01-06,24h</span><br><span class="line">        设计框架                             :crit, done, after des2, 2d</span><br><span class="line">        开发                                 :crit, active, 3d</span><br><span class="line">        未来任务                              :crit, 5d</span><br><span class="line">        耍                                   :2d</span><br><span class="line">        section 测试</span><br><span class="line">        功能测试                              :active, a1, after des3, 3d</span><br><span class="line">        压力测试                               :after a1  , 20h</span><br><span class="line">        测试报告                               : 48h</span><br><span class="line">````</span><br></pre></td></tr></table></figure>
+<p>效果：</p>
+<pre class="mermaid">      gantt
+        dateFormat  YYYY-MM-DD
+        title 软件开发甘特图
+        section 设计
+        需求                      :done,    des1, 2014-01-06,2014-01-08
+        原型                      :active,  des2, 2014-01-09, 3d
+        UI设计                     :         des3, after des2, 5d
+    未来任务                     :         des4, after des3, 5d
+        section 开发
+        学习准备理解需求                      :crit, done, 2014-01-06,24h
+        设计框架                             :crit, done, after des2, 2d
+        开发                                 :crit, active, 3d
+        未来任务                              :crit, 5d
+        耍                                   :2d
+        section 测试
+        功能测试                              :active, a1, after des3, 3d
+        压力测试                               :after a1  , 20h
+        测试报告                               : 48h</pre>
+<p><strong>Markdown标准支持：</strong><br>
+流程图：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">``` &lt;添加标签：flow&gt;</span><br><span class="line">st=&gt;start: 开始框</span><br><span class="line">op=&gt;operation: 处理框</span><br><span class="line">cond=&gt;condition: 判断框(是或否?)</span><br><span class="line">sub1=&gt;subroutine: 子流程</span><br><span class="line">io=&gt;inputoutput: 输入输出框</span><br><span class="line">e=&gt;end: 结束框</span><br><span class="line">st-&gt;op-&gt;cond</span><br><span class="line">cond(yes)-&gt;io-&gt;e</span><br><span class="line">cond(no)-&gt;sub1(right)-&gt;op</span><br><span class="line">```</span><br></pre></td></tr></table></figure>
+<p>效果：</p>
+<div id="flowchart-0" class="flow-chart"></div>
+<p>流程图(横向)：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">```&lt;添加标签：flow&gt;</span><br><span class="line">st=&gt;start: 开始框</span><br><span class="line">op=&gt;operation: 处理框</span><br><span class="line">cond=&gt;condition: 判断框(是或否?)</span><br><span class="line">sub1=&gt;subroutine: 子流程</span><br><span class="line">io=&gt;inputoutput: 输入输出框</span><br><span class="line">e=&gt;end: 结束框</span><br><span class="line">st(right)-&gt;op(right)-&gt;cond</span><br><span class="line">cond(yes)-&gt;io(bottom)-&gt;e</span><br><span class="line">cond(no)-&gt;sub1(right)-&gt;op</span><br><span class="line">```</span><br></pre></td></tr></table></figure>
+<p>效果：</p>
+<div id="flowchart-1" class="flow-chart"></div>
+UML样例：
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">```&lt;添加标签：sequence&gt;</span><br><span class="line">对象A-&gt;对象B: 对象B你好吗?（请求）</span><br><span class="line">Note right of 对象B: 对象B的描述</span><br><span class="line">Note left of 对象A: 对象A的描述(提示)</span><br><span class="line">对象B--&gt;对象A: 我很好(响应)</span><br><span class="line">对象A-&gt;对象B: 你真的好吗？</span><br><span class="line">```</span><br></pre></td></tr></table></figure>
+<p>效果：</p>
+<div id="sequence-0"></div>
+UML复杂样例：
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">```&lt;添加标签：sequence&gt;</span><br><span class="line">Title: 标题：复杂使用</span><br><span class="line">对象A-&gt;对象B: 对象B你好吗?（请求）</span><br><span class="line">Note right of 对象B: 对象B的描述</span><br><span class="line">Note left of 对象A: 对象A的描述(提示)</span><br><span class="line">对象B--&gt;对象A: 我很好(响应)</span><br><span class="line">对象B-&gt;小三: 你好吗</span><br><span class="line">小三--&gt;&gt;对象A: 对象B找我了</span><br><span class="line">对象A-&gt;对象B: 你真的好吗？</span><br><span class="line">Note over 小三,对象B: 我们是朋友</span><br><span class="line">participant C</span><br><span class="line">Note right of C: 没人陪我玩</span><br><span class="line">```</span><br></pre></td></tr></table></figure>
+<p>效果：</p>
+<div id="sequence-1"></div>
+<h4 id="段落"><a class="header-anchor" href="#段落"></a>段落</h4>
+<p>通过在文本行之间留一个空白行，可创建新段落。</p>
+<h4 id="忽略Markdown格式"><a class="header-anchor" href="#忽略Markdown格式"></a>忽略Markdown格式</h4>
+<ol>
+<li>使用代码块</li>
+<li>使用<code>\</code></li>
+</ol>
+<h4 id="使用表情符号"><a class="header-anchor" href="#使用表情符号"></a>使用表情符号</h4>
+<p>通过键入 <code>:EMOJICODE:</code> 可在您的写作中添加表情符号。<br>
+比如<code>:+1:</code> 👍<br>
+hexo默认是不支持表情符号的，因此我把hexo的Markdown引擎改为了<code>hexo-renderer-markdown-it</code>来支持表情。听说这个渲染更快，还支持插件（我尝试增加了几个插件markdown-it-mermaid，markdown-it-graphviz之类的，支持的都不好）。<a href="http://baishusama.github.io/2016/12/24/hexo-render-markdown-it-and-its-plugins/" target="_blank" rel="noopener">详情请参考</a></p>
+<p>更多表情符号参考<a href="https://www.webfx.com/tools/emoji-cheat-sheet/" target="_blank" rel="noopener">emoji-cheat-sheet</a> 😎</p>
+<h3 id="可能遇到问题"><a class="header-anchor" href="#可能遇到问题"></a>可能遇到问题</h3>
+<p><strong>发布图片视频音频：</strong><br>
+图片发布很简单：<br>
+你在<code>hexo new post &quot;xxx&quot;</code>会在__posts下生成一个对应xxx.md和一个xxx文件夹。图片放在文件夹里，文章里引用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">![hello](xxx/image.jpg)</span><br></pre></td></tr></table></figure>
+<p>这里可能发现本地可以显示图片，上传到GitHub就不能显示了。可以安装以下插件解决：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-asset-image --save</span><br></pre></td></tr></table></figure>
+<p><a href="https://www.jianshu.com/p/26a7fc7cc185" target="_blank" rel="noopener">视频发布</a><br>
+<strong>github配置域名发布后被清空：</strong><br>
+在对应source目录下新建一个CNAME文件，只放置一行你指向的域名。例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># tree Blog/source/ -L 1</span><br><span class="line">Blog/source/</span><br><span class="line">|-- categories</span><br><span class="line">|-- CNAME</span><br><span class="line">|-- download</span><br><span class="line">|-- _posts</span><br><span class="line">|-- tags</span><br><span class="line">`-- uploads</span><br><span class="line"># cat Blog/source/CNAME </span><br><span class="line">xxx.com</span><br></pre></td></tr></table></figure>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.7/raphael.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/flowchart/1.6.5/flowchart.min.js"></script><textarea id="flowchart-0-code" style="display: none">st=>start: 开始框
+op=>operation: 处理框
+cond=>condition: 判断框(是或否?)
+sub1=>subroutine: 子流程
+io=>inputoutput: 输入输出框
+e=>end: 结束框
+st->op->cond
+cond(yes)->io->e
+cond(no)->sub1(right)->op</textarea><textarea id="flowchart-0-options" style="display: none">{"theme":"simple","scale":1,"line-width":2,"line-length":50,"text-margin":10,"font-size":12}</textarea><script>  var code = document.getElementById("flowchart-0-code").value;  var options = JSON.parse(decodeURIComponent(document.getElementById("flowchart-0-options").value));  var diagram = flowchart.parse(code);  diagram.drawSVG("flowchart-0", options);</script><textarea id="flowchart-1-code" style="display: none">st=>start: 开始框
+op=>operation: 处理框
+cond=>condition: 判断框(是或否?)
+sub1=>subroutine: 子流程
+io=>inputoutput: 输入输出框
+e=>end: 结束框
+st(right)->op(right)->cond
+cond(yes)->io(bottom)->e
+cond(no)->sub1(right)->op</textarea><textarea id="flowchart-1-options" style="display: none">{"theme":"simple","scale":1,"line-width":2,"line-length":50,"text-margin":10,"font-size":12}</textarea><script>  var code = document.getElementById("flowchart-1-code").value;  var options = JSON.parse(decodeURIComponent(document.getElementById("flowchart-1-options").value));  var diagram = flowchart.parse(code);  diagram.drawSVG("flowchart-1", options);</script><script src="https://cdnjs.cloudflare.com/ajax/libs/webfont/1.6.27/webfontloader.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/snap.svg/0.4.1/snap.svg-min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/js-sequence-diagrams/1.0.6/sequence-diagram-min.js"></script><textarea id="sequence-0-code" style="display: none">对象A->对象B: 对象B你好吗?（请求）
+Note right of 对象B: 对象B的描述
+Note left of 对象A: 对象A的描述(提示)
+对象B-->对象A: 我很好(响应)
+对象A->对象B: 你真的好吗？</textarea><textarea id="sequence-0-options" style="display: none">{"theme":"simple","scale":1,"line-width":2,"line-length":50,"text-margin":10,"font-size":12}</textarea><script>  var code = document.getElementById("sequence-0-code").value;  var options = JSON.parse(decodeURIComponent(document.getElementById("sequence-0-options").value));  var diagram = Diagram.parse(code);  diagram.drawSVG("sequence-0", options);</script><textarea id="sequence-1-code" style="display: none">Title: 标题：复杂使用
+对象A->对象B: 对象B你好吗?（请求）
+Note right of 对象B: 对象B的描述
+Note left of 对象A: 对象A的描述(提示)
+对象B-->对象A: 我很好(响应)
+对象B->小三: 你好吗
+小三-->>对象A: 对象B找我了
+对象A->对象B: 你真的好吗？
+Note over 小三,对象B: 我们是朋友
+participant C
+Note right of C: 没人陪我玩</textarea><textarea id="sequence-1-options" style="display: none">{"theme":"simple","scale":1,"line-width":2,"line-length":50,"text-margin":10,"font-size":12}</textarea><script>  var code = document.getElementById("sequence-1-code").value;  var options = JSON.parse(decodeURIComponent(document.getElementById("sequence-1-options").value));  var diagram = Diagram.parse(code);  diagram.drawSVG("sequence-1", options);</script>
+      
+    </div>
+    
+    
+    
+
+	<div>
+		
+			<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+		
+	</div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/工具/" rel="tag"> <i class="fa fa-tag"></i> 工具</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/05/18/ipset消息通信/" rel="next" title="ipset消息通信">
+                <i class="fa fa-chevron-left"></i> ipset消息通信
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/09/14/关于如何写文档/" rel="prev" title="关于如何写文档">
+                关于如何写文档 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+		<div>
+		</div>
+    
+  </div>
+ 
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/touxiang.jpg" alt="JiHan">
+          <p class="site-author-name" itemprop="name">JiHan</p>
+           
+              <p class="site-description motion-element" itemprop="description">瘫着贼舒服</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">41</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/JiHanHuang/" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:Mr.JiHan.Mail@gmail.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                    
+                      E-Mail
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#从0-1搭建hexo网站"><span class="nav-number">1.</span> <span class="nav-text">从0-1搭建hexo网站</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#已有博客，环境迁移"><span class="nav-number">2.</span> <span class="nav-text">已有博客，环境迁移</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#已有环境，新发文"><span class="nav-number">3.</span> <span class="nav-text">已有环境，新发文</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常用Markdown语法"><span class="nav-number">4.</span> <span class="nav-text">常用Markdown语法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#标题"><span class="nav-number">4.1.</span> <span class="nav-text">标题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#样式文本"><span class="nav-number">4.2.</span> <span class="nav-text">样式文本</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#引用文本"><span class="nav-number">4.3.</span> <span class="nav-text">引用文本</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#引用代码"><span class="nav-number">4.4.</span> <span class="nav-text">引用代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#链接"><span class="nav-number">4.5.</span> <span class="nav-text">链接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#列表"><span class="nav-number">4.6.</span> <span class="nav-text">列表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#表格"><span class="nav-number">4.7.</span> <span class="nav-text">表格</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#绘图"><span class="nav-number">4.8.</span> <span class="nav-text">绘图</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#示例"><span class="nav-number">4.8.1.</span> <span class="nav-text">示例</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#段落"><span class="nav-number">4.9.</span> <span class="nav-text">段落</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#忽略Markdown格式"><span class="nav-number">4.10.</span> <span class="nav-text">忽略Markdown格式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用表情符号"><span class="nav-number">4.11.</span> <span class="nav-text">使用表情符号</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可能遇到问题"><span class="nav-number">5.</span> <span class="nav-text">可能遇到问题</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">JiHan</span>
+
+
+  
+	<div class="post-wordcount">
+		
+		  <span class="post-meta-divider">|</span>
+		
+		<span class="post-meta-item-icon">
+		  <i class="fa fa-area-chart"></i>
+		</span>
+		
+		  <span class="post-meta-item-text">本站总字数</span>
+		
+		<span title="本站总字数">
+		  89.3k
+		</span>
+	</div>
+   
+ </div>
+
+
+
+
+  <script src="https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js"></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({theme: 'forest'});
+    }
+  </script>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 本站访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'VgnMRYmQLHYX1MQApA7bN511-gzGzoHsz',
+        appKey: 'A37Y5jPoqc8cxMaOoNiXSh9s',
+        placeholder: '小伙子，我看你骨骼惊奇...',
+        avatar:'mp',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body>
+</html>

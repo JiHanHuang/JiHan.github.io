@@ -1,0 +1,1576 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="JiHan's Blog" type="application/atom+xml">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="传说中的go语言圣经，得看一看(•̀⌄•́) 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan  主题：GO语言学习 类别：计算机-&amp;gt;实用性+理论性论述书-&amp;gt;golang 概要：从语法，特性，接口，工具，测试等方面系统性介绍go语言。总体来说是针对语言本身特性来进行介绍的。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《go语言程序设计》读书笔记">
+<meta property="og:url" content="http://yoursite.com/2021/08/03/《go语言程序设计》读书笔记/index.html">
+<meta property="og:site_name" content="JiHan&#39;s Blog">
+<meta property="og:description" content="传说中的go语言圣经，得看一看(•̀⌄•́) 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan  主题：GO语言学习 类别：计算机-&amp;gt;实用性+理论性论述书-&amp;gt;golang 概要：从语法，特性，接口，工具，测试等方面系统性介绍go语言。总体来说是针对语言本身特性来进行介绍的。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2021-11-21T03:11:02.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《go语言程序设计》读书笔记">
+<meta name="twitter:description" content="传说中的go语言圣经，得看一看(•̀⌄•́) 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan  主题：GO语言学习 类别：计算机-&amp;gt;实用性+理论性论述书-&amp;gt;golang 概要：从语法，特性，接口，工具，测试等方面系统性介绍go语言。总体来说是针对语言本身特性来进行介绍的。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always","offset":12,"offset_float":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2021/08/03/《go语言程序设计》读书笔记/">
+
+
+
+
+
+  <title>《go语言程序设计》读书笔记 | JiHan's Blog</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-144130643-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">JiHan's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">随笔写写啦 (๑`･ᴗ･´๑)</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/08/03/《go语言程序设计》读书笔记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiHan">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/touxiang.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiHan's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">《go语言程序设计》读书笔记</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-08-03T21:47:48+08:00">
+                2021-08-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/08/03/《go语言程序设计》读书笔记/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2021/08/03/《go语言程序设计》读书笔记/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 阅读次数
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  6.5k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  26
+                </span>
+              
+            </div>
+          
+			
+          
+
+        </div>
+      </header>
+    
+
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>传说中的go语言圣经，得看一看(•̀⌄•́)<br>
+　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan</p>
+<hr>
+<p>主题：GO语言学习<br>
+类别：计算机-&gt;实用性+理论性论述书-&gt;golang<br>
+概要：从语法，特性，接口，工具，测试等方面系统性介绍go语言。总体来说是针对语言本身特性来进行介绍的。</p>
+<a id="more"></a>
+<h2 id="前言"><a class="header-anchor" href="#前言"></a>前言</h2>
+<p>最近在设计一个项目的框架，所使用的就是golang语言，期望多看看书以及学习一些源码，从而有更优雅的架构设计。<br>
+书中有许多的练习程序，手动写代码，跑程序也是很重要的。</p>
+<h2 id="主要内容"><a class="header-anchor" href="#主要内容"></a>主要内容</h2>
+<p>太过于基础的语法，并不会在笔记中出现，这里主要记录一些go语言编写中需要注意的点。</p>
+<h3 id="基础语法"><a class="header-anchor" href="#基础语法"></a>基础语法</h3>
+<p>主要包含一些语法和关键语句特性相关内容。</p>
+<ol>
+<li>
+<p>如果传参使用<code>map</code>或者<code>slice</code>实际传递的是引用的拷贝，也就是指针的拷贝，那么函数里对map的操作对调用者来说也是可见的。比如下面的代码：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">insertMap</span><span class="params">(m <span class="keyword">map</span>[<span class="keyword">int</span>]<span class="keyword">string</span>)</span></span>&#123;</span><br><span class="line">    m[<span class="number">1</span>] = <span class="string">"1"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><code>switch</code>中的值会和每一个<code>case</code>进行比较，直到找到匹配的值。因此不要在<code>case</code>中放耗时的操作。<code>select</code>也是同样如此。</p>
+</li>
+<li>
+<p>短变量声明一般用作局部变量中。示例：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">in,err := os.Open(file)<span class="comment">//声明两个变量in,err</span></span><br><span class="line">out,err := os.Open(out)<span class="comment">//声明变量out，赋值变量err</span></span><br><span class="line">out,err := os.Open(out1)<span class="comment">//报语法错误</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>多重赋值的时候，会先完全计算完右边的值，再赋值给左边。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x,y = x-y, x+y<span class="comment">//可以完全得到预想的值，即x=x[旧]-y[旧], y=x[旧]+y[旧]</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>字符串<code>string</code>是不可变字节序列，不可越界，不可修改，运算只能产生新的变量，而非修改原有值。</p>
+</li>
+<li>
+<p>无类型常量<code>const</code>往往拥有更高的精度和更广的取值范围，并且能够适用于很多地方。</p>
+</li>
+<li>
+<p>数组的长度也是数组类型的一部分。</p>
+<ol>
+<li>数组初始化：</li>
+</ol>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">q := [...]int&#123;1,2&#125;//同r类型，...会自己根据初始化数据个数填入</span><br><span class="line">r := [2]int&#123;1,2&#125;</span><br><span class="line">c := [...]int&#123;99:-1&#125;//len(c)=100, 除去c[99] = -1，其他都是0</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>数组直接传递，是值传递，不同其他语言是引用传递。如果想使用引用传递，需要定义成指针类型：<code>func zero(a *[32]int)</code></p>
+</li>
+<li>
+<p><code>slice</code>为空的判断，使用<code>len(s) == 0</code> 而不是<code>s == nil</code></p>
+</li>
+<li>
+<p>go语言有可变长度的栈，最大可以达到1G，能更加安全的使用递归</p>
+</li>
+<li>
+<p><code>defer</code>函数的实际执行顺序以调用顺序的倒叙执行。</p>
+<ol>
+<li>当发生<code>panic</code>时，所有<code>defer</code>也将以倒叙执行。</li>
+</ol>
+</li>
+<li>
+<p>内置函数<code>recover</code>只能在<code>defer</code>中调用，并且当发生<code>panic</code>时能终止当前的宕机，并且从发生<code>panic</code>的位置正常返回(不会往下执行)。</p>
+<ol>
+<li>通常情况下，不建议在<code>recover</code>中进行程序恢复，这样更容易掩盖程序中的bug</li>
+<li>常用<code>recover</code>的方式是提供一些更加有用的信息。</li>
+</ol>
+</li>
+</ol>
+<h3 id="函数及变量作用域"><a class="header-anchor" href="#函数及变量作用域"></a>函数及变量作用域</h3>
+<ol>
+<li>
+<p>作用域：</p>
+<ol>
+<li>整个程序级别：<code>int</code>, <code>new</code>等内置类型或函数</li>
+<li>包级别：同一个包的任何地方引用，比如包里的全局变量</li>
+<li>文件级别：只有导入了该包才能使用的。比如<code>fmt.Print</code></li>
+<li>块儿级别：函数内部，循环内部等。</li>
+</ol>
+</li>
+<li>
+<p>函数作为参数的时候，传递的作用域问题，本质上函数参数传递的是指针，那么使用的时候也是直接使用指针指向的函数，只要指针本身有效(不是野指针)，函数都能正常执行：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">runFunc</span><span class="params">()</span></span> &#123;</span><br><span class="line">   s := SendVar&#123;</span><br><span class="line">      <span class="number">1</span>,</span><br><span class="line">      <span class="number">2</span>,</span><br><span class="line">   &#125;</span><br><span class="line">   func_scope.CallBack(<span class="function"><span class="keyword">func</span><span class="params">(i <span class="keyword">int</span>)</span> <span class="title">error</span></span> &#123;</span><br><span class="line">      fmt.Println(<span class="string">"inner call back func"</span>, s.inner, s.Out)</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">   &#125;)</span><br><span class="line">   func_scope.CallBack(<span class="built_in">print</span>) </span><br><span class="line">   func_scope.CallBack(s.<span class="built_in">print</span>) <span class="comment">//这里如果，s对象不存在了过后，容易导致函数指针读取错误。导致panic</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s SendVar)</span> <span class="title">print</span><span class="params">(i <span class="keyword">int</span>)</span> <span class="title">error</span></span> &#123;</span><br><span class="line">   fmt.Println(<span class="string">"call back print func"</span>, s.inner, s.Out)</span><br><span class="line">   <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">print</span><span class="params">(i <span class="keyword">int</span>)</span> <span class="title">error</span></span> &#123;</span><br><span class="line">   fmt.Println(<span class="string">"call back print func"</span>, i)</span><br><span class="line">   <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>同第三点所说，当结构体作为参数的时候，其他包是否有权限读取内部变量。类似json这种结构体中的内部变量就不会进行转换。实际上，直接读取肯定是无法读取的，写代码都编译不过。但可以通过反射获取，示例：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">   vs := var_scope.VS&#123;Out: <span class="number">1</span>&#125;</span><br><span class="line"> fmt.Println(<span class="string">"Print var_scope VS"</span>, vs)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>var_scope包：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> VS <span class="keyword">struct</span> &#123;</span><br><span class="line">   Out   <span class="keyword">int</span></span><br><span class="line">   inner <span class="keyword">int</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>那么这种情况会输出：<code>Print var_scope VS {1 0}</code>，意思是<code>fmt.Println</code>可以读取到包内部变量。实际看源码我们发现，在<code>fmt.Println</code>中实际使用<code>reflect.Value.Int()</code>函数直接获取值(其他类型有对应转换函数)，是能获取到内部变量的，如果使用<code>reflect.Value.Interface()</code>来获取值，就会进行安全检查：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">  	<span class="keyword">if</span> safe &amp;&amp; v.flag&amp;flagRO != <span class="number">0</span> &#123;</span><br><span class="line">	<span class="comment">// Do not allow access to unexported values via Interface,</span></span><br><span class="line">	<span class="comment">// because they might be pointers that should not be</span></span><br><span class="line">	<span class="comment">// writable or methods or function that should not be callable.</span></span><br><span class="line">	<span class="built_in">panic</span>(<span class="string">"reflect.Value.Interface: cannot return value obtained from unexported field or method"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>那么，我们看下面的示例：<br>
+var_scope包</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">PrintOtherStruct</span><span class="params">(data <span class="keyword">interface</span>&#123;&#125;)</span></span> &#123;</span><br><span class="line">   val := reflect.ValueOf(data)</span><br><span class="line">   typeOfTstObj := val.Type()</span><br><span class="line">   <span class="keyword">for</span> i := <span class="number">0</span>; i &lt; val.NumField(); i++ &#123;</span><br><span class="line">      fieldType := val.Field(i)</span><br><span class="line">      <span class="comment">//fieldType.Interface() 函数提示不能返回域外的值的panic，可以通过CanInterface函数来判断</span></span><br><span class="line">      <span class="comment">//fieldType.Int() 直接转换成对应类型的值，不会检测。</span></span><br><span class="line">      fmt.Printf(<span class="string">"object field %d key=%s value=%v type=%s \n"</span>,</span><br><span class="line">         i, typeOfTstObj.Field(i).Name, fieldType.Int(),</span><br><span class="line">         fieldType.Type())</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   fmt.Println(<span class="string">"var scope print"</span>, data)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> SendVar <span class="keyword">struct</span> &#123;</span><br><span class="line">   Out   <span class="keyword">int</span></span><br><span class="line">   inner <span class="keyword">int</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">   s := SendVar&#123;</span><br><span class="line">      <span class="number">1</span>,</span><br><span class="line">      <span class="number">2</span>,</span><br><span class="line">   &#125;</span><br><span class="line">   var_scope.PrintOtherStruct(s)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>匿名函数，func关键字后没有变量的函数，例如：<code>strings.Map(func(r rune) rune{return r + 1}, &quot;HAL-9000&quot;)</code>。匿名函数有一些特性</p>
+<ol>
+<li>匿名函数能够获取到整个词法环境，里层能够使用外层的变量。</li>
+</ol>
+   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">func squares() func() int &#123;</span><br><span class="line">   var x int</span><br><span class="line">   return func() int &#123;</span><br><span class="line">      x++</span><br><span class="line">      return x * x</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">   f := squares()</span><br><span class="line">   fmt.Println(f()) //1</span><br><span class="line">   fmt.Println(f()) //4</span><br><span class="line">   fmt.Println(f()) //9</span><br><span class="line"></span><br><span class="line">   f2 := squares()</span><br><span class="line">   fmt.Println(f2()) //1</span><br><span class="line">   fmt.Println(f2()) //4</span><br><span class="line">   fmt.Println(f2()) //9</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里的匿名函数是能够使用外层的变量x的。并且变量x在调用<code>squares</code>返回后亦然存在(虽然是隐藏在变量f中，有点像<code>var x int; func()int{...}</code>整个一体为<code>f</code>变量一样)。<br>
+2. 匿名函数作为递归，必须先申明再赋值，直接声明赋值会导致未定义错误：</p>
+   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">visitAll := func(items []string)&#123;</span><br><span class="line">   //...</span><br><span class="line">   visitAll(m[item]) //compile error: undefind visitAll</span><br><span class="line">   //...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>匿名函数在for循环中的外部变量引用，先看示例：</li>
+</ol>
+   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var rmdirs []func()</span><br><span class="line">dirs := tmpdirs()</span><br><span class="line">for i:=0;i&lt;len(dirs);i++&#123;</span><br><span class="line">   //a := i //后面os.RemoveAll(dirs[i])替换为os.RemoveAll(dirs[a])才正确</span><br><span class="line">   os.MkdirAll(dirs[i],0755)</span><br><span class="line">   rmdirs = append(rmdirs, func()&#123;</span><br><span class="line">      os.RemoveAll(dirs[i])//不正确</span><br><span class="line">   &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在循环里(指<code>for</code>开始到<code>{</code>中间)创建的变量，都是共享相同的变量，意味着匿名函数在使用的时候都是指向的一个地方。而如果内部声明的变量,如<code>a:=i</code>里的<code>a</code>则每次都会声明一个变量，隐藏在匿名函数中，而不会释放。</p>
+</li>
+<li>
+<p>指针类型成员函数，使用非指针类型成员也能正常调用，golang会自动对指针和指针指向的值进行转换：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">   <span class="string">"fmt"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> A <span class="keyword">struct</span>&#123;</span><br><span class="line">   Num <span class="keyword">int</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">type</span> B <span class="keyword">struct</span>&#123;</span><br><span class="line">   A</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(a *A)</span><span class="title">set</span><span class="params">(num <span class="keyword">int</span>)</span></span>&#123;</span><br><span class="line">   a.Num = num</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">   a := A&#123;&#125;</span><br><span class="line">   a.set(<span class="number">222</span>)</span><br><span class="line">   fmt.Printf(<span class="string">"A:%v\n"</span>,a)</span><br><span class="line">   b := B&#123;&#125;</span><br><span class="line">   b.set(<span class="number">11</span>)</span><br><span class="line">   fmt.Printf(<span class="string">"B:%v\n"</span>,b)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">A:&#123;222&#125;</span><br><span class="line">B:&#123;&#123;11&#125;&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="接口和反射"><a class="header-anchor" href="#接口和反射"></a>接口和反射</h3>
+<ol>
+<li>
+<p><code>nil</code>也可以作为类方法的接收者，比如<code>var a *NewStruct= (* NewStruct)(nil)</code>，但是通常不会这样使用。</p>
+</li>
+<li>
+<p>接口就是提取一系列具体类型的共性而构成的。很多的常用系统函数都是提供接口值传递，支持自定义的类型传递(实现接口就行)。</p>
+</li>
+<li>
+<p>接口值由两部分组成：类型和动态值。</p>
+<ol>
+<li>如果动态值可以比较(不是map或者slice这类)，那么接口值也是可以比较的。</li>
+<li><code>var w *io.writer = os.Stdout</code>。接口值里的类型是<code>*os.File</code>，对应值是<code>&amp;os.File{fd=1}</code></li>
+<li>注意含有空指针的非空接口：</li>
+</ol>
+  <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">   <span class="keyword">var</span> a *os.File</span><br><span class="line">   check(a)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">check</span><span class="params">(w *io.writer)</span></span>&#123;</span><br><span class="line">   <span class="comment">//注意，这个地方传入的w，其接口值不为空。因为接口值存在非空类型值`*os.File`</span></span><br><span class="line">   <span class="keyword">if</span> w == <span class="literal">nil</span> &#123;</span><br><span class="line">      <span class="built_in">panic</span>(<span class="string">"w is nil"</span>)</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><code>error</code>是一个接口，定义如下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> error <span class="keyword">interface</span>&#123;</span><br><span class="line">   Error() <span class="keyword">string</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>断言：<code>f, ok := x.(T)</code></p>
+</li>
+<li>
+<p>有些函数包可以通过断言<code>error</code>的类型来判断错误类型。</p>
+</li>
+<li>
+<p>可以通过断言来判断某个接口里是否包含某个方法。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">writeString</span><span class="params">(w *io.Writer, s <span class="keyword">string</span>)</span><span class="params">(<span class="keyword">int</span>, error)</span></span>&#123;</span><br><span class="line">   <span class="keyword">type</span> stringWriter <span class="keyword">interface</span>&#123;</span><br><span class="line">      WriteString(<span class="keyword">string</span>)(<span class="keyword">int</span>, error)</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">if</span> sw, ok := w.(WriteString); ok&#123;</span><br><span class="line">      <span class="keyword">return</span> sw.WriteString(s)</span><br><span class="line">   &#125;</span><br><span class="line">   ....</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>反射<code>reflect</code></p>
+<ol>
+<li>反射由两部分构成：Type和Value。对应着interface的类型值和类型值(实际数据)</li>
+</ol>
+  <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//一个反射的示例</span></span><br><span class="line"><span class="keyword">package</span> goreflectexample</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">   <span class="string">"fmt"</span></span><br><span class="line">   <span class="string">"reflect"</span></span><br><span class="line">   <span class="string">"strconv"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">formatAtom</span><span class="params">(v reflect.Value)</span> <span class="title">string</span></span> &#123;</span><br><span class="line">   <span class="keyword">switch</span> v.Kind() &#123;</span><br><span class="line">   <span class="keyword">case</span> reflect.Invalid:</span><br><span class="line">      <span class="keyword">return</span> <span class="string">"Invalid"</span></span><br><span class="line">   <span class="keyword">case</span> reflect.Int, reflect.Int8, reflect.Int16,</span><br><span class="line">      reflect.Int32, reflect.Int64:</span><br><span class="line">      <span class="keyword">return</span> strconv.FormatInt(v.Int(), <span class="number">10</span>)</span><br><span class="line">   <span class="comment">//....简化起见，省略浮点数和复数</span></span><br><span class="line">   <span class="keyword">case</span> reflect.Bool:</span><br><span class="line">      <span class="keyword">return</span> strconv.FormatBool(v.Bool())</span><br><span class="line">   <span class="keyword">case</span> reflect.String:</span><br><span class="line">      <span class="keyword">return</span> v.String()</span><br><span class="line">   <span class="keyword">case</span> reflect.Chan, reflect.Func, reflect.Ptr,</span><br><span class="line">      reflect.Slice, reflect.Map:</span><br><span class="line">      <span class="keyword">return</span> v.Type().String() + <span class="string">" 0x"</span> +</span><br><span class="line">         strconv.FormatUint(<span class="keyword">uint64</span>(v.Pointer()), <span class="number">16</span>)</span><br><span class="line">   <span class="keyword">default</span>: <span class="comment">//reflect.Array, reflect.Struct, reflect.Interface</span></span><br><span class="line">      <span class="keyword">return</span> v.Type().String() + <span class="string">" value"</span></span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">display</span><span class="params">(path <span class="keyword">string</span>, v reflect.Value)</span></span> &#123;</span><br><span class="line">   <span class="keyword">switch</span> v.Kind() &#123;</span><br><span class="line">   <span class="keyword">case</span> reflect.Invalid:</span><br><span class="line">      fmt.Printf(<span class="string">"%s = Invalid\n"</span>, path)</span><br><span class="line">   <span class="keyword">case</span> reflect.Slice, reflect.Array:</span><br><span class="line">      <span class="keyword">for</span> i := <span class="number">0</span>; i &lt; v.Len(); i++ &#123;</span><br><span class="line">         display(fmt.Sprintf(<span class="string">"%s[%d]\n"</span>, path, i), v.Index(i))</span><br><span class="line">      &#125;</span><br><span class="line">   <span class="keyword">case</span> reflect.Struct:</span><br><span class="line">      <span class="keyword">for</span> i := <span class="number">0</span>; i &lt; v.NumField(); i++ &#123;</span><br><span class="line">         feildPath := fmt.Sprintf(<span class="string">"%s.%s"</span>, path, v.Type().Field(i).Name)</span><br><span class="line">         display(feildPath, v.Field(i))</span><br><span class="line">      &#125;</span><br><span class="line">   <span class="keyword">case</span> reflect.Map:</span><br><span class="line">      <span class="comment">// 另外一个遍历map的方式</span></span><br><span class="line">      <span class="comment">// iter := v.MapRange()</span></span><br><span class="line">      <span class="comment">// for iter.Next() &#123;</span></span><br><span class="line">      <span class="comment">// 	k := iter.Key()</span></span><br><span class="line">      <span class="comment">// 	va := iter.Value()</span></span><br><span class="line">      <span class="comment">// 	display(fmt.Sprintf("%s[%s]\n", path, formatAtom(k)), va)</span></span><br><span class="line">      <span class="comment">// &#125;</span></span><br><span class="line"></span><br><span class="line">      <span class="keyword">for</span> _, key := <span class="keyword">range</span> v.MapKeys() &#123;</span><br><span class="line">         display(fmt.Sprintf(<span class="string">"%s[%s]\n"</span>, path, formatAtom(key)), v.MapIndex(key))</span><br><span class="line">      &#125;</span><br><span class="line">   <span class="keyword">case</span> reflect.Ptr:</span><br><span class="line">      <span class="keyword">if</span> v.IsNil() &#123;</span><br><span class="line">         fmt.Printf(<span class="string">"%s = Nil\n"</span>, path)</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line"></span><br><span class="line">         fmt.Printf(<span class="string">"%s.type = %s\n"</span>, path, v.Elem().Type())</span><br><span class="line">         display(path+<span class="string">".value"</span>, v.Elem())</span><br><span class="line">      &#125;</span><br><span class="line">   <span class="keyword">default</span>: <span class="comment">// 基本类型、通道、函数</span></span><br><span class="line">      fmt.Printf(<span class="string">"%s = %s\n"</span>, path, formatAtom(v))</span><br><span class="line"></span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Display</span><span class="params">(name <span class="keyword">string</span>, x <span class="keyword">interface</span>&#123;&#125;)</span></span> &#123;</span><br><span class="line">   fmt.Printf(<span class="string">"Display %s (%T)\n"</span>, name, x)</span><br><span class="line">   display(name, reflect.ValueOf(x))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当然，上述函数还有优化点，对于多处字符串<code>+</code>的操作，使用<code>bytes.Buffer</code>则更能提升性能。<br>
+2.  我们可以通过<code>(Value).Set</code>函数来对可寻址的变量进行赋值。是否可寻址(获取变量指针)可以用<code>(Value).CanAddr()</code>来确定。当然也可以通过取地址+断言的方式来获取指针，进行赋值:<code>px := x.Addr().Interface().(*int); *px=3</code><br>
+3.  反射可以获取到未导出字段的值，但是不能通过反射来更新这些值。<br>
+4.  可以通过反射获取<code>结构体字段标签</code>比如json中使用的<code>json:&quot;name&quot;</code>可以通过<code>reflect.StructField.Tag.Get(&quot;json&quot;)</code>来获取相应的值。<br>
+5.  可以通过反射获取相应方法：<code>(Value).Method(i)</code>，函数数量可以通过<code>(Value).NumMethod()</code>来获取。</p>
+</li>
+<li>
+<p>使用反射的注意事项(总结：没有必要用反射，就不要用反射)：</p>
+<ol>
+<li>反射代码是很脆弱的，很容易出bug，并且bug是在遇到对应类型的时候以<code>panic</code>的方式抛出。</li>
+<li>反射无法做静态类型检测，特别是<code>interface{}</code>或<code>reflect.Value</code>参数时，一定要说明参数访问和其他限制。并且大量使用反射也不便于理解。</li>
+<li>使用反射是比特定类型优化的函数低一两个数量级。有些关键性的核心函数，还是要避免使用反射。</li>
+</ol>
+</li>
+<li>
+<p><code>unsafe</code>包中包含了许多接近底层的一些操作，当然这些操作在C语言里面可能是常见的。如果不是很有必要，并不建议使用unsafe包，unsafe包会导致更不易察觉的错误，以及削弱代码可移植性。</p>
+<ol>
+<li><code>unsafe.Pointer</code>指向一个<code>T</code>类型的指针，类似C里的<code>void *</code>。<code>unsafe.Pointer</code>可以转换为<code>uintptr</code>,然后对指针进行数值计算。但是注意如果使用<code>uintptr</code>作为中间变量，由于其类型为一个数据，那么其对应的值所指向的值可能被垃圾回收移动或者回收，导致不易发现的错误。如：</li>
+</ol>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pT := <span class="keyword">uintptr</span>(unsafe.Poniter(<span class="built_in">new</span>(T))) <span class="comment">//语句执行后，创建的T就要被回收，pT值就变成野指针。</span></span><br></pre></td></tr></table></figure>
+<p>如果要使用uintptr，需要谨慎使用，保证使用的最小范围。</p>
+</li>
+<li>
+<p><code>reflect.DeepEqual</code>深度比较，会进行两个任意数据的类型，长度，和数据的比较。</p>
+</li>
+<li>
+<p>在<strong>接口</strong>上调用方法时，必须有和方法定义时相同的接收者类型或者是可以根据具体类型 <code>P</code> 直接辨识的：</p>
+<ul>
+<li>指针方法可以通过指针调用</li>
+<li>值方法可以通过值调用</li>
+<li>接口接收者是值的方法可以通过指针调用，因为指针会首先被解引用</li>
+<li>接口接收者是指针的方法不可以通过值调用，因为存储在接口中的值没有地址</li>
+</ul>
+</li>
+</ol>
+<h3 id="goroutine和通道"><a class="header-anchor" href="#goroutine和通道"></a>goroutine和通道</h3>
+<ol>
+<li>
+<p>协程之间是没有父子关系的，所有子协程都是一个等级，挂在main函数下。</p>
+<ol>
+<li>父协程退出，子协程不会退出</li>
+<li>函数退出，函数内的协程不会退出(main函数除外)</li>
+</ol>
+</li>
+<li>
+<p>管道类型<code>chan T</code>和<code>map</code>类似，传递都是进行指针传递。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">x, ok := &lt;- ch</span><br><span class="line"><span class="keyword">if</span> !ok &#123;</span><br><span class="line">   fmt.Fatal(<span class="string">"channel closed."</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>管道可以手动关闭(也可以让gc自己回收)，关闭后任何向管道里写入的操作都会崩溃，读取操作能够正常执行，读取完管道值后再读取的值就会零值。</li>
+<li>单向通道：类型<code>chan&lt;- T</code>只能发送的的通道，类型<code>&lt;-chan T</code>只能接收的通道。类型<code>chan T</code>传值给单向通道的时候，都会进行隐式转换到相应的结构。</li>
+<li>带有缓冲的通道，通道的数据存取类似于管道，先进先出。如果粗暴的在一个goroutine中将管道作为队列使用，可能会出现永久阻塞的风险。</li>
+<li>在<code>select</code>中，如果通道是<code>nil</code>，则改分支永远不会被选中，该特性可以用来启用或禁用某些特性。</li>
+<li>可以在goroutine中使用管道作为令牌桶，控制goroutine的并发量：</li>
+</ol>
+  <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> tokens := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">struct</span>&#123;&#125;, <span class="number">10</span>)</span><br><span class="line"><span class="keyword">for</span> i:=<span class="number">0</span>;i&lt;<span class="number">1000</span>;i++&#123;</span><br><span class="line">   <span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span>&#123;</span><br><span class="line">      <span class="keyword">select</span> &#123;</span><br><span class="line">         <span class="keyword">case</span> tokens &lt;- <span class="keyword">struct</span>&#123;&#125;: <span class="comment">//获取令牌</span></span><br><span class="line">         <span class="keyword">case</span> &lt;-done: <span class="comment">//用于控制进程取消操作。</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">defer</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span>&#123; &lt;- tokens &#125;() <span class="comment">//释放令牌</span></span><br><span class="line">      <span class="comment">//do something</span></span><br><span class="line">   &#125;()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>不要通过共享内存来通信，应该使用通信来共享内存。</p>
+  <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> bank</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> deposits = <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">int</span>) <span class="comment">//存钱</span></span><br><span class="line"><span class="keyword">var</span> balances = <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">int</span>) <span class="comment">//查余额</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Deposit</span><span class="params">(mony <span class="keyword">int</span>)</span></span> &#123; deposits &lt;- mony &#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Balance</span><span class="params">()</span> <span class="title">int</span></span> &#123; <span class="keyword">return</span> &lt;-balances&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">teller</span><span class="params">()</span></span>&#123;</span><br><span class="line">   <span class="keyword">var</span> balance <span class="keyword">int</span> <span class="comment">//限制在一个goroutine内，不会读写冲突</span></span><br><span class="line">   <span class="keyword">for</span> &#123;</span><br><span class="line">      <span class="keyword">select</span> &#123;</span><br><span class="line">         <span class="keyword">case</span> mony := &lt;-deposits:</span><br><span class="line">            balance += mony</span><br><span class="line">         <span class="keyword">case</span> balances &lt;- balance:</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fun init()&#123;</span><br><span class="line">   <span class="keyword">go</span> teller() <span class="comment">//启动teller</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>避免数据读写冲突的方法：</p>
+<ol>
+<li>初始化后，变量只读</li>
+<li>避免多个<code>goroutine</code>访问同一变量。比如30的例子，用管道通信的方式，避免了多<code>goroutine</code>的同时读写。</li>
+<li>使用互斥锁。</li>
+</ol>
+</li>
+<li>
+<p>读写锁只有在竞争激烈时效果才比一般锁好，单个执行是不如一般锁，这是由于读写锁实现更复杂。</p>
+</li>
+<li>
+<p>一些导致并行数据冲突的原因：</p>
+<ol>
+<li>读写冲突导致</li>
+<li>cpu缓存会导致并发的时候读到错误的缓存值，而锁操作可以把缓存刷入内存。多核cpu会分配并发线程到不同cpu，而每个cpu都有自己的缓存，会读到过期的数据</li>
+<li>并行程序在相互之间没有变量逻辑关联的时候，编译器可能会交换执行顺序。</li>
+</ol>
+</li>
+<li>
+<p>延迟互斥初始化<code>sync.Once</code></p>
+<ol>
+<li>一种延迟初始化的示例：</li>
+</ol>
+  <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> memo <span class="keyword">struct</span>&#123;</span><br><span class="line">   mem <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">string</span></span><br><span class="line">   mu sync.Mutex</span><br><span class="line">   ready <span class="keyword">chan</span> <span class="keyword">struct</span>&#123;&#125; <span class="comment">//mem 准备好后关闭</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(m *memo)</span><span class="title">Get</span><span class="params">(key <span class="keyword">string</span>)</span> <span class="title">string</span></span> &#123;</span><br><span class="line">   m.mu.Lock()</span><br><span class="line">   <span class="keyword">if</span> m.mem == <span class="literal">nil</span>&#123;</span><br><span class="line">      <span class="comment">//假设初始化的时候没有进行make</span></span><br><span class="line">      <span class="comment">//第一次get数据时，进行初始化。</span></span><br><span class="line">      m.mem = <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">string</span>)</span><br><span class="line">      m.mu.Unlock()</span><br><span class="line">      <span class="built_in">close</span>(m.ready)<span class="comment">//广播数据准备完毕，并且只需要广播一次。</span></span><br><span class="line">   &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">      m.mu.Unlock()</span><br><span class="line">      <span class="comment">//由于第一次广播数据时，关闭了消息，后续的访问，都不会阻塞。</span></span><br><span class="line">      &lt;-m.ready</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">return</span> m.mem[key]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>可以使用竞态检测器<code>race deleteor</code>来检测代码中是否有数据竞态的情况。使用方法在编译时增加<code>-race</code>参数</p>
+</li>
+<li>
+<p>goroutine和线程的差别</p>
+<ol>
+<li>goroutine有可增长的栈，而OS里的线程一般只有固定大小的2MB。goroutine栈的增长也是以2倍增长，通常初始值在2KB，最大一般可以到1GB</li>
+<li>线程调度需要涉及到CPU上下文切换，而goroutine调度通常是由go调度器处理，而调度技术成为<code>m:n调度</code>(把m个goroutine调度到n个线程)</li>
+<li>goroutine没有标识，而OS线程通常都有线程标识。</li>
+</ol>
+</li>
+<li>
+<p><code>GOMAXPROCS</code>值表示：使用多少个OS线程来执行goroutine。正在休眠的goroutine不占用线程，阻塞IO、其他系统调用执行中或非go语言写的函数这些goroutine需要一个独立的OS线程。</p>
+</li>
+</ol>
+<h3 id="测试"><a class="header-anchor" href="#测试"></a>测试</h3>
+<ol>
+<li>
+<p>测试函数比如导入<code>testing</code>包，除去开头函数，可选后缀必须大写开头。</p>
+</li>
+<li>
+<p>测试部分的代码，通常使用<code>_test.go</code>来进行区分，而包通常在一个里。</p>
+</li>
+<li>
+<p>测试中<code>-run</code>命令后面跟的是正则表达式，运行匹配的函数。匹配字符里，可以忽略<code>Test</code>头</p>
+</li>
+<li>
+<p>测试中的<code>t.Fatal</code>函数必须he<code>Test</code>在同一个<code>goroutine</code>中。错误消息的一般格式&quot;f(x)=y, want z&quot;</p>
+</li>
+<li>
+<p>随机测试，构建符合模式的随机输入，来探测程序的边界。</p>
+</li>
+<li>
+<p>测试程序和被测试程序，虽然都定义在一个包里，但是实际执行<code>go test</code>和执行主程序时，都是分开的。</p>
+</li>
+<li>
+<p>测试程序中，不要调用<code>log.Fatal</code>或<code>os.Exit</code>，这些调用会阻止跟踪的过程。通常认为这两个是main函数的特权调用。</p>
+</li>
+<li>
+<p>白盒测试可以通过修改一些全局量来达到测试部分功能的目的，比如代码中使用了全局函数指针<code>var sendMsg = fun(string) error{...}</code>，我们可以在白盒测试中修改改指针，来避免发送出错。</p>
+</li>
+<li>
+<p>外部测试包，通常用于外部调用来测试相应包，无法访问包内部变量（会单独存在一个包，package命名使用<code>&lt;package&gt;_test</code>）。其他则和内部测试相同。</p>
+</li>
+<li>
+<p>有时候，外部测试包需要拥有对内部包的特殊访问权限，我们可以约定声明一个特殊的测试文件<code>export_test.go</code>，而其存放的内容，仅仅是把包内部功能暴露。如<code>fmt</code>包中的<code>export_test.go</code>:</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> fmt</span><br><span class="line"><span class="keyword">var</span> IsSpace = isSpace</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>如果我们要看我们自己编写的测试程序覆盖了多少源码，可以使用<code>go test -coverprofile=c.out ./</code>来查看。使用<code>go tool cover</code>可以查看<code>cover</code>的帮助。c.out会输出程序中哪些代码被覆盖，哪些没覆盖。</p>
+</li>
+<li>
+<p>基准测试<code>Benchmark</code>，执行命令<code>go test -bench=&lt;name&gt;</code>，同样<code>&lt;name&gt;</code>使用正则匹配。如果不指定<code>-bench</code>，则不执行基准测试。<code>-benchmem</code>可以看到内存的操作消耗。详细测试可<a href="https://geektutu.com/post/hpg-benchmark.html" target="_blank" rel="noopener">参考</a></p>
+</li>
+<li>
+<p>我们可以通过<code>go test</code>做代码的性能剖析，不同的报告类别告诉我们不同的性能情况：</p>
+  <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">go</span> test -cpuprofile=cpu.out <span class="comment">//CPU占用</span></span><br><span class="line"><span class="keyword">go</span> test -blockprofile=block.out <span class="comment">//阻塞操作</span></span><br><span class="line"><span class="keyword">go</span> test -memprofile=mem.out <span class="comment">//内存占用</span></span><br><span class="line"><span class="string">``</span><span class="string">` </span></span><br><span class="line"><span class="string">一个显示CPU性能的示例：</span></span><br><span class="line"><span class="string">`</span><span class="string">``</span><span class="keyword">go</span></span><br><span class="line"><span class="keyword">go</span> test -run=NONE -bench=ClientServerParallelTLS64 -cpuprofile=cpu.log net/http</span><br><span class="line"><span class="keyword">go</span> tool pprof -text -nodecount=<span class="number">10</span> ./http.test cpu.log</span><br></pre></td></tr></table></figure>
+<p>其中<code>http.test</code>是执行<code>go test</code>时产生的中间文件(如果<code>go test</code>不带性能分析参数，那么就会删掉该中间文件) <code>-nodecount=10</code>限制输出10行</p>
+</li>
+<li>
+<p><code>Example</code>函数也会被<code>go test</code>视为特殊函数。该函数必须通过语法编译，并且会关联<code>Example</code>同名后缀的函数，并在文档中以示例的方式展示。也可以执行<code>Example</code>函数，并且<code>go test</code>会自动将执行结果，和你函数最后的带有<code>// 输出：</code>后的注释进行比较，判断输出正确性。</p>
+</li>
+</ol>
+<h3 id="环境及工具"><a class="header-anchor" href="#环境及工具"></a>环境及工具</h3>
+<ol>
+<li>工作空间<code>GOPATH</code>依赖的源码，现在通常都是通过<code>go mod</code>来进行管理。环境变量<code>GOROOT</code>，指定go的版本。<code>go env</code>能配置这些变量。</li>
+<li>进行<code>go build</code>时，后面的相对路径前必须加<code>./</code>或<code>../</code>之类的，否则就会识别为参数。</li>
+<li><code>go build</code>和<code>go install</code>非常相似，区别在于<code>go install</code>不会丢弃编译代码和命令。它们对于没有修改过的包都不会进行重新编译。</li>
+<li>可以通过<code>go doc</code>来查看函数结构体等声明和注释，使用方法:<code>go doc time</code>, <code>go doc time.Since</code>等。当然我们自己也在包开发的时候也鼓励编写函数和包注释。</li>
+<li><code>godoc</code>和<code>go doc</code>功能一样，差别在于提供http的服务供网页查看。如<code>godoc -http :8000</code>。<code>-analysis=type</code>和<code>-analysis=pointer</code>提供更丰富的文档。</li>
+<li>内部包是以<code>internal</code>为父目录的目录下的包，只能提供给<code>internal</code>的父目录使用，其他地方无法使用。</li>
+<li><code>go list</code>可以进行可用包的查询，<code>...</code>为通配符。<code>-json</code>参数可以让包已json格式输出，<code>-f</code>可以通过<code>text/template</code>模板来定义输出格式。</li>
+<li>go的标准文件和<code>_test.go</code>文件在<code>go test</code>时会分成两个包进行编译。你可以通过<code>go list -json &lt;package&gt;</code>来查看包里的构成，<code>GoFiles</code>包含的内容在<code>go build</code>时用到，而<code>TestGoFiles</code>则只会在<code>go test</code>的时候用到。``XTestGoFiles`通常指外部测试列表</li>
+<li>包的空导入<code>import _ image/png</code>，其作用是利用包中的<code>init</code>函数进行相关组件的注册。同理，我们也可以通过<code>init</code>函数来进行函数注册和模块注册。</li>
+</ol>
+<h3 id="约定及习惯"><a class="header-anchor" href="#约定及习惯"></a>约定及习惯</h3>
+<ol>
+<li>包名原则上和父目录的文件夹名称一致。如果不一致也能干活儿，但是你引用的<code>import git.com/pkg/A</code>的包，使用A路径下文件里函数的时候却是<code>B.xxFunc</code>，不觉得这么干有病么。</li>
+<li>如果类的方法使用的是指针接收者，那么所有的方法都建议使用指针接收者，如果方法使用结构体接收者，那么所有有方法建议都用结构体接收者。</li>
+<li>接口命名通常是动词+er,比如<code>writer</code>, <code>controller</code>等</li>
+<li>golang提倡平铺式结构，不提倡继承关系的结构。</li>
+<li>程序结构，根据需求，以核心逻辑为主，细节由接口实现。</li>
+<li>如果要提公共接口，公共接口往往专注一个能力，干一件事。不宜过长。</li>
+<li>一个不错的接口设计经验：仅设计你所需要的接口</li>
+<li>golang命名建议：
+<ol>
+<li>变量、函数、结构体等建议驼峰命名</li>
+<li>包名小写拼接，比如<code>strconv</code>，不建议<code>str_conv</code></li>
+<li>文件名看个人习惯，通常是小写拼接或者小写<code>_</code>拼接。基本除了驼峰类型，其他的都行。</li>
+</ol>
+</li>
+<li>好的测试程序：
+<ol>
+<li>测试程序也需要健壮性，和秩序跟进维护</li>
+<li>测试程序要尽可能多的报告出错误信息，要尝试一次运行中报多个错误。</li>
+<li>覆盖率</li>
+</ol>
+</li>
+<li>测试的约定函数名：
+<ol>
+<li>Test开头，代表功能测试</li>
+<li>Benchmark开头，代表性能测试</li>
+<li>Example开头，代表示例函数</li>
+</ol>
+</li>
+</ol>
+<h3 id="Cgo"><a class="header-anchor" href="#Cgo"></a>Cgo</h3>
+<ol>
+<li>
+<p><code>cgo</code>用于在go中调用c的函数，当然如果你的c库很小，可以考虑移植它，如果性能对我们来说不是很关键，那么也可以用<code>os/exec</code>来执行c的可执行程序。<code>cgo</code>只用于复杂且对性能有所要求的C库。<br>
+一个C写的程序：</p>
+ <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;bzlib.h&gt;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> bz2compress(bz_stream *s, <span class="keyword">int</span> action, </span><br><span class="line">   char *in, unsigned *inlen, char *out, unsigned *outlen)&#123;</span><br><span class="line">   s-&gt;next_in = in;</span><br><span class="line">   s-&gt;avail_in = *inlen;</span><br><span class="line">   s-&gt;next_out = out;</span><br><span class="line">   s-&gt;avail_out = *outlen;</span><br><span class="line">   <span class="keyword">int</span> r = BZ2_bzCompress(s,action);</span><br><span class="line">   *inlen -= s-&gt;avail_in;</span><br><span class="line">   *outlen -= s-&gt;avail_out;</span><br><span class="line">   <span class="keyword">return</span> r</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对应cgo部分的代码。</p>
+ <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">#cgo CFLAGS: -I/usr/include</span></span><br><span class="line"><span class="comment">#cgo LDFLAGS: -L/usr/lib -lbz2</span></span><br><span class="line"><span class="comment">#include &lt;bzlib.h&gt;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">int bz2compress(bz_stream *s, int action,</span></span><br><span class="line"><span class="comment">   char *in, unsigned *inlen, char *out, unsigned *outlen);</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//标识加入cgo，程序会分析注释中的相关内容</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">"C"</span></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">   <span class="string">"io"</span></span><br><span class="line">   <span class="string">"unsafe"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> writer <span class="keyword">struct</span> &#123;</span><br><span class="line">   w      io.Writer</span><br><span class="line">   stream *C.bz_stream</span><br><span class="line">   outbuf [<span class="number">64</span> * <span class="number">1024</span>]<span class="keyword">byte</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//NewWriter 对于bzip2压缩的流返回一个wirter</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NewWriter</span><span class="params">(out io.Writer)</span> <span class="title">io</span>.<span class="title">WriteCloser</span></span> &#123;</span><br><span class="line">   <span class="keyword">const</span> (</span><br><span class="line">      blockSize  = <span class="number">9</span></span><br><span class="line">      verbosity  = <span class="number">0</span></span><br><span class="line">      workFactor = <span class="number">30</span></span><br><span class="line">   )</span><br><span class="line">   w := &amp;writer&#123;w: out, stream: C.bz2alloc()&#125;</span><br><span class="line">   C.BZ2_bzCompressInit(w.stream, blockSize, verbosity, workFactor)</span><br><span class="line">   <span class="keyword">return</span> w</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(w *writer)</span> <span class="title">Write</span><span class="params">(data []<span class="keyword">byte</span>)</span> <span class="params">(<span class="keyword">int</span>, error)</span></span> &#123;</span><br><span class="line">   <span class="keyword">if</span> w.stream == <span class="literal">nil</span> &#123;</span><br><span class="line">      <span class="built_in">panic</span>(<span class="string">"closed"</span>)</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">var</span> total <span class="keyword">int</span></span><br><span class="line">   <span class="keyword">for</span> <span class="built_in">len</span>(data) &gt; <span class="number">0</span> &#123;</span><br><span class="line">      inlen, outlen := C.<span class="keyword">uint</span>(<span class="built_in">len</span>(data)), C.<span class="keyword">uint</span>(<span class="built_in">cap</span>(w.outbuf))</span><br><span class="line">      C.bz2compress(w.stream, C.BZ_RUN,</span><br><span class="line">         (*C.char)(unsafe.Pointer)(&amp;data[<span class="number">0</span>]), &amp;inlen,</span><br><span class="line">         (*C.char)(unsafe.Pointer)(&amp;w.outbuf), &amp;outlen)</span><br><span class="line">      total += <span class="keyword">int</span>(inlen)</span><br><span class="line">      data = data[inlen:]</span><br><span class="line">      <span class="keyword">if</span> _, err := w.w.Write(w.outbuf[:outlen]); err != <span class="literal">nil</span> &#123;</span><br><span class="line">         <span class="keyword">return</span> total, err</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">return</span> total, <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="结语"><a class="header-anchor" href="#结语"></a>结语</h2>
+<p>作为golang语言的半入门者，看完这本书，算是入门了。总的来说，书还是很不错的，看完过后，可以让你对golang有个整体的概念，更加熟悉语言本身的特性，以及学习到一些使用技巧。值得入门级别的go语言学习者仔细阅读，其中的一些疑惑可以自己编写代码执行来深入了解。<br>
+注：这个笔记本身没有什么阅读学习价值，读书笔记对于我来说是在我学习的时候更加帮助我记忆和理解，以及后续遇到某个问题时的快速查阅。</p>
+
+      
+    </div>
+    
+    
+    
+
+	<div>
+		
+			<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+		
+	</div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/07/17/《代码整洁之道》读书笔记/" rel="next" title="《代码整洁之道》读书笔记">
+                <i class="fa fa-chevron-left"></i> 《代码整洁之道》读书笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/08/23/使用nginx搭建linux的http代理/" rel="prev" title="使用nginx搭建linux的http代理">
+                使用nginx搭建linux的http代理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+		<div>
+		</div>
+    
+  </div>
+ 
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/touxiang.jpg" alt="JiHan">
+          <p class="site-author-name" itemprop="name">JiHan</p>
+           
+              <p class="site-description motion-element" itemprop="description">瘫着贼舒服</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">41</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/JiHanHuang/" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:Mr.JiHan.Mail@gmail.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                    
+                      E-Mail
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主要内容"><span class="nav-number">2.</span> <span class="nav-text">主要内容</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基础语法"><span class="nav-number">2.1.</span> <span class="nav-text">基础语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数及变量作用域"><span class="nav-number">2.2.</span> <span class="nav-text">函数及变量作用域</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#接口和反射"><span class="nav-number">2.3.</span> <span class="nav-text">接口和反射</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#goroutine和通道"><span class="nav-number">2.4.</span> <span class="nav-text">goroutine和通道</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试"><span class="nav-number">2.5.</span> <span class="nav-text">测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#环境及工具"><span class="nav-number">2.6.</span> <span class="nav-text">环境及工具</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#约定及习惯"><span class="nav-number">2.7.</span> <span class="nav-text">约定及习惯</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cgo"><span class="nav-number">2.8.</span> <span class="nav-text">Cgo</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结语"><span class="nav-number">3.</span> <span class="nav-text">结语</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">JiHan</span>
+
+
+  
+	<div class="post-wordcount">
+		
+		  <span class="post-meta-divider">|</span>
+		
+		<span class="post-meta-item-icon">
+		  <i class="fa fa-area-chart"></i>
+		</span>
+		
+		  <span class="post-meta-item-text">本站总字数</span>
+		
+		<span title="本站总字数">
+		  89.3k
+		</span>
+	</div>
+   
+ </div>
+
+
+
+
+  <script src="https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js"></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({theme: 'forest'});
+    }
+  </script>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 本站访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'VgnMRYmQLHYX1MQApA7bN511-gzGzoHsz',
+        appKey: 'A37Y5jPoqc8cxMaOoNiXSh9s',
+        placeholder: '小伙子，我看你骨骼惊奇...',
+        avatar:'mp',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body>
+</html>

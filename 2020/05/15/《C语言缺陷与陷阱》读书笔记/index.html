@@ -1,0 +1,1326 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="C,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="JiHan's Blog" type="application/atom+xml">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="虽然这本书已经有些古老了，但是还好，C语言相对来说也挺古老，并且近些年的变化还不算大。虽然其中描述的有些问题，现在已经不存在，或者说编译器已经将其禁止，但是依旧有很多可以学到的技巧。(•̀⌄•́) 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan  以下内容都是根据书中的章节目录，并且根据自己的缺陷进行记录的。 如果有兴趣，推荐先阅读原著，再看笔记。">
+<meta name="keywords" content="C">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《C语言缺陷与陷阱》读书笔记">
+<meta property="og:url" content="http://yoursite.com/2020/05/15/《C语言缺陷与陷阱》读书笔记/index.html">
+<meta property="og:site_name" content="JiHan&#39;s Blog">
+<meta property="og:description" content="虽然这本书已经有些古老了，但是还好，C语言相对来说也挺古老，并且近些年的变化还不算大。虽然其中描述的有些问题，现在已经不存在，或者说编译器已经将其禁止，但是依旧有很多可以学到的技巧。(•̀⌄•́) 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan  以下内容都是根据书中的章节目录，并且根据自己的缺陷进行记录的。 如果有兴趣，推荐先阅读原著，再看笔记。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2020/05/15/《C语言缺陷与陷阱》读书笔记/%E4%BC%98%E5%8C%96%E5%90%8E%E6%B1%87%E7%BC%96%E4%BB%A3%E7%A0%81.png">
+<meta property="og:image" content="http://yoursite.com/2020/05/15/《C语言缺陷与陷阱》读书笔记/%E5%8E%9F%E5%A7%8B%E6%B1%87%E7%BC%96%E4%BB%A3%E7%A0%81.png">
+<meta property="og:updated_time" content="2020-09-13T01:39:25.769Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《C语言缺陷与陷阱》读书笔记">
+<meta name="twitter:description" content="虽然这本书已经有些古老了，但是还好，C语言相对来说也挺古老，并且近些年的变化还不算大。虽然其中描述的有些问题，现在已经不存在，或者说编译器已经将其禁止，但是依旧有很多可以学到的技巧。(•̀⌄•́) 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan  以下内容都是根据书中的章节目录，并且根据自己的缺陷进行记录的。 如果有兴趣，推荐先阅读原著，再看笔记。">
+<meta name="twitter:image" content="http://yoursite.com/2020/05/15/《C语言缺陷与陷阱》读书笔记/%E4%BC%98%E5%8C%96%E5%90%8E%E6%B1%87%E7%BC%96%E4%BB%A3%E7%A0%81.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always","offset":12,"offset_float":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/05/15/《C语言缺陷与陷阱》读书笔记/">
+
+
+
+
+
+  <title>《C语言缺陷与陷阱》读书笔记 | JiHan's Blog</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-144130643-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">JiHan's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">随笔写写啦 (๑`･ᴗ･´๑)</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/15/《C语言缺陷与陷阱》读书笔记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiHan">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/touxiang.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiHan's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">《C语言缺陷与陷阱》读书笔记</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-15T17:42:11+08:00">
+                2020-05-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/05/15/《C语言缺陷与陷阱》读书笔记/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/05/15/《C语言缺陷与陷阱》读书笔记/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 阅读次数
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  2.2k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  8
+                </span>
+              
+            </div>
+          
+			
+          
+
+        </div>
+      </header>
+    
+
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>虽然这本书已经有些古老了，但是还好，C语言相对来说也挺古老，并且近些年的变化还不算大。虽然其中描述的有些问题，现在已经不存在，或者说编译器已经将其禁止，但是依旧有很多可以学到的技巧。(•̀⌄•́)<br>
+　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan</p>
+<hr>
+<p><em>以下内容都是根据书中的章节目录，并且根据自己的缺陷进行记录的。</em><br>
+<em>如果有兴趣，推荐先阅读原著，再看笔记。</em></p>
+<a id="more"></a>
+<h3 id="前言"><a class="header-anchor" href="#前言"></a>前言</h3>
+<p>心智模式(mental model)：被解释为‘’人们深植心中，对于周遭世界如何运作的看法和行为‘’。《心灵的新科学》中认为，人们的心智模式决定了人们如何认识周遭世界。《列子》一书中有个典型故事，说有个人遗失了一把斧头，他怀疑是邻居孩子偷的，暗中观察他的行为，怎么看怎么像偷斧子的人；后来他在自己家中找到了遗失的斧头，再碰到邻居的孩子时，怎么看也不像会是偷他斧头的人了。</p>
+<p>你是否愿意购买一个返修率很高的厂家所生产的汽车？如果厂家声明他已经做出了改进，你的态度是否会改变？用户为你找出程序中的Bug，你真正损失的是什么？</p>
+<h3 id="第一章"><a class="header-anchor" href="#第一章"></a>第一章</h3>
+<p><strong>词法分析</strong><br>
+词法分析中的“贪心法”：尽可能长的读取字符将其作为一个符号。</p>
+<h3 id="第二章"><a class="header-anchor" href="#第二章"></a>第二章</h3>
+<p><strong>理解函数声明</strong><br>
+<code>int *a </code>中a表示为一个int指针，相应的<br>
+<code>(int *)</code> 表示“int指针”的强制类型转换。<br>
+同理：<br>
+float (*h)() 表示h是一个指向返回值为浮点数的函数指针，那么，<br>
+(float (*)()) 表示“指向返回值为浮点数的函数指针”的强制类型转换。<br>
+那么：<br>
+<code>( * (void (*) () )0 ) ();</code>含义是什么？<br>
+首先，<code>(void (*) () )</code>表示 “返回值为void型的函数指针”的强制转换。而强制转换的对象是0，意味着0这个地址被强制转换为了一个函数指针，而最开始的*表示指向函数指针所代表的地址，也就是0地址，综合起来：<br>
+调用地址为0处的函数。<br>
+普通调用方式：<br>
+<code>fun();</code><br>
+实际上为<code>(*fun)();</code>的简写，fun实质还是一个函数指针。</p>
+<p>上述定义，我们也可以使用<code>typedef</code>来得到：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">void</span> <span class="params">(*funcptr)</span> <span class="params">()</span></span>; </span><br><span class="line">(* (funcptr)<span class="number">0</span>) ();</span><br></pre></td></tr></table></figure>
+<p>这里可以说明一下：<code>typedef</code>的实际功能就是为一个类型声明一个别名。在第一行代码中，我们可以理解为<code>funcptr=void(*)()</code>。那么，在第二行代码中，<code>funcptr</code>是个强制转换，只有类型，没有实际声明变量。将<code>funcptr</code>进行替换，就能得到实际的类型声明：<br>
+<code>(* (void(*)())0) ();</code><br>
+书中还提到了第二种关于signal的声明 <code>void(*signal(int, void(*)(int)))();</code>等效于：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">void</span> <span class="params">(*HANDLER)</span><span class="params">(<span class="keyword">int</span>)</span></span>;</span><br><span class="line"><span class="function">HANDLER <span class="title">signal</span><span class="params">(<span class="keyword">int</span>, HANDLER)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>这儿<code>signal(int, HANDLER)</code>是一个<code>HANDLER</code>变量，先将其带入到<code>typedef</code>中：<code>void (*signal(int, HANDLER))(int);</code>，再将signal内部HANDLER变量声明<code>HANDLER=void(*)(int)</code>进行替换：<code>void (*signal(int, void(*)(int)))(int);</code></p>
+<h3 id="第三章"><a class="header-anchor" href="#第三章"></a>第三章</h3>
+<p><strong>指针与数组</strong><br>
+<code>int (*ap)[31]</code>含义是：声明了<code>*ap</code>是一个拥有31个整数元素的数组，因此ap就是指向这样一个数组的指针。注意，这里只是声明了一个指针ap，后面的<code>[31]</code>是在表示这个指针的类型。更加通俗：假如声明<code>int A[31]</code>,那么<code>A=(*ap)</code>,即<code>ap=&amp;A</code>.所有操作将<code>A</code>和<code>(*ap)</code>进行等效替换就行了。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> *hello;</span><br><span class="line"><span class="keyword">char</span> hello[];</span><br></pre></td></tr></table></figure>
+<p>这两种声明第一种是一个指向char类型的指针，第二种是代表指向一个char数组的指针。明显第一种范围更广。如果使用中都是代表一个char数组指针的时候，二者是等效的，在参数传递中混用编译器也不会报错。主要是看哪种更能表现出自己的意图。例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">main(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])&#123;</span><br><span class="line">&#125;</span><br><span class="line">main(<span class="keyword">int</span> argc, <span class="keyword">char</span> **argv)&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>两种写法都等效，唯一不同就在第一种更加强调<code>argv</code>是某一字符串的起始地址。而通常我们也是更关心某个传入参数，而不是某个参数中的某个字符。</p>
+<h3 id="第五章"><a class="header-anchor" href="#第五章"></a>第五章</h3>
+<p><strong>使用errno检测错误</strong><br>
+用处是检测最后一次系统错误。当调用某个与系统相关的函数，返回的是错误值时，可以调用此函数。(猜测：库函数中应该都会有错误码)<br>
+<strong>库函数signal</strong><br>
+函数声明形式：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;signal.h&gt;</span></span></span><br><span class="line">signal(signal type, handle function);</span><br></pre></td></tr></table></figure>
+<p>这个函数时非常有用的，特别是针对出现段错误的情况。当出现段错误时，会发出<code>SIGSEGV</code>信号给程序，而程序中一开始调用了<code>signal</code>后，它将会接收对应信号量并使用相应的<code>function</code>来处理。我们在处理函数中使用<code>backtrace</code>及相关的函数即可将发生段错误时的函数堆栈信息打印出来，即可追溯到对应的错误函数。<br>
+下面是<a href="https://blog.csdn.net/astrotycoon/article/details/8142588" target="_blank" rel="noopener">参考其他人</a>后进行了相应修改的代码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stddef.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;execinfo.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;signal.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">dump</span><span class="params">(<span class="keyword">int</span> sig)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">void</span>* <span class="built_in">array</span>[<span class="number">128</span>];</span><br><span class="line">    <span class="keyword">size_t</span> arr_size, i;</span><br><span class="line">    <span class="keyword">char</span> **strings = <span class="literal">NULL</span>;</span><br><span class="line">    signal(SIGSEGV, SIG_IGN);</span><br><span class="line">    <span class="comment">//signal(other signal type, SIG_IGN);</span></span><br><span class="line">    </span><br><span class="line">    arr_size = backtrace (<span class="built_in">array</span>, <span class="keyword">sizeof</span>(<span class="built_in">array</span>)/<span class="keyword">sizeof</span>(<span class="built_in">array</span>[<span class="number">0</span>]));</span><br><span class="line">    strings = backtrace_symbols (<span class="built_in">array</span>, arr_size);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Signal:[%s], PID:(%d), Stack trace:\n"</span>, strsignal(sig), getpid());  </span><br><span class="line">    <span class="keyword">if</span> (strings) &#123;</span><br><span class="line">        <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; arr_size; i++) &#123;</span><br><span class="line">            <span class="built_in">printf</span>( <span class="string">"%ld: %s\n"</span>, i + <span class="number">1</span>, strings[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">free</span> (strings);</span><br><span class="line">    &#125;</span><br><span class="line">    raise(sig);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">func_c</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> *segement = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%s\n"</span>,segement);</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">func_b</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    func_c();</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">func_a</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    func_b();</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (signal(SIGSEGV, dump) == SIG_ERR)</span><br><span class="line">        perror(<span class="string">"can't catch SIGSEGV"</span>);</span><br><span class="line">    func_a();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>编译命令：<br>
+<code>gcc -g -rdynamic signal.c -o a.out</code><br>
+这里需要注意，添加-O2进行优化后，可能导致backtrace_symbols输出不了函数名。其最终结果如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Signal:[Segmentation fault], PID:(<span class="number">4248</span>), Stack trace:</span><br><span class="line"><span class="number">1</span>: ./a.out(dump+<span class="number">0x3d</span>) [<span class="number">0x400afa</span>]</span><br><span class="line"><span class="number">2</span>: /lib64/libc.so<span class="number">.6</span>(+<span class="number">0x35270</span>) [<span class="number">0x7f20db113270</span>]</span><br><span class="line"><span class="number">3</span>: /lib64/libc.so<span class="number">.6</span>(+<span class="number">0x86c31</span>) [<span class="number">0x7f20db164c31</span>]</span><br><span class="line"><span class="number">4</span>: /lib64/libc.so<span class="number">.6</span>(_IO_puts+<span class="number">0xc</span>) [<span class="number">0x7f20db14af2c</span>]</span><br><span class="line"><span class="number">5</span>: ./a.out(func_c+<span class="number">0x1c</span>) [<span class="number">0x400bd5</span>]</span><br><span class="line"><span class="number">6</span>: ./a.out(func_b+<span class="number">0xe</span>) [<span class="number">0x400be5</span>]</span><br><span class="line"><span class="number">7</span>: ./a.out(func_a+<span class="number">0xe</span>) [<span class="number">0x400bf5</span>]</span><br><span class="line"><span class="number">8</span>: ./a.out(main+<span class="number">0x38</span>) [<span class="number">0x400c2f</span>]</span><br><span class="line"><span class="number">9</span>: /lib64/libc.so<span class="number">.6</span>(__libc_start_main+<span class="number">0xf5</span>) [<span class="number">0x7f20db0ffc05</span>]</span><br><span class="line"><span class="number">10</span>: ./a.out() [<span class="number">0x4009f9</span>]</span><br><span class="line"><span class="function">Segmentation <span class="title">fault</span> <span class="params">(core dumped)</span></span></span><br></pre></td></tr></table></figure>
+<p>这里可以非常明显的看到，是执行a.out时其中func_c函数出错，而其错误是由于IO输出导致的。简直不要太明显。<br>
+如果添加了优化选项，代码结构会改变，不方便定位。<br>
+添加-O2选项后的输出：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Signal:[Segmentation fault], PID:(<span class="number">4367</span>), Stack trace:</span><br><span class="line"><span class="number">1</span>: ./a.out(dump+<span class="number">0x2c</span>) [<span class="number">0x400b1c</span>]</span><br><span class="line"><span class="number">2</span>: /lib64/libc.so<span class="number">.6</span>(+<span class="number">0x35270</span>) [<span class="number">0x7fd5b3951270</span>]</span><br><span class="line"><span class="number">3</span>: /lib64/libc.so<span class="number">.6</span>(+<span class="number">0x86c31</span>) [<span class="number">0x7fd5b39a2c31</span>]</span><br><span class="line"><span class="number">4</span>: /lib64/libc.so<span class="number">.6</span>(_IO_puts+<span class="number">0xc</span>) [<span class="number">0x7fd5b3988f2c</span>]</span><br><span class="line"><span class="number">5</span>: ./a.out(main+<span class="number">0x20</span>) [<span class="number">0x4009f0</span>]</span><br><span class="line"><span class="number">6</span>: /lib64/libc.so<span class="number">.6</span>(__libc_start_main+<span class="number">0xf5</span>) [<span class="number">0x7fd5b393dc05</span>]</span><br><span class="line"><span class="number">7</span>: ./a.out() [<span class="number">0x400a2c</span>]</span><br><span class="line"><span class="function">Segmentation <span class="title">fault</span> <span class="params">(core dumped)</span></span></span><br></pre></td></tr></table></figure>
+<p>我们可以把可执行文件编程汇编代码，看看发生了啥<br>
+<code>objdump -d a.out &gt; a.s</code><br>
+a.s中对应的出错位置就是在[0x4009f0]地址处，而这个地址也实实在在的在main函数中：<br>
+<img src="/2020/05/15/《C语言缺陷与陷阱》读书笔记/%E4%BC%98%E5%8C%96%E5%90%8E%E6%B1%87%E7%BC%96%E4%BB%A3%E7%A0%81.png" alt="优化后汇编代码"><br>
+优化过程中删减了中间两层的函数调用。厉害。也正是因为这样，导致在函数跟踪的时候，只能到看到main函数。<br>
+而没有优化过的代码，就和原始结构一样：<br>
+<img src="/2020/05/15/《C语言缺陷与陷阱》读书笔记/%E5%8E%9F%E5%A7%8B%E6%B1%87%E7%BC%96%E4%BB%A3%E7%A0%81.png" alt="原始汇编代码"></p>
+<h3 id="第六章"><a class="header-anchor" href="#第六章"></a>第六章</h3>
+<p>简单一句话概括，define功能就是做宏替换，它啥功能也没有，就是简简单单的字符替换。</p>
+<h3 id="第七章"><a class="header-anchor" href="#第七章"></a>第七章</h3>
+<p>主要讲的是移植性问题，虽然C最初开发的目的就是为了可移植性。但是后续不断的发展，导致C上层库出现了偏差，最显而易见的就是windows和linux的C代码兼容性很差，特别是系统调用级别的，基本是两套api了。<br>
+其中还讲到了关于内存重复利用问题，也就是realloc函数。主要用途还是用于原有的空间不够，进行扩展。这样是比你free掉之前的空间，然后重新malloc要快。并且realloc时，是可以拷贝数据到新的地方的。当然，realloc的空间小于之前的空间，那么会产生截断。总之，realloc时需要有很多注意事项，如果不是对空间利用率有较高的要求，可以不用使用。</p>
+<h3 id="第八章"><a class="header-anchor" href="#第八章"></a>第八章</h3>
+<p>建议，尽量在写代码的时候，多想，特别是结构。代码写完后多检查，测试。<br>
+尽量覆盖异常问题，但避免过多的防御式编程。</p>
+<h3 id="总结"><a class="header-anchor" href="#总结"></a>总结</h3>
+<p>这本书还是相当的老了，很多书中的问题，在现在来看已经不是问题。但是还是有些地方的提出的注意事项，值得参考和学习。加上全书不长，可以快速一看，然后发现自己缺失的点即可。<br>
+2020.5.7</p>
+
+      
+    </div>
+    
+    
+    
+
+	<div>
+		
+			<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+		
+	</div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/C/" rel="tag"> <i class="fa fa-tag"></i> C</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/05/06/libipset源码分析/" rel="next" title="libipset源码分析">
+                <i class="fa fa-chevron-left"></i> libipset源码分析
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/05/18/ipset消息通信/" rel="prev" title="ipset消息通信">
+                ipset消息通信 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+		<div>
+		</div>
+    
+  </div>
+ 
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/touxiang.jpg" alt="JiHan">
+          <p class="site-author-name" itemprop="name">JiHan</p>
+           
+              <p class="site-description motion-element" itemprop="description">瘫着贼舒服</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">41</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/JiHanHuang/" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:Mr.JiHan.Mail@gmail.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                    
+                      E-Mail
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第一章"><span class="nav-number">2.</span> <span class="nav-text">第一章</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二章"><span class="nav-number">3.</span> <span class="nav-text">第二章</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第三章"><span class="nav-number">4.</span> <span class="nav-text">第三章</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第五章"><span class="nav-number">5.</span> <span class="nav-text">第五章</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第六章"><span class="nav-number">6.</span> <span class="nav-text">第六章</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第七章"><span class="nav-number">7.</span> <span class="nav-text">第七章</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第八章"><span class="nav-number">8.</span> <span class="nav-text">第八章</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">9.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">JiHan</span>
+
+
+  
+	<div class="post-wordcount">
+		
+		  <span class="post-meta-divider">|</span>
+		
+		<span class="post-meta-item-icon">
+		  <i class="fa fa-area-chart"></i>
+		</span>
+		
+		  <span class="post-meta-item-text">本站总字数</span>
+		
+		<span title="本站总字数">
+		  89.3k
+		</span>
+	</div>
+   
+ </div>
+
+
+
+
+  <script src="https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js"></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({theme: 'forest'});
+    }
+  </script>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 本站访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'VgnMRYmQLHYX1MQApA7bN511-gzGzoHsz',
+        appKey: 'A37Y5jPoqc8cxMaOoNiXSh9s',
+        placeholder: '小伙子，我看你骨骼惊奇...',
+        avatar:'mp',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body>
+</html>

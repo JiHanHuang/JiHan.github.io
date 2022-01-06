@@ -1,0 +1,1649 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="JiHan's Blog" type="application/atom+xml">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="谁知道这里面有多少小技巧，没准哪个能帮上你呢？(•̀⌄•́) 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan">
+<meta property="og:type" content="article">
+<meta property="og:title" content="技术札记">
+<meta property="og:url" content="http://yoursite.com/2020/09/14/技术札记/index.html">
+<meta property="og:site_name" content="JiHan&#39;s Blog">
+<meta property="og:description" content="谁知道这里面有多少小技巧，没准哪个能帮上你呢？(•̀⌄•́) 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2020/09/14/技术札记/ssh%E5%85%8D%E5%AF%86%E7%99%BB%E5%BD%95%E5%8E%9F%E7%90%86.png">
+<meta property="og:image" content="http://yoursite.com/2020/09/14/技术札记/%E6%9F%A5%E6%89%BE%E4%B8%8E%E5%BD%93%E5%89%8D%E8%BF%9B%E7%A8%8B%E9%80%9A%E4%BF%A1%E7%9A%84%E6%89%80%E6%9C%89%E8%BF%9B%E7%A8%8B.jpg">
+<meta property="og:image" content="http://yoursite.com/2020/09/14/技术札记/linux%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84.jpg">
+<meta property="og:updated_time" content="2021-12-22T08:14:28.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="技术札记">
+<meta name="twitter:description" content="谁知道这里面有多少小技巧，没准哪个能帮上你呢？(•̀⌄•́) 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan">
+<meta name="twitter:image" content="http://yoursite.com/2020/09/14/技术札记/ssh%E5%85%8D%E5%AF%86%E7%99%BB%E5%BD%95%E5%8E%9F%E7%90%86.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always","offset":12,"offset_float":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/09/14/技术札记/">
+
+
+
+
+
+  <title>技术札记 | JiHan's Blog</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-144130643-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">JiHan's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">随笔写写啦 (๑`･ᴗ･´๑)</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/09/14/技术札记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiHan">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/touxiang.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiHan's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">技术札记</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-09-14T11:20:51+08:00">
+                2020-09-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术杂谈/" itemprop="url" rel="index">
+                    <span itemprop="name">技术杂谈</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/09/14/技术札记/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/09/14/技术札记/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 阅读次数
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  5.6k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  22
+                </span>
+              
+            </div>
+          
+			
+          
+
+        </div>
+      </header>
+    
+
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>谁知道这里面有多少小技巧，没准哪个能帮上你呢？(•̀⌄•́)<br>
+　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan</p>
+<hr>
+<a id="more"></a>
+<h3 id="ssh免密登录"><a class="header-anchor" href="#ssh免密登录"></a>ssh免密登录</h3>
+<p><strong>原理：</strong><br>
+<img src="/2020/09/14/技术札记/ssh%E5%85%8D%E5%AF%86%E7%99%BB%E5%BD%95%E5%8E%9F%E7%90%86.png" alt="ssh免密登录原理"><br>
+<strong>实际配置：</strong></p>
+<ol>
+<li>
+<p>生成秘钥对：<br>
+本地主机：</p>
+   <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>拷贝公钥到远程主机：</p>
+<ol>
+<li>
+<p>简单方法，在本地主机执行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-copy-id remote_username@server_ip_address -p port</span><br></pre></td></tr></table></figure>
+<p><em>不加<code>-p</code>默认22端口</em><br>
+然后输入密码即可</p>
+</li>
+<li>
+<p>先登录远程主机：</p>
+<ol>
+<li>
+<p>获取本地主机的公钥，追加到<code>authorized_keys</code>：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat id_rsa.pub &gt;&gt; authorized_keys</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>修改权限：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod 600 authorized_keys</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>重启服务(不一定需要)：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service sshd restart</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>
+<p>配置ssh名称(可选)<br>
+为了方便记住输入远程主机设备，可给远程主机配置名称。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># vi ~/.ssh/config</span><br><span class="line">Host remote</span><br><span class="line">User root</span><br><span class="line">Hostname 192.168.0.1</span><br><span class="line">Port 22</span><br><span class="line"># ssh remote</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p><strong>测试：</strong><br>
+本地主机登录远程主机：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ssh remote@&lt;ip&gt;</span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line">ssh <span class="comment">#免密</span></span><br></pre></td></tr></table></figure>
+<p><strong>配置ssh禁用密码登录：</strong><br>
+增加安全性，避免别人尝试非法登录。</p>
+<ol>
+<li>
+<p>完成上述的免密登录，服务端获得一个公钥，本机获得一个私钥</p>
+</li>
+<li>
+<p>将私钥保存，供其他设备使用</p>
+</li>
+<li>
+<p>设置服务端配置文件<code>/etc/ssh/sshd_config</code>，关闭密码登录：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#禁用密码验证</span><br><span class="line">PasswordAuthentication no</span><br><span class="line">#启用密钥验证，下面两个默认都是开启的</span><br><span class="line">RSAAuthentication yes</span><br><span class="line">PubkeyAuthentication yes</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>重启sshd服务：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl restart sshd</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="VSCODE"><a class="header-anchor" href="#VSCODE"></a>VSCODE</h3>
+<p>插件列表：</p>
+<ol>
+<li>Remote-SSH：远程ssh登录，linux版本太低不支持</li>
+<li>sftp：远程文件同步</li>
+<li>vscode-icons：文件图标显示</li>
+<li>markdown all in one：Markdown插件</li>
+<li>markdown preview  Enhanced：Markdown预览<br>
+cmd：Markdown Preview Enhanced: Customize Css<br>
+background-color: rgb(157, 189, 189);<br>
+font-family: -apple-system, BlinkMacSystemFont, “Segoe UI”, Helvetica, Arial, sans-serif, “Apple Color Emoji”, “Segoe UI Emoji”, “Segoe UI Symbol”, “微软雅黑”;</li>
+<li>tabNine：机器学习补全(可能导致和语言补全冲突)</li>
+<li>go 补全插件，建议使用gopl，之前补全太慢，<a href="https://blog.csdn.net/zhetmdoubeizhanyong/article/details/102534172" target="_blank" rel="noopener">解决</a></li>
+<li>koroFileHeader：用于生成标准格式函数头说明，或者代码文件头说明</li>
+<li>bookmarks：给代码打标签</li>
+<li><a href="http://Draw.io" target="_blank" rel="noopener">Draw.io</a> integration：drawio的绘图插件</li>
+</ol>
+<h3 id="C-段错误处理-Linux"><a class="header-anchor" href="#C-段错误处理-Linux"></a>C 段错误处理(Linux)</h3>
+<ol>
+<li>必须先得到段错误的地址，可以用gdb的bt或者在程序中捕捉段错误堆栈。<code>SIGSEGV, SIGABRT</code></li>
+<li>在可以编译的机器上源码编译，带上行号和函数名，使用<code>addr2line -f -e &lt;file&gt; &lt;addr&gt;</code>来映射到具体的函数位置。</li>
+<li><code>objdump -D &lt;file&gt; | grep -A 50 -B 50 &lt;addr&gt;</code> 也能查到对应汇编代码，从而定位函数。</li>
+</ol>
+<h3 id="进程运行状态查看"><a class="header-anchor" href="#进程运行状态查看"></a>进程运行状态查看</h3>
+<p><code>pstack &lt;pid&gt; </code>查看当前运行程序的运行状态，非常方便排查阻塞和死锁问题。<br>
+<code>ps aux --sort -rss</code> 按照内存占用排序，排查进程内存泄漏。<br>
+<code>ps v &lt;pid&gt;</code>查看某个进程具体的信息，类似top列出的进程信息。</p>
+<h3 id="断言assert"><a class="header-anchor" href="#断言assert"></a>断言assert</h3>
+<p>处理程序中不应该发生的错误，常用在参数检查。<br>
+<a href="http://c.biancheng.net/c/assert/" target="_blank" rel="noopener">参考1</a>, <a href="https://www.runoob.com/w3cnote/c-assert.html" target="_blank" rel="noopener">参考2</a></p>
+<h3 id="ipset源码技巧"><a class="header-anchor" href="#ipset源码技巧"></a>ipset源码技巧</h3>
+<p>ipset源码分析</p>
+<ol>
+<li>
+<p>这里有个很牛皮的操作，在c里面实现的模块化加载。具体操作如下：<br>
+如果我想在ipset中支持一种新的添加规则，比如hash:ip，那么，我需要改多少源码？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1. 按照格式写好ipset_hash_ip.c里面包含了hash:ip的传输规则和初始化方法。</span><br><span class="line">2. 重新执行configure，加入这个规则（这里具体实现我没有确认，但猜测如此）</span><br><span class="line">3. 执行make</span><br></pre></td></tr></table></figure>
+<p>那么其具体实现方法如何？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1. 首先在configure中会根据你配置的支持规则模块生成makefile，makefile中就会包含编译这个模块的源文件。</span><br><span class="line">2. make时会根据配置产生的源文件列表，生成一个type_init.c文件，里面包含了所有规则模块的初始化。</span><br><span class="line">3. 主函数会调用type_init.c源文件，将初始化好的规则加载到一个全局链表中，在规则匹配的时候进行匹配。</span><br></pre></td></tr></table></figure>
+<p>这种方法就实现了模块化的添加和删除规则模块的方法。这种模块化的思想，在其他语言里并不少见，但是在c语言里面实现的，还是少见(菜鸡的我反正第一次见)</p>
+</li>
+<li>
+<p>提供了接口，自定义输出函数和日志输出文件。</p>
+</li>
+<li>
+<p>X Macros宏使用，类似定义一个map，但是比map功能更丰富。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt; </span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Defines four variables. </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> VARIABLES \ </span></span><br><span class="line">   X(value1, <span class="number">1</span>) \ </span><br><span class="line">   X(value2, <span class="number">2</span>) \ </span><br><span class="line">   X(value3, <span class="number">3</span>) \ </span><br><span class="line">   X(value4, <span class="number">4</span>) </span><br><span class="line"></span><br><span class="line"><span class="comment">// driver program. </span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span> </span></span><br><span class="line"><span class="function"></span>&#123; </span><br><span class="line">   <span class="comment">// Declaration of every variable </span></span><br><span class="line">   <span class="comment">// is done through macro. </span></span><br><span class="line">   <span class="meta">#<span class="meta-keyword">define</span> X(value, a) char value[10]; </span></span><br><span class="line">      VARIABLES </span><br><span class="line">   <span class="meta">#<span class="meta-keyword">undef</span> X </span></span><br><span class="line">   </span><br><span class="line">   <span class="comment">// String values are accepted </span></span><br><span class="line">   <span class="comment">// for all variables. </span></span><br><span class="line">   <span class="meta">#<span class="meta-keyword">define</span> X(value, a) scanf(<span class="meta-string">"\n%s"</span>, value); </span></span><br><span class="line">      VARIABLES </span><br><span class="line">   <span class="meta">#<span class="meta-keyword">undef</span> X </span></span><br><span class="line">   </span><br><span class="line">   <span class="comment">// Values are printed. </span></span><br><span class="line">   <span class="meta">#<span class="meta-keyword">define</span> X(value, a) printf(<span class="meta-string">"%d) %s\n"</span>, a, value); </span></span><br><span class="line">      VARIABLES </span><br><span class="line">   <span class="meta">#<span class="meta-keyword">undef</span> X </span></span><br><span class="line">   <span class="keyword">return</span> <span class="number">0</span>; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>实际上预编译后的代码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt; </span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span> </span></span><br><span class="line"><span class="function"></span>&#123; </span><br><span class="line">   <span class="keyword">char</span> value1[<span class="number">10</span>]; </span><br><span class="line">   <span class="keyword">char</span> value2[<span class="number">10</span>]; </span><br><span class="line">   <span class="keyword">char</span> value3[<span class="number">10</span>]; </span><br><span class="line">   <span class="keyword">char</span> value4[<span class="number">10</span>]; </span><br><span class="line"></span><br><span class="line">   <span class="built_in">scanf</span>(<span class="string">"\n%s"</span>, value1); </span><br><span class="line">   <span class="built_in">scanf</span>(<span class="string">"\n%s"</span>, value2); </span><br><span class="line">   <span class="built_in">scanf</span>(<span class="string">"\n%s"</span>, value3); </span><br><span class="line">   <span class="built_in">scanf</span>(<span class="string">"\n%s"</span>, value4); </span><br><span class="line"></span><br><span class="line">   <span class="built_in">printf</span>(<span class="string">"%d) %s\n"</span>, <span class="number">1</span>, value1); </span><br><span class="line">   <span class="built_in">printf</span>(<span class="string">"%d) %s\n"</span>, <span class="number">2</span>, value2); </span><br><span class="line">   <span class="built_in">printf</span>(<span class="string">"%d) %s\n"</span>, <span class="number">3</span>, value3); </span><br><span class="line">   <span class="built_in">printf</span>(<span class="string">"%d) %s\n"</span>, <span class="number">4</span>, value4); </span><br><span class="line">   <span class="keyword">return</span> <span class="number">0</span>; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>示例2：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt; </span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Defining a macro </span></span><br><span class="line"><span class="comment">// with the values of colors. </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> COLORS \ </span></span><br><span class="line">   X(RED)	 \ </span><br><span class="line">   X(BLACK) \ </span><br><span class="line">   X(WHITE) \ </span><br><span class="line">   X(BLUE) </span><br><span class="line"></span><br><span class="line"><span class="comment">// Creating an enum of colors </span></span><br><span class="line"><span class="comment">// by macro expansion. </span></span><br><span class="line"><span class="keyword">enum</span> colors &#123; </span><br><span class="line">   <span class="meta">#<span class="meta-keyword">define</span> X(value) value, </span></span><br><span class="line">      COLORS </span><br><span class="line">   <span class="meta">#<span class="meta-keyword">undef</span> X </span></span><br><span class="line">&#125;; </span><br><span class="line"></span><br><span class="line"><span class="comment">// A utility that takes the enum value </span></span><br><span class="line"><span class="comment">// and returns corresponding string value </span></span><br><span class="line"><span class="function"><span class="keyword">char</span>* <span class="title">toString</span><span class="params">(<span class="keyword">enum</span> colors value)</span> </span></span><br><span class="line"><span class="function"></span>&#123; </span><br><span class="line">   <span class="keyword">switch</span> (value) &#123; </span><br><span class="line">      <span class="meta">#<span class="meta-keyword">define</span> X(color) \ </span></span><br><span class="line">         <span class="keyword">case</span> color: \ </span><br><span class="line">            <span class="keyword">return</span> #color; </span><br><span class="line">            COLORS </span><br><span class="line">      <span class="meta">#<span class="meta-keyword">undef</span> X </span></span><br><span class="line">   &#125; </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"><span class="comment">// driver program. </span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span> </span></span><br><span class="line"><span class="function"></span>&#123; </span><br><span class="line">   <span class="keyword">enum</span> colors color = WHITE; </span><br><span class="line">   <span class="built_in">printf</span>(<span class="string">"%s"</span>, toString(color)); </span><br><span class="line">   <span class="keyword">return</span> <span class="number">0</span>; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>实际上预编译后的代码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt; </span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Creating an enum of colors. </span></span><br><span class="line"><span class="keyword">enum</span> colors &#123; </span><br><span class="line">   RED, </span><br><span class="line">   BLACK, </span><br><span class="line">   WHITE, </span><br><span class="line">   BLUE </span><br><span class="line">&#125;; </span><br><span class="line"></span><br><span class="line"><span class="comment">/*A utility that takes the enum value and returns </span></span><br><span class="line"><span class="comment">corresponding string value*/</span></span><br><span class="line"><span class="function"><span class="keyword">char</span>* <span class="title">toString</span><span class="params">(<span class="keyword">enum</span> colors value)</span> </span></span><br><span class="line"><span class="function"></span>&#123; </span><br><span class="line">   <span class="keyword">switch</span> (value) &#123; </span><br><span class="line">   <span class="keyword">case</span> RED: </span><br><span class="line">      <span class="keyword">return</span> <span class="string">"RED"</span>; </span><br><span class="line">   <span class="keyword">case</span> BLACK: </span><br><span class="line">      <span class="keyword">return</span> <span class="string">"BLACK"</span>; </span><br><span class="line">   <span class="keyword">case</span> WHITE: </span><br><span class="line">      <span class="keyword">return</span> <span class="string">"WHITE"</span>; </span><br><span class="line">   <span class="keyword">case</span> BLUE: </span><br><span class="line">      <span class="keyword">return</span> <span class="string">"BLUE"</span>; </span><br><span class="line">   &#125; </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"><span class="comment">// driver program. </span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span> </span></span><br><span class="line"><span class="function"></span>&#123; </span><br><span class="line">   <span class="keyword">enum</span> colors color = WHITE; </span><br><span class="line">   <span class="built_in">printf</span>(<span class="string">"%s"</span>, toString(color)); </span><br><span class="line">   <span class="keyword">return</span> <span class="number">0</span>; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>X macros 主要适用于多中类型有相同的处理逻辑。简单的类似enum中int到string的映射，复杂的到ipset的多种类型处理。</p>
+</li>
+<li>
+<p>gcc 编译debug模式或者自定义模式。<code>-Dxxx</code>。示例：<br>
+test.c:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line"></span><br><span class="line">int main(int agv, char *agrs[])&#123;</span><br><span class="line">#ifdef TEST</span><br><span class="line">   printf(&quot;ENABLE TEST\n&quot;);</span><br><span class="line">#endif</span><br><span class="line">   printf(&quot;test over\n&quot;);</span><br><span class="line">   return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>执行TEST：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ gcc test.c -DTEST -o test</span><br><span class="line">$ ./test</span><br><span class="line">ENABLE TEST</span><br><span class="line">test over</span><br><span class="line">$ gcc test.c -o test</span><br><span class="line">$ ./test</span><br><span class="line">test over</span><br></pre></td></tr></table></figure>
+<p>这种方式在做C的模块编译，以及Debug编译特别有效。DEBUG适合开源代码，不适合现场代码排查。<br>
+<a href="https://colobu.com/2018/08/28/15-Most-Frequently-Used-GCC-Compiler-Command-Line-Options/#%E4%BD%BF%E7%94%A8-V%E6%89%93%E5%8D%B0%E6%89%80%E6%9C%89%E7%9A%84%E6%89%A7%E8%A1%8C%E5%91%BD%E4%BB%A4" target="_blank" rel="noopener">15个最常用的GCC编译器参数</a></p>
+</li>
+<li>
+<p>源码编译的时候，缺少依赖库。</p>
+<ul>
+<li>一般的解决方法，都是直接用yum install libxxx-devel.x86_64，再次进行configure。</li>
+<li>如果还不成功，就检查你的<code>PKG_CONFIG_PATH</code>变量是否存在，不存在添加对应的环境变量(默认一般在<code>/usr/lib64/pkgconfig/</code>)。</li>
+<li>如果还不行，就执行<code>/usr/bin/pkg-config --exists --print-errors &quot;libxxx &gt;= x.x.xx&quot;</code>(通常这个命令可以在configure文件中找到)，然后再根据问题来排查。</li>
+<li>最后的方法，就是用<code>./configure --help</code>来找到对应的库的环境变量名称，修改对应的<code>libxxx_LIBS</code></li>
+</ul>
+</li>
+</ol>
+<h3 id="一些工具"><a class="header-anchor" href="#一些工具"></a>一些工具</h3>
+<p><a href="https://golang.hotexamples.com/" target="_blank" rel="noopener">查找各种代码的使用范例</a></p>
+<h3 id="go好用的开源组件"><a class="header-anchor" href="#go好用的开源组件"></a>go好用的开源组件</h3>
+<p>配置文件读写：</p>
+<ul>
+<li><a href="http://github.com/spf13/viper" target="_blank" rel="noopener">github.com/spf13/viper</a></li>
+</ul>
+<p>日志：</p>
+<ul>
+<li><a href="http://go.uber.org/zap" target="_blank" rel="noopener">go.uber.org/zap</a></li>
+</ul>
+<p>web服务：</p>
+<ul>
+<li><a href="http://github.com/gin-gonic/gin" target="_blank" rel="noopener">github.com/gin-gonic/gin</a></li>
+</ul>
+<p>go编写命令：</p>
+<ul>
+<li><a href="http://github.com/urfave/cli/v2" target="_blank" rel="noopener">github.com/urfave/cli/v2</a></li>
+</ul>
+<p>restful 文档生成：</p>
+<ul>
+<li><a href="https://github.com/swaggo/gin-swagger" target="_blank" rel="noopener">https://github.com/swaggo/gin-swagger</a>
+<ul>
+<li><a href="https://awesomeopensource.com/project/swaggo/swag" target="_blank" rel="noopener">全教程</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/40304004" target="_blank" rel="noopener">教程</a></li>
+<li><a href="https://juejin.im/post/5d3f92356fb9a06b317b3baf" target="_blank" rel="noopener">教程</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="Go技巧"><a class="header-anchor" href="#Go技巧"></a>Go技巧</h3>
+<ol>
+<li>测试
+<ol>
+<li>单元测试<br>
+就是常用的以<code>_test.go</code>结尾的文件，函数名<code>Testxx</code>来构成的单元测试。如果你想将单元测试编译出来，可以使用<code>-c</code>参数，执行测试程序的时候，使用<code>-test.xxx</code>来执行test相关命令。例如：<code>go test -run xxx</code>=<code>./a -test.run xxx</code></li>
+<li>性能测试<br>
+同样在<code>_test.go</code>结尾的文件中，以<code>Benchmark</code>为开头的性能测试，具体用法可以<a href="https://my.oschina.net/solate/blog/3034188" target="_blank" rel="noopener">参考</a>, 生成性能图和火焰图更有利于分析。<a href="https://zhuanlan.zhihu.com/p/80578541" target="_blank" rel="noopener">另外的参考</a></li>
+</ol>
+</li>
+</ol>
+<h3 id="xrags"><a class="header-anchor" href="#xrags"></a>xrags</h3>
+<p>常见的用法：</p>
+<ol>
+<li><code>ls | xargs echo</code> 相当于<code>echo a b c</code></li>
+<li><code>ls | xargs -i echo {}</code> 相当于 <code>echo a; echo b; echo c</code>，<code>-i</code>同<code>-I '{}'</code>，其含义是将<code>{}</code>内的内容替换成前面输出的内容，并且循环执行。</li>
+<li><code>-t</code>参数可以查看你xargs执行的命令。</li>
+</ol>
+<p><strong>注意：</strong> 如果在xargs后的命令参数中，路径参数有空格的或tab的，会导致路径无法识别。比如<code>echo &quot;/home/jihan &quot; | xargs -i ls {}</code>就会报错，虽然实际命令<code>ls /home/jihan&lt;空格&gt;</code>没有问题，但是用xargs+i的形式就有问题。</p>
+<h3 id="shell调试"><a class="header-anchor" href="#shell调试"></a>shell调试</h3>
+<ol>
+<li>-n 命令，显示shell，不执行，通常用于语法检查。</li>
+<li>-x 命令，我经常用，在执行过程中打印shell脚本执行的真实命令。-v是打印原始命令，不做替换。</li>
+<li>bashdb，类似gdb做调试用，命令：<code>bashdb --debug your.sh</code>，一下是常用参数：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">一、列出代码和查询代码类：</span><br><span class="line">l  列出当前行以下的10行</span><br><span class="line">-  列出正在执行的代码行的前面10行</span><br><span class="line">.  回到正在执行的代码行</span><br><span class="line">/pat/ 向后搜索pat</span><br><span class="line">？pat？向前搜索pat</span><br><span class="line">二、Debug控制类：</span><br><span class="line">h     帮助</span><br><span class="line">help  命令 得到命令的具体信息</span><br><span class="line">q     退出bashdb</span><br><span class="line">x     算数表达式 计算算数表达式的值，并显示出来</span><br><span class="line">!!    空格Shell命令 参数 执行shell命令</span><br><span class="line">使用bashdb进行debug的常用命令(cont.)</span><br><span class="line">三、控制脚本执行类：</span><br><span class="line">n   执行下一条语句，遇到函数，不进入函数里面执行，将函数当作黑盒</span><br><span class="line">s n 单步执行n次，遇到函数进入函数里面</span><br><span class="line">b   行号n 在行号n处设置断点</span><br><span class="line">del 行号n 撤销行号n处的断点</span><br><span class="line">c   行号n 一直执行到行号n处</span><br><span class="line">R   重新启动当前调试脚本</span><br><span class="line">Finish 执行到程序最后</span><br><span class="line">cond n expr 条件断点</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="查找与当前进程通信的所有进程"><a class="header-anchor" href="#查找与当前进程通信的所有进程"></a>查找与当前进程通信的所有进程</h3>
+<ol>
+<li>找到当前进程S的进程pid</li>
+<li>获取与S通信A的tcp端口号</li>
+<li>通过A的tcp端口号，获得A的进程pid。这里也可以使用<code>lsof -i:&lt;port&gt;</code>来查看，速度更快。<br>
+<img src="/2020/09/14/技术札记/%E6%9F%A5%E6%89%BE%E4%B8%8E%E5%BD%93%E5%89%8D%E8%BF%9B%E7%A8%8B%E9%80%9A%E4%BF%A1%E7%9A%84%E6%89%80%E6%9C%89%E8%BF%9B%E7%A8%8B.jpg" alt="举个栗子"></li>
+</ol>
+<h3 id="程序执行时的系统调用"><a class="header-anchor" href="#程序执行时的系统调用"></a>程序执行时的系统调用</h3>
+<p><code>strace</code> 是 Linux 中用于监控和篡改进程与内核之间操作的工具。非常强大的工具，能够有效排查程序性能问题，异常操作以及段错误问题。</p>
+<h3 id="程序内存检测"><a class="header-anchor" href="#程序内存检测"></a>程序内存检测</h3>
+<p><code>valgrind</code> <a href="https://www.jianshu.com/p/29a7a7d3d5b1" target="_blank" rel="noopener">参考</a></p>
+<h3 id="Linux文件锁定"><a class="header-anchor" href="#Linux文件锁定"></a>Linux文件锁定</h3>
+<p>在root权限下，有可能对某个文件都没有操作权限，可能是使用<code>chattr</code>对其进行锁定，可使用其进行解除。<code>lsattr</code>查看相应属性。<a href="http://c.biancheng.net/view/874.html" target="_blank" rel="noopener">参考</a></p>
+<h3 id="Linux-内核小版本升级"><a class="header-anchor" href="#Linux-内核小版本升级"></a>Linux 内核小版本升级</h3>
+<p>小版本，就是 <code>3.10.0-862</code>中<code>-</code>后的东西。而我们进行升级的时候，需要(centos为例，3.10.0-693升级到3.10.0-862)：</p>
+<ol>
+<li>大版本相同的一个设备(3.10.0-693)</li>
+<li>想要升级的rpm包(3.10.0-862)<a href="https://www.kernel.org/" target="_blank" rel="noopener">官方</a>，找不到直接Google搜吧。<a href="https://linuxsoft.cern.ch/cern/centos/7/updates/x86_64/repoview/kernel.html" target="_blank" rel="noopener">这个网站很全</a></li>
+<li><code>yum install kernel-3.10.0-862.9.1.el7.x86_64.rpm</code></li>
+<li>grub2看看启动顺序<code>grub2-editenv list</code>以及<code>awk -F \' '$1==&quot;menuentry &quot; {print i++ &quot; : &quot; $2}' /etc/grub2.cfg</code></li>
+<li>reboot</li>
+<li><s>需要源码的情况下，执行<code>yum install kernel-devel</code>会自动根据内核版本下载安装源码到<code>/usr/src/kernels</code>中(会下载最新版本的，郁闷)</s></li>
+<li>需要内核源码的话，从网上搜索对应的源码，执行<code>yum install kernel-devel-xxxx.rpm</code>安装即可。<a href="https://linuxsoft.cern.ch/cern/centos/7/updates/x86_64/repoview/kernel-devel.html" target="_blank" rel="noopener">这个网站很全</a></li>
+</ol>
+<h3 id="linux源码编译"><a class="header-anchor" href="#linux源码编译"></a>linux源码编译</h3>
+<h3 id="内核模块源码编译安装"><a class="header-anchor" href="#内核模块源码编译安装"></a>内核模块源码编译安装</h3>
+<p>用户态的源码编译安装，和普通的其他软件没有什么区别，基本都是make，make install，但是你要进行内核模块的源码构建，那么有如下几种方式:</p>
+<ol>
+<li>
+<p>放在源码树以内(例如iptables)。假如我要自定义一个netfilter的模块，而且希望将他存放于/net/netfilter/目录下，那么要注意，在该目录下存在大量的.c源码文件。如果你的模块文件仅仅只有一两个源文件，你可以直接将其放在该目录下，如果你的模块包含的源文件比较多的话，也许你应该建立一个单独的文件夹，用于专门维护你的模块程序源文件。假如创建一个目录名为：mynetfilter/子目录。接下来需要修改/net/netfilter/目录下的Makefile文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Obj-m += mynetfilter/</span><br></pre></td></tr></table></figure>
+<p>这行编译指令告诉模块构建系统，在编译模块时需要进入mynetfilter/子目录。如果你的模块程序依赖于一个特殊的配置选项。比如，CONFIG_ MYNETFILTER_TEST（该选项在编译内核时，执行make menuconfig命令时用于配置该模块的编译选项），你需要修改/net/netfilter/目录下的Kconfig文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">config “MYNETFILTER_TEST”</span><br><span class="line">tristate “netfilter test module”</span><br></pre></td></tr></table></figure>
+<p>编译内核时，执行make menucofnig之后，我们会在配置菜单上看到此选项,随之，需要修改Makefile文件，用下面的指令替换之前的<code>Obj-m += mynetfilter/</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Obj-$(CONFIG_MYNETFILTER_TEST)  += mynetfilter/</span><br></pre></td></tr></table></figure>
+<p>最后，在/net/netfilter/mynetfilter/目录下添加一个Makefile文件，其中需要添加下面的指令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Obj –m  += mynetfilter.o</span><br></pre></td></tr></table></figure>
+<p>准备就绪了，现在构建系统会进入到mynetfilter/目录下，将mynetfilter.c编译为mynetfilter.ko模块。<br>
+附：如果你只想编译内核中某个模块的ko，也可以cd到该目录，执行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make CONFIG_XXX=m –c  /kernel/source/location SUBDIRS=$PWD modules</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>内核源码树之外构建(例如ipset)<br>
+如果将模块代码放在内核源码树之外单独构建的话，你只需要在你的模块目录下创建一个Makefile文件，添加一行指令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Obj-m := mynetfilter.o</span><br></pre></td></tr></table></figure>
+<p>如果你有多个源文件只需添加另一行指令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mynetfilter-objs := mynetfiler-init.o mynetfiler-exit.o</span><br></pre></td></tr></table></figure>
+<p>模块在内核内和内核外构建的最大的区别在于构建过程。当模块在内核源代码树之外构建时，你必须告诉make如何找到内核源代码文件和基础Makefile文件。通过下面的指令完成上述功能：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make –c  /kernel/source/location SUBDIRS=$PWD modules</span><br></pre></td></tr></table></figure>
+<p>其中，/kernel/source/location/ 即为你配置的内核源代码树的位置。SUBDIRS是你需要编译的模块位置。</p>
+</li>
+</ol>
+<h3 id="Linux-内核模块加载"><a class="header-anchor" href="#Linux-内核模块加载"></a>Linux 内核模块加载</h3>
+<p><a href="https://www.ibm.com/developerworks/cn/linux/l-cn-kernelmodules/?ca=drs" target="_blank" rel="noopener">版本检查机制</a></p>
+<h3 id="Linux路由操作"><a class="header-anchor" href="#Linux路由操作"></a>Linux路由操作</h3>
+<p>路由：某个ip(某个范围ip)应当到哪个网关去找。网关对应下一条路由。</p>
+<h4 id="route命令操作"><a class="header-anchor" href="#route命令操作"></a>route命令操作</h4>
+<p>注意：route命令官方已经废弃，推荐使用ip<br>
+<code>route -n</code><br>
+<strong>添加默认路由：</strong><br>
+<code>route add default gw 192.168.161.11 dev eth0</code><br>
+<strong>添加一般路由：</strong><br>
+<code>route add -net 192.168.62.11 netmask 255.255.255.0 gw 192.168.1.1</code><br>
+或<br>
+<code>route add -net 192.168.62.0/24 gw 192.168.1.1</code><br>
+<strong>删除路由：</strong><br>
+<code>route del -net 192.168.62.11 netmask 255.255.255.0</code><br>
+或<br>
+<code>route del -net 192.168.62.0/24</code></p>
+<ul>
+<li><code>net</code> 表示一个ip或者网段</li>
+<li><code>gw</code> 表示网关或下一跳路由</li>
+<li><code>dev</code> 表示对应的出口网卡</li>
+</ul>
+<h4 id="ip命令路由操作"><a class="header-anchor" href="#ip命令路由操作"></a>ip命令路由操作</h4>
+<p><code>ip route list</code><br>
+<code>ip -6 route add &lt;ipv6network&gt;/&lt;prefixlength&gt; dev &lt;device&gt;</code><br>
+<code>ip route add/del &lt;network_ip&gt;/&lt;cidr&gt; via &lt;gateway_ip&gt; dev &lt;network_card_name&gt;</code><br>
+<strong>添加默认路由：</strong><br>
+<code>ip route add default via 10.92.2.1 dev eth0</code><br>
+<strong>添加一般路由：</strong><br>
+<code>ip route add 10.0.3.0/24 via 10.0.3.1 dev eth0</code><br>
+<strong>删除路由：</strong><br>
+<code>ip route del 10.0.3.22 via 10.0.3.1 dev eth0</code></p>
+<h4 id="nm命令操作"><a class="header-anchor" href="#nm命令操作"></a>nm命令操作</h4>
+<h3 id="mysql-性能优化"><a class="header-anchor" href="#mysql-性能优化"></a>mysql 性能优化</h3>
+<p><a href="http://blog.chinaunix.net/uid-26870656-id-4287492.html" target="_blank" rel="noopener">TinkPHP 对mysql 20条优化建议</a></p>
+<h3 id="sudo、su和sudo-s的差别"><a class="header-anchor" href="#sudo、su和sudo-s的差别"></a>sudo、su和sudo -s的差别</h3>
+<h3 id="relocation-error-usr-lib64-libc-so-6-symbol-dl-starting-up"><a class="header-anchor" href="#relocation-error-usr-lib64-libc-so-6-symbol-dl-starting-up"></a>relocation error: /usr/lib64/libc.so.6: symbol _dl_starting_up,</h3>
+<p>relocation error: /usr/lib64/libc.so.6: symbol _dl_starting_up, version GLIBC_PRIVATE not defined in file ld-linux-x86-64.so.2 with link time reference 问题解决<br>
+在建立一个错误的软连接到ld-linux-x86-64.so.2时，悲剧就这么发生了。此时大部分命令都不能使用，SSH当然也不能登录了。这个时候一定不要退出终端。</p>
+<p>有人说那就把软连接复原吧，可是ln也同样无法使用。。。这时候我们就可以使用可爱的sln命令就可以了，哈哈。</p>
+<p>lsn /usr/lib64/ld-2.17.so /usr/lib64/ld-linux-x86-64.so.2</p>
+<h3 id="linux死亡操作"><a class="header-anchor" href="#linux死亡操作"></a>linux死亡操作</h3>
+<p>随意动<code>/usr/lib64</code>或<code>/lib64</code>下的库，特别是<code>ld、libc</code>之类的，<strong>覆盖、移动和删除</strong>效果都差不多，基本就是系统爆破级别的。特别注意升级openssl，gcc都容易出现这种问题。附上linux文件目录结构（<a href="https://www.runoob.com/linux/linux-system-contents.html" target="_blank" rel="noopener">参考</a>）：<br>
+<img src="/2020/09/14/技术札记/linux%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84.jpg" alt></p>
+<h3 id="Gcc静-动态链接库链接顺序"><a class="header-anchor" href="#Gcc静-动态链接库链接顺序"></a>Gcc静/动态链接库链接顺序</h3>
+<p><strong>静态库</strong>链接时搜索路径顺序：</p>
+<ol>
+<li>ld会去找GCC命令中的参数-L</li>
+<li>再找gcc的环境变量LIBRARY_PATH</li>
+<li>再找内定目录 /lib /usr/lib /usr/local/lib 这是当初compile gcc时写在程序内的</li>
+</ol>
+<p><strong>动态库</strong>链接时、执行时搜索路径顺序:</p>
+<ol>
+<li>编译目标代码时指定的动态库搜索路径</li>
+<li>环境变量LD_LIBRARY_PATH指定的动态库搜索路径</li>
+<li>配置文件/etc/ld.so.conf中指定的动态库搜索路径</li>
+<li>默认的动态库搜索路径/lib</li>
+<li>默认的动态库搜索路径/usr/lib</li>
+</ol>
+<p>链接时相互依赖顺序是从右到左，越是底层，越靠后写。例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">g++ ...  obj($?) -l(上层逻辑lib) -l(中间封装lib) -l(基础lib) -l(系统lib)  -o $@</span><br></pre></td></tr></table></figure>
+<p>有关环境变量：<br>
+LIBRARY_PATH环境变量：指定程序静态链接库文件搜索路径<br>
+LD_LIBRARY_PATH环境变量：指定程序动态链接库文件搜索路径</p>
+<p>对于排查链接问题方法：<br>
+<code>ldd &lt;your_lib&gt;</code>：查看可执行程序或者动态库运行时的链接库<br>
+<code>readelf -d &lt;your_lib&gt;</code>：和ldd类似，不用运行程序，查看可执行程序或动态库<a href="https://en.wikipedia.org/wiki/Executable_and_Linkable_Format" target="_blank" rel="noopener">ELF</a><br>
+<code>LD_DEBUG=libs ./&lt;your_exe&gt;</code>：查看程序执行时的动态库调度过程。很有用。<br>
+<code>ldconfig</code>：它会遍历默认所有共享库目录，比如/lib，/usr/lib等，然后更新所有的软链接，使她们指向最新共享库。替换了新的动态库，有时需要使用该命令来清除<code>search cache</code></p>
+<p>指定动态库版本或路径：<br>
+<code>-Wl,-rpath,&lt;your_lib_path&gt;</code>: 指定程序运行时动态库链接路径。<br>
+将<code>-lxxx</code>直接修改为<code>/you/path/libxxx</code>，可以指定动态库的绝对路径。</p>
+<p>参考：<br>
+<a href="https://en.wikipedia.org/wiki/Rpath" target="_blank" rel="noopener">wiki rpath</a><br>
+<a href="https://medium.com/nataraj-raghavendra/rpath-vs-runpath-883029b17c45" target="_blank" rel="noopener">rpath vs runpath</a> 附加了许多动态库加载的示例。<br>
+<a href="https://www.cnblogs.com/GnibChen/p/8649476.html" target="_blank" rel="noopener">静态链接与动态链接库的查找顺序</a><br>
+<a href="https://blog.csdn.net/ssmale/article/details/17225345" target="_blank" rel="noopener">gcc 链接库的顺序问题</a><br>
+<a href="https://stackoverflow.com/questions/33373851/gcc-ld-what-is-to-wl-rpath-in-dynamic-linking-what-l-is-to-l-in-static-link/33378137" target="_blank" rel="noopener">gcc/ld: what is to -Wl,-rpath in dynamic linking what -l is to -L in static linking?</a><br>
+<a href="https://stackoverflow.com/questions/25918462/why-ld-library-path-is-bad-and-the-correct-way-to-load-dynamic-libraries" target="_blank" rel="noopener">Why LD_LIBRARY_PATH is BAD and the correct way to load dynamic libraries</a></p>
+<h3 id="有关linux下的目录"><a class="header-anchor" href="#有关linux下的目录"></a>有关linux下的目录</h3>
+<p><a href="#linux%E6%AD%BB%E4%BA%A1%E6%93%8D%E4%BD%9C">上述</a>有相关的linux目录结构，这里说明一下<code>/tmp</code>目录，在linux系统中，<code>/tmp</code>目录在一定周期或者重启等都有可能删除相应部分符合条件的文件。而删除方法是通过执行定时任务<code>/etc/cron.daily/tmpwatch</code>，此定时任务在系统最小安装的情况下，需要手动安装。</p>
+<h3 id="关于系统监控"><a class="header-anchor" href="#关于系统监控"></a>关于系统监控</h3>
+<p>相对大型系统，都需要进行系统监控。特别针对于微服务系统架构。个人理解需要从三个方面进行监控(另<a href="https://zhuanlan.zhihu.com/p/83654617" target="_blank" rel="noopener">可参考</a>)：</p>
+<ol>
+<li>业务逻辑层，负责统计业务访问状态，访问结果，异常等(常用方式log输出。比如syslog)——通常管理员用户都关注</li>
+<li>分布式链路追踪，又称为APM。用于追踪一个业务从开始到结束中间每个阶段的执行情况，用于多组件排错非常方便。(opentracing, Zipkin and Jaeger)——通常管理员关注</li>
+<li>系统整体运行状态，关注系统整体内存，网络，cpu等使用情况。（Prometheus）——管理员关注</li>
+</ol>
+<h3 id="关于软件项目方案评估"><a class="header-anchor" href="#关于软件项目方案评估"></a>关于软件项目方案评估</h3>
+<ol>
+<li>易用性</li>
+<li>可用性</li>
+<li>性能</li>
+<li>安全性</li>
+<li>可维护性(日志，监控系统)</li>
+<li>可扩展性</li>
+</ol>
+<h3 id="tcpdump"><a class="header-anchor" href="#tcpdump"></a>tcpdump</h3>
+<p>非常强大的抓包工具。全面使用教程：<a href="https://colobu.com/2019/07/16/a-tcpdump-tutorial-with-examples/" target="_blank" rel="noopener">https://colobu.com/2019/07/16/a-tcpdump-tutorial-with-examples/</a></p>
+<h3 id="linux环境加载"><a class="header-anchor" href="#linux环境加载"></a>linux环境加载</h3>
+<ol>
+<li>登录式shell加载：/etc/profile -&gt; /etc/profile.d/*.sh -&gt; /etc/environment -&gt; <sub>/.bash_profile（网上也说是</sub>/.profile，但我没发现） -&gt; ~/.bashrc -&gt; /etc/bashrc</li>
+<li>非登录式bash shell窗口： ~/.bashrc -&gt;/etc/bashrc -&gt; /etc/profile.d/*.sh<br>
+其中系统环境在<code>/etc/environment</code>中配置，但一般不要修改它，如果你需要修改系统环境，对每个用户都生效，可以在<code>/etc/profile.d/</code>下增加sh文件。<br>
+如果是个人的环境变更，可以修改<code>~/.bash_profile</code>，如果需要执行一些公共方法，或者别名(alias)之类的，可以在<code>~/.bashrc</code>中增加。</li>
+</ol>
+<p><a href="https://blog.csdn.net/wackycrazy/article/details/47998747" target="_blank" rel="noopener">参考</a></p>
+<h3 id="设计模式的六大原则："><a class="header-anchor" href="#设计模式的六大原则："></a>设计模式的六大原则：</h3>
+<p><a href="http://www.uml.org.cn/sjms/201211023.asp" target="_blank" rel="noopener">参考</a><br>
+<strong>单一职责原则</strong>：<br>
+即一个类只负责一项职责<br>
+<strong>里氏替换原则</strong>：<br>
+类B继承类A时，除添加新的方法完成新增功能P2外，尽量不要重写父类A的方法，也尽量不要重载父类A的方法。<br>
+<strong>依赖倒置原则</strong>：<br>
+高层模块不应该依赖低层模块，二者都应该依赖其抽象；抽象不应该依赖细节；细节应该依赖抽象。<br>
+<strong>接口隔离原则</strong>：<br>
+一个模块不应该依赖它不需要的接口；一个类对另一个类的依赖应该建立在最小的接口上。<br>
+<strong>迪米特法则</strong>：<br>
+一个对象应该对其他对象保持最少的了解。<br>
+<strong>开闭原则</strong>：<br>
+一个软件实体如类、模块和函数应该对扩展开放，对修改关闭。<br>
+即：当软件需要变化时，尽量通过扩展软件实体的行为来实现变化，而不是通过修改已有的代码来实现变化。</p>
+<h3 id="mysql-bin-log："><a class="header-anchor" href="#mysql-bin-log："></a>mysql-bin-log：</h3>
+<ol>
+<li>只有特定版本以上支持binlog</li>
+<li>有三种binlog记录模式：row，statement，mixed。<a href="https://www.linuxidc.com/Linux/2018-08/153612.htm" target="_blank" rel="noopener">详情</a></li>
+<li><code>unknown variable 'default-character-set=utf8'</code>解决方法：增加参数<code>--no-defaults</code></li>
+<li>row模式下查看详细sql语句，在mysqlbinlog下增加<code>-v</code>参数。</li>
+<li>mysql5.7.30对应的mysqlbinlog版本是3.4，可以通过<code>mysqlbinlog --version</code>查看</li>
+<li>binlog的查看方式<a href="https://blog.csdn.net/nuli888/article/details/52117646" target="_blank" rel="noopener">参考</a></li>
+</ol>
+<h3 id="linux下载离线rpm包"><a class="header-anchor" href="#linux下载离线rpm包"></a>linux下载离线rpm包</h3>
+<p><a href="https://www.cnblogs.com/daodaotest/p/12452290.html#5" target="_blank" rel="noopener">https://www.cnblogs.com/daodaotest/p/12452290.html#5</a></p>
+<h3 id="git-submodule"><a class="header-anchor" href="#git-submodule"></a>git submodule</h3>
+<p>注意:</p>
+<ol>
+<li>参考中的所有命令，最好都在项目根目录执行。否则容易出现看起来不生效的问题。</li>
+<li>执行<code>git submodule add &lt;url&gt;</code>生成的对应子模块目录，要一并提交，不要删除。</li>
+<li>如何删除submodule：<a href="https://stackoverflow.com/questions/1260748/how-do-i-remove-a-submodule" target="_blank" rel="noopener">How do I remove a Git submodule</a></li>
+</ol>
+<p><a href="https://git-scm.com/book/zh/v2/Git-%E5%B7%A5%E5%85%B7-%E5%AD%90%E6%A8%A1%E5%9D%97" target="_blank" rel="noopener">参考</a></p>
+<h3 id="git-merge提前检测冲突"><a class="header-anchor" href="#git-merge提前检测冲突"></a>git merge提前检测冲突</h3>
+<p><a href="https://www.zhihu.com/question/319861963" target="_blank" rel="noopener">参考</a></p>
+<h3 id="排查cpu占用高，或进程死锁问题"><a class="header-anchor" href="#排查cpu占用高，或进程死锁问题"></a>排查cpu占用高，或进程死锁问题</h3>
+<ol>
+<li>使用<code>top</code>查看当前系统状态。<a href="https://www.cnblogs.com/ggjucheng/archive/2012/01/08/2316399.html" target="_blank" rel="noopener">命令用法</a>，<code>free</code>命令协助查看内存占用。<a href="https://www.cnblogs.com/ultranms/p/9254160.html" target="_blank" rel="noopener">free命令详解</a>(<code>-h</code>已经不行了，要<code>-m</code>)</li>
+<li>使用<code>strace</code>打出当前进程的系统调用，分析是什么系统调用导致异常。</li>
+<li>多线程的情况下，可以使用<code>pstack</code>打印每个线程的堆栈信息，对死锁问题有很大帮助。</li>
+<li>可以考虑使用<code>gdb</code>调试跟踪进程(会影响进程正常工作)，发现更详细问题。</li>
+</ol>
+<h3 id="关于unix-sock和localhost-tcp对比"><a class="header-anchor" href="#关于unix-sock和localhost-tcp对比"></a>关于unix sock和localhost tcp对比</h3>
+<p><a href="https://lists.freebsd.org/pipermail/freebsd-performance/2005-February/001143.html" target="_blank" rel="noopener">unix domain sockets vs. internet sockets</a></p>
+<h3 id="Go和Rust的区别"><a class="header-anchor" href="#Go和Rust的区别"></a>Go和Rust的区别</h3>
+<p><a href="https://jishuin.proginn.com/p/763bfbd31320" target="_blank" rel="noopener">参考</a></p>
+
+      
+    </div>
+    
+    
+    
+
+	<div>
+		
+			<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+		
+	</div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/09/14/2020阅读史/" rel="next" title="2020阅读史">
+                <i class="fa fa-chevron-left"></i> 2020阅读史
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/09/14/Docker使用/" rel="prev" title="Docker使用">
+                Docker使用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+		<div>
+		</div>
+    
+  </div>
+ 
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/touxiang.jpg" alt="JiHan">
+          <p class="site-author-name" itemprop="name">JiHan</p>
+           
+              <p class="site-description motion-element" itemprop="description">瘫着贼舒服</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">41</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/JiHanHuang/" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:Mr.JiHan.Mail@gmail.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                    
+                      E-Mail
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#ssh免密登录"><span class="nav-number">1.</span> <span class="nav-text">ssh免密登录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#VSCODE"><span class="nav-number">2.</span> <span class="nav-text">VSCODE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#C-段错误处理-Linux"><span class="nav-number">3.</span> <span class="nav-text">C 段错误处理(Linux)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进程运行状态查看"><span class="nav-number">4.</span> <span class="nav-text">进程运行状态查看</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#断言assert"><span class="nav-number">5.</span> <span class="nav-text">断言assert</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ipset源码技巧"><span class="nav-number">6.</span> <span class="nav-text">ipset源码技巧</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一些工具"><span class="nav-number">7.</span> <span class="nav-text">一些工具</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#go好用的开源组件"><span class="nav-number">8.</span> <span class="nav-text">go好用的开源组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Go技巧"><span class="nav-number">9.</span> <span class="nav-text">Go技巧</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#xrags"><span class="nav-number">10.</span> <span class="nav-text">xrags</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#shell调试"><span class="nav-number">11.</span> <span class="nav-text">shell调试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查找与当前进程通信的所有进程"><span class="nav-number">12.</span> <span class="nav-text">查找与当前进程通信的所有进程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#程序执行时的系统调用"><span class="nav-number">13.</span> <span class="nav-text">程序执行时的系统调用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#程序内存检测"><span class="nav-number">14.</span> <span class="nav-text">程序内存检测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux文件锁定"><span class="nav-number">15.</span> <span class="nav-text">Linux文件锁定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux-内核小版本升级"><span class="nav-number">16.</span> <span class="nav-text">Linux 内核小版本升级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#linux源码编译"><span class="nav-number">17.</span> <span class="nav-text">linux源码编译</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内核模块源码编译安装"><span class="nav-number">18.</span> <span class="nav-text">内核模块源码编译安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux-内核模块加载"><span class="nav-number">19.</span> <span class="nav-text">Linux 内核模块加载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux路由操作"><span class="nav-number">20.</span> <span class="nav-text">Linux路由操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#route命令操作"><span class="nav-number">20.1.</span> <span class="nav-text">route命令操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ip命令路由操作"><span class="nav-number">20.2.</span> <span class="nav-text">ip命令路由操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#nm命令操作"><span class="nav-number">20.3.</span> <span class="nav-text">nm命令操作</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mysql-性能优化"><span class="nav-number">21.</span> <span class="nav-text">mysql 性能优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sudo、su和sudo-s的差别"><span class="nav-number">22.</span> <span class="nav-text">sudo、su和sudo -s的差别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#relocation-error-usr-lib64-libc-so-6-symbol-dl-starting-up"><span class="nav-number">23.</span> <span class="nav-text">relocation error: /usr/lib64/libc.so.6: symbol _dl_starting_up,</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#linux死亡操作"><span class="nav-number">24.</span> <span class="nav-text">linux死亡操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Gcc静-动态链接库链接顺序"><span class="nav-number">25.</span> <span class="nav-text">Gcc静/动态链接库链接顺序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#有关linux下的目录"><span class="nav-number">26.</span> <span class="nav-text">有关linux下的目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于系统监控"><span class="nav-number">27.</span> <span class="nav-text">关于系统监控</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于软件项目方案评估"><span class="nav-number">28.</span> <span class="nav-text">关于软件项目方案评估</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tcpdump"><span class="nav-number">29.</span> <span class="nav-text">tcpdump</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#linux环境加载"><span class="nav-number">30.</span> <span class="nav-text">linux环境加载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设计模式的六大原则："><span class="nav-number">31.</span> <span class="nav-text">设计模式的六大原则：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mysql-bin-log："><span class="nav-number">32.</span> <span class="nav-text">mysql-bin-log：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#linux下载离线rpm包"><span class="nav-number">33.</span> <span class="nav-text">linux下载离线rpm包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#git-submodule"><span class="nav-number">34.</span> <span class="nav-text">git submodule</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#git-merge提前检测冲突"><span class="nav-number">35.</span> <span class="nav-text">git merge提前检测冲突</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#排查cpu占用高，或进程死锁问题"><span class="nav-number">36.</span> <span class="nav-text">排查cpu占用高，或进程死锁问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于unix-sock和localhost-tcp对比"><span class="nav-number">37.</span> <span class="nav-text">关于unix sock和localhost tcp对比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Go和Rust的区别"><span class="nav-number">38.</span> <span class="nav-text">Go和Rust的区别</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">JiHan</span>
+
+
+  
+	<div class="post-wordcount">
+		
+		  <span class="post-meta-divider">|</span>
+		
+		<span class="post-meta-item-icon">
+		  <i class="fa fa-area-chart"></i>
+		</span>
+		
+		  <span class="post-meta-item-text">本站总字数</span>
+		
+		<span title="本站总字数">
+		  89.3k
+		</span>
+	</div>
+   
+ </div>
+
+
+
+
+  <script src="https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js"></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({theme: 'forest'});
+    }
+  </script>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 本站访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'VgnMRYmQLHYX1MQApA7bN511-gzGzoHsz',
+        appKey: 'A37Y5jPoqc8cxMaOoNiXSh9s',
+        placeholder: '小伙子，我看你骨骼惊奇...',
+        avatar:'mp',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body>
+</html>

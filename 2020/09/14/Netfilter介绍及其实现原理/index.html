@@ -1,0 +1,1633 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="NETFILTER,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="JiHan's Blog" type="application/atom+xml">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="工作需要，了解了一下Net filter的工作原理。(•̀⌄•́) 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan  源码的版本：linux-3.10.0-1127.18.2.el7 (centos)">
+<meta name="keywords" content="NETFILTER">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Netfilter介绍及其实现原理">
+<meta property="og:url" content="http://yoursite.com/2020/09/14/Netfilter介绍及其实现原理/index.html">
+<meta property="og:site_name" content="JiHan&#39;s Blog">
+<meta property="og:description" content="工作需要，了解了一下Net filter的工作原理。(•̀⌄•́) 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan  源码的版本：linux-3.10.0-1127.18.2.el7 (centos)">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2020/09/14/Netfilter介绍及其实现原理/Netfilter%20hooks.png">
+<meta property="og:image" content="http://yoursite.com/2020/09/14/Netfilter介绍及其实现原理/Netfilter%E6%9E%B6%E6%9E%84.png">
+<meta property="og:image" content="http://yoursite.com/2020/09/14/Netfilter介绍及其实现原理/1920px-Netfilter-packet-flow.png">
+<meta property="og:image" content="http://yoursite.com/2020/09/14/Netfilter介绍及其实现原理/iptables-%E8%A1%A8%E5%92%8C%E9%93%BE.png">
+<meta property="og:image" content="http://yoursite.com/2020/09/14/Netfilter介绍及其实现原理/%5Biptables-%E9%93%BE%E5%92%8C%E8%A1%A8.png">
+<meta property="og:image" content="http://yoursite.com/2020/09/14/Netfilter介绍及其实现原理/iptables%E5%86%85%E6%A0%B8%E9%80%9A%E4%BF%A1.jpg">
+<meta property="og:image" content="http://yoursite.com/2020/09/14/Netfilter介绍及其实现原理/ipt_entry%E5%AD%98%E5%82%A8%E5%88%86%E5%B8%83%E7%A4%BA%E6%84%8F%E5%9B%BE.png">
+<meta property="og:image" content="http://yoursite.com/2020/09/14/Netfilter介绍及其实现原理/ip%E6%8A%A5%E6%96%87hook%E7%82%B9.drawio.png">
+<meta property="og:image" content="http://yoursite.com/2020/09/14/Netfilter介绍及其实现原理/Netfilter%E5%86%85%E9%83%A8%E6%95%B0%E6%8D%AE%E5%8C%85%E5%A4%84%E7%90%86%E6%B5%81%E7%A8%8B.drawio.png">
+<meta property="og:image" content="http://yoursite.com/2020/09/14/Netfilter介绍及其实现原理/netfilter%E5%8C%85%E8%BF%87%E6%BB%A4.drawio.png">
+<meta property="og:image" content="http://yoursite.com/2020/09/14/Netfilter介绍及其实现原理/Netfilter%E6%89%A9%E5%B1%95%E6%9C%BA%E5%88%B6%E7%A4%BA%E6%84%8F%E5%9B%BE.png">
+<meta property="og:image" content="http://yoursite.com/2020/09/14/Netfilter介绍及其实现原理/netfilter%E6%A8%A1%E5%9D%97%E6%B3%A8%E5%86%8C%E8%BF%87%E7%A8%8B.drawio.png">
+<meta property="og:image" content="http://yoursite.com/2020/09/14/Netfilter介绍及其实现原理/%E8%A7%84%E5%88%99%E6%8F%90%E4%BA%A4%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8%E7%A4%BA%E6%84%8F%E5%9B%BE.png">
+<meta property="og:image" content="http://yoursite.com/2020/09/14/Netfilter介绍及其实现原理/setsockopt%E6%B5%81%E7%A8%8B%E5%9B%BE.drawio.png">
+<meta property="og:image" content="http://yoursite.com/2020/09/14/Netfilter介绍及其实现原理/%E6%9C%9F%E6%9C%9B%E9%93%BE%E6%8E%A5.jpg">
+<meta property="og:image" content="http://yoursite.com/2020/09/14/Netfilter介绍及其实现原理/conntrack%E7%9A%84%E5%AD%98%E5%82%A8.jpg">
+<meta property="og:image" content="http://yoursite.com/2020/09/14/Netfilter介绍及其实现原理/conntrack%E4%B8%80%E8%88%AC%E8%BF%9E%E6%8E%A5%E5%BB%BA%E7%AB%8B1.jpg">
+<meta property="og:image" content="http://yoursite.com/2020/09/14/Netfilter介绍及其实现原理/conntrack%E4%B8%80%E8%88%AC%E8%BF%9E%E6%8E%A5%E5%BB%BA%E7%AB%8B2.jpg">
+<meta property="og:image" content="http://yoursite.com/2020/09/14/Netfilter介绍及其实现原理/conntrack%E4%B8%80%E8%88%AC%E8%BF%9E%E6%8E%A5%E5%BB%BA%E7%AB%8B3.jpg">
+<meta property="og:updated_time" content="2021-03-26T02:31:12.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Netfilter介绍及其实现原理">
+<meta name="twitter:description" content="工作需要，了解了一下Net filter的工作原理。(•̀⌄•́) 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan  源码的版本：linux-3.10.0-1127.18.2.el7 (centos)">
+<meta name="twitter:image" content="http://yoursite.com/2020/09/14/Netfilter介绍及其实现原理/Netfilter%20hooks.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always","offset":12,"offset_float":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/09/14/Netfilter介绍及其实现原理/">
+
+
+
+
+
+  <title>Netfilter介绍及其实现原理 | JiHan's Blog</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-144130643-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">JiHan's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">随笔写写啦 (๑`･ᴗ･´๑)</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/09/14/Netfilter介绍及其实现原理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiHan">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/touxiang.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiHan's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Netfilter介绍及其实现原理</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-09-14T11:29:27+08:00">
+                2020-09-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术杂谈/" itemprop="url" rel="index">
+                    <span itemprop="name">技术杂谈</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/09/14/Netfilter介绍及其实现原理/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/09/14/Netfilter介绍及其实现原理/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 阅读次数
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  9.2k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  39
+                </span>
+              
+            </div>
+          
+			
+          
+
+        </div>
+      </header>
+    
+
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>工作需要，了解了一下Net filter的工作原理。(•̀⌄•́)<br>
+　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan</p>
+<hr>
+<p><em>源码的版本：linux-3.10.0-1127.18.2.el7 (centos)</em></p>
+<a id="more"></a>
+<p><a href="https://www.ibm.com/developerworks/cn/linux/network/s-netip/index.html" target="_blank" rel="noopener">简介</a></p>
+<p><em>包含netfilter的基本介绍，iptables规则介绍及使用，netfilter实现原理，自定义match实现，链接跟踪实现、ipset和iptables联动和ipset实现</em></p>
+<h2 id="简介"><a class="header-anchor" href="#简介"></a>简介</h2>
+<p><strong>Netfilter</strong>，在Linux内核中的一个软件框架，用于管理网络数据包。不仅具有网络地址转换（NAT）的功能，也具备数据包内容修改、以及数据包过滤等防火墙功能。利用运作于用户空间的应用软件，如<code>iptables</code>、<code>ebtables</code>和<code>arptables</code>等，来控制Netfilter，系统管理者可以管理通过Linux操作系统的各种网络数据包。<br>
+<strong>iptables：</strong><br>
+Netfilter中最为常用的一种网络数据包过滤方式——IP包过滤，我们也将重点介绍这种过滤方式。用户在使用<code>iptables</code>时需要超级用户权限，以及内核模块需要<code>Xtables</code>模块做支撑。iptables只能处理ipv4，对应的ipv6则使ip6tables来处理。<br>
+<strong>ebtables</strong><br>
+ebtables 是以太网桥防火墙，以太网桥工作在数据链路层，ebtables 主要用来过滤数据链路层数据包。使用 ebtables 可以实现 filtering 、NAT 和 brouting。过滤根据 MAC 头包括 VLAN ID 等信息确定是否丢弃该帧。MAC NAT 可以修改 MAC 源和目的地址。Brouting 意为 bridge or route，根据规则确定应该将数据帧路由给上层（iptables）还是通过网桥转给其它的接口。<br>
+ebtables 和我们熟悉的 iptables 很像，也有规则（rules）、链（chains）和表（tables）的概念。ebtables 使用规则确定应当对数据帧执行什么动作。规则按照不同的链分组，不同的表中包含不同的链。在 ebtables 中有三张表：filter、nat 和 broute，分别对应其三大功能模块。<br>
+需要注意的是如果一个以太网接口 eth1，它并没有桥接到网桥上，此时，从 eth1 进来的数据包不会走到 ebtables 中。在 bridge check 点，会检查数据包进入的接口是否属于某个桥，如果是则走 ebtables，否则直接走 iptables。也就是说，ebtables 只对桥接网络生效。<br>
+<strong>arptables</strong><br>
+arptables 是运行在用户空间的应用软件，通过控制Linux内核netfilter模块，来管理地址解析协议(arp)数据包的过滤和转发。<br>
+arptables基于iptables开发，使用时也与iptables有些类似，都有“表（tables）”、“链（chain）”和“规则（rules）”三个层面。<br>
+但是arptables功能较单一，仅有filter一个表。并且，也只有INPUT（从内核2.4版）、OUTPUT（从内核2.4版）和FORWARD（从内核2.6版）三个内建链。arptables的主要用途之一是防范ARP欺骗。</p>
+<h3 id="基础结构"><a class="header-anchor" href="#基础结构"></a>基础结构</h3>
+<p><strong>Netfilter</strong> 包含了一组内核钩子 API ，周边内核组件可以使用这些钩子在网络栈中注册回调函数。每一个在网络栈中流通的包到达相应的钩子时，就会触发相应的回调函数，从而能够完成包过滤、网络地址（端口）转换和网络包协议头修改等各种操作。<br>
+Netfilter 提供了五种钩子：<br>
+<img src="/2020/09/14/Netfilter介绍及其实现原理/Netfilter%20hooks.png" alt="Netfilter hook"></p>
+<ol>
+<li><code>NF_IP_PER_ROUNTING</code> — 当数据包到达计算机立即触发。</li>
+<li><code>NF_IP_LOCAL_IN</code> — 当数据包的目的地就是当前计算机时触发。</li>
+<li><code>NF_IP_FORWARD</code> — 当数据包目的地址是其它的网络接口时触发。</li>
+<li><code>NF_IP_POST_ROUTING</code> — 当数据包即将从计算机发出时触发。</li>
+<li><code>NF_IP_LOCAL_OUT</code> — 当数据包由本地生成并发向外部时触发。</li>
+</ol>
+<p>基于 Netfilter 钩子 API 实现的内核模块主要有 ebtables、arptables、ip(6)tables、nf_tables、NAT、connection tracking 等。如下架构图：<br>
+<img src="/2020/09/14/Netfilter介绍及其实现原理/Netfilter%E6%9E%B6%E6%9E%84.png" alt="Netfilter"></p>
+<p>而数据包在整个Netfilter中的数据流如下图：<br>
+<img src="/2020/09/14/Netfilter介绍及其实现原理/1920px-Netfilter-packet-flow.png" alt="网络数据包流"></p>
+<h3 id="建立规则和链"><a class="header-anchor" href="#建立规则和链"></a>建立规则和链</h3>
+<p>通过向防火墙提供有关对来自某个源、到某个目的地或具有特定协议类型的信息包要做些什么的指令，规则控制信息包的过滤。 通过使用 netfilter/iptables 系统提供的特殊命令 iptables ，建立这些规则，并将其添加到内核空间的特定信息包过滤表内的链中。关于添加／除去／编辑规则的命令的一般语法如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables [-t table] command [match] [target]</span><br></pre></td></tr></table></figure>
+<h4 id="用法"><a class="header-anchor" href="#用法"></a>用法</h4>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-A --append</td>
+<td>将一个或多个规则添加到所选链的末尾。</td>
+</tr>
+<tr>
+<td>-C --check</td>
+<td>检查与所选链中的规范匹配的规则。</td>
+</tr>
+<tr>
+<td>-D --delete</td>
+<td>从所选链中删除一个或多个规则。</td>
+</tr>
+<tr>
+<td>-F --flush</td>
+<td>逐个删除所有规则。</td>
+</tr>
+<tr>
+<td>-I --insert</td>
+<td>将一个或多个规则作为给定的规则编号插入所选链中。</td>
+</tr>
+<tr>
+<td>-L --list</td>
+<td>显示所选链中的规则。</td>
+</tr>
+<tr>
+<td>-n --numeric</td>
+<td>以数字格式显示IP地址或主机名和邮政编号。</td>
+</tr>
+<tr>
+<td>-N --new-chain <name></name></td>
+<td>创建一个新的用户定义链。</td>
+</tr>
+<tr>
+<td>-v --verbose</td>
+<td>与list选项一起使用时提供更多信息。</td>
+</tr>
+<tr>
+<td>-X --delete-chain <name></name></td>
+<td>删除用户定义的链。</td>
+</tr>
+</tbody>
+</table>
+<h4 id="示例"><a class="header-anchor" href="#示例"></a>示例</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">// 列出对应规则</span><br><span class="line">iptables -nL</span><br><span class="line">iptables -t nat -nL</span><br><span class="line">// 列出对应规则的添加命令</span><br><span class="line">iptables -S</span><br><span class="line">// 删除规则</span><br><span class="line">iptables -F</span><br><span class="line">iptables –flush</span><br><span class="line">//设置链的默认策略</span><br><span class="line">iptables -P INPUT DROP</span><br><span class="line">//指定IP源和网卡丢弃</span><br><span class="line">iptables -A INPUT -i eth0 -p tcp -s 192.168.100.1 -j DROP</span><br><span class="line">//指定IP源和网卡tcp拒绝</span><br><span class="line">iptables -A INPUT -i eth0 -p tcp -s 192.168.100.1 -j REJECT --reject-with tcp-reset</span><br><span class="line">//拒绝所有的udp包</span><br><span class="line">iptables -A INPUT -p udp -j REJECT --reject-with icmp-port-unreachable</span><br><span class="line">//仅允许来自于192.168.100.0/24域的用户的ssh连接请求</span><br><span class="line">iptables -A INPUT -i eth0 -p tcp -s 192.168.100.0/24 --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT</span><br><span class="line">//端口转发</span><br><span class="line">iptables -t nat -A PREROUTING -p tcp -d 192.168.102.37 --dport 422 -j DNAT --to 192.168.102.37:22</span><br><span class="line">//允许多端口访问，也支持端口段：22-443</span><br><span class="line">iptables -A INPUT -i eth0 -p tcp -m multiport --dports 22,80,443 -m state --state NEW,ESTABLISHED -j ACCEPT</span><br><span class="line">//标准port段支持：</span><br><span class="line">iptables -A INPUT -i eth0 -p tcp --dport 22:443 -m state --state NEW,ESTABLISHED -j ACCEPT</span><br><span class="line">// ip段匹配支持</span><br><span class="line">iptables -A INPUT -m iprange --src-range 192.168.80.109-192.168.80.121 -j DROP</span><br><span class="line">//使用iptables nth将HTTPS流量负载平衡至两个不同的ip地址。</span><br><span class="line">iptables -t nat -A PREROUTING -p tcp --dport 8000 -m state --state NEW -m statistic --mode nth --every 2 --packet 0 -j DNAT --to-destination 192.168.17.33:8001</span><br><span class="line">iptables -t nat -A PREROUTING -p tcp --dport 8000 -m state --state NEW -m statistic --mode nth --every 2 --packet 1 -j DNAT --to-destination 192.168.17.33:8002</span><br><span class="line">//防火墙服务器上的其中一个网卡连接到外部，另一个网卡连接到内部服务器，使用以下规则允许内部网络与外部网络的通信。此例中，eth1连接到外部网络(互联网)，eth0连接到内部网络(例如:192.168.1.x)。</span><br><span class="line">iptables -A FORWARD -i eth0 -o eth1 -j ACCEPT</span><br><span class="line">//按流量匹配ping次数。（--limit 10/minute表示一分钟产生10个令牌即6秒一个，--limit-burst 5表示令牌桶最多可以放5个令牌，此项默认值就是5。即实现了平均值(--limit)和峰值(--limit-burst)约束）</span><br><span class="line">iptables -I INPUT 1 -p icmp -m limit --limit 10/minute --limit-burst 5 -j ACCEPT</span><br><span class="line">//记录丢弃的数据表</span><br><span class="line">iptables -N LOGGING</span><br><span class="line">iptables -A INPUT -i eth0 -p tcp -s 10.92.2.188 -j LOGGING</span><br><span class="line">iptables -A LOGGING -m limit --limit 2/min -j LOG --log-prefix &quot;IPTables Packet Dropped: &quot; --log-level 4</span><br><span class="line">iptables -A LOGGING -j DROP</span><br><span class="line">cat /var/log/messages | grep IPTables #(centos) 根据syslog的配置来确定位置。</span><br></pre></td></tr></table></figure>
+<h4 id="跟踪iptables规则匹配"><a class="header-anchor" href="#跟踪iptables规则匹配"></a>跟踪iptables规则匹配</h4>
+<p>这里有两种方式跟踪一个包匹配了哪些规则。<a href="https://blog.csdn.net/pgn999/article/details/82796570" target="_blank" rel="noopener">参考</a></p>
+<ol>
+<li>跟踪计数器<br>
+观察<code>iptables -nvL INPUT</code>返回的第一列pkts是否增长了，可以简单的判断规则被匹配。</li>
+<li>可以在iptables规则前后添加日志，通过观察日志来跟踪规则<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">  #添加日志记录在INPUT第一个规则，并且设置日志前缀为 IPTABLES LOG:</span><br><span class="line">iptables -I INPUT -j LOG --log-prefix &quot;IPTABLES LOG: &quot;</span><br><span class="line">#查看日志, 这里可能会出现消息延迟的问题。</span><br><span class="line">dmesg|grep &quot;IPTABLES LOG:&quot;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="规则构成"><a class="header-anchor" href="#规则构成"></a>规则构成</h2>
+<p>在我们执行一个iptables命令的时候，往往达到的效果，就是在某个表的某个链中添加某一条规则。而参与这条规则构成的包括表(table)、链（chain）、匹配(match)和目标（target）。下面将详细介绍这几个部分。</p>
+<h3 id="表-table"><a class="header-anchor" href="#表-table"></a>表(table)</h3>
+<p>iptables里包含了4张表，分别是filter、nat、mangle和raw表。而表的作用在于存放规则，比如我们平时执行<code>iptables -nL</code>会得到类似的结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Chain INPUT (policy ACCEPT)</span><br><span class="line">target     prot opt source               destination         </span><br><span class="line">ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0           state NEW tcp dpt:80</span><br><span class="line"></span><br><span class="line">Chain FORWARD (policy ACCEPT)</span><br><span class="line">target     prot opt source               destination         </span><br><span class="line"></span><br><span class="line">Chain OUTPUT (policy ACCEPT)</span><br><span class="line">target     prot opt source               destination</span><br></pre></td></tr></table></figure>
+<p>(policy XXX)表示着默认策略。表中包含的链，表示着表里的规则可生效的链范围。表和链有着如下关系：<br>
+<img src="/2020/09/14/Netfilter介绍及其实现原理/iptables-%E8%A1%A8%E5%92%8C%E9%93%BE.png" alt="iptables的表和链"></p>
+<h3 id="链-chain"><a class="header-anchor" href="#链-chain"></a>链(chain)</h3>
+<p>如果表是存放规则的地方，而链就是决定规则执行的时机，iptables中的5条链PREROUTING、INPUT、OUTPUT、FORWARD和POSTROUTING。而执行的位置也在简介中的netfilter hook原理中给出了。链把相应的表按照一定的顺序串起来，找出表里对应的规则进行执行。<br>
+<img src="/2020/09/14/Netfilter介绍及其实现原理/%5Biptables-%E9%93%BE%E5%92%8C%E8%A1%A8.png" alt="iptables-链和表"></p>
+<h3 id="匹配-match"><a class="header-anchor" href="#匹配-match"></a>匹配(match)</h3>
+<p><code>-m</code>或<code>--match</code>命令所做的工作，当然这部分我们称为扩展匹配，<code>-s -i</code>所执行的也是匹配工作，称为通用匹配。<br>
+<strong>通用匹配</strong><br>
+类似<code>-s</code>这类的通用匹配，通常在用户态代码，和内核代码都包含了，不需要额外加载module。在iptables规则下发里，也是属于附加的基本参数。<br>
+<strong>扩展匹配</strong><br>
+首先，我们在使用扩展匹配的时候，可以使用帮助文档：<code>iptables -m the_match_you_want --help</code>。扩展模块要工作的时候，都需要进行模块匹配，用户态匹配对应的libipt_xxx或libxt_xxx。内核态匹配对应的xt_xxx。比如我们使用的<code>-m state</code>在iptables命令执行时，会找<code>libxt_state.so</code>的动态库，规则下发到内核的时候，内核会找对应的<code>xt_state.ko</code>模块。具体源码实现后续会说明。<br>
+如果想自定义扩展匹配，那么需要写内核模块代码(参考内核模块源码的xt_multiport.c)和用户态模块代码(参考libxt_multiport.c)以及定义的头文件(参考xt_multiport.h)</p>
+<h3 id="目标-target"><a class="header-anchor" href="#目标-target"></a>目标(target)</h3>
+<p><code>-j</code>所做的工作，在包匹配成功后，就会执行<code>-j</code>后面的动作，来对包进行处理。</p>
+<h4 id="通用目标"><a class="header-anchor" href="#通用目标"></a>通用目标</h4>
+<p><code>DROP</code>,<code>ACCEPT</code>,<code>QUEUE</code>和<code>RETURN</code>这几个属于通用匹配，他们同样以模块的形式进行加载和工作，对应的模块是<code>standard</code></p>
+<h4 id="扩展目标"><a class="header-anchor" href="#扩展目标"></a>扩展目标</h4>
+<p>扩展目标和扩展匹配也是相似的工作原理，都是进行模块加载。如果要写自定义模块，需要内核模块代码(参考xt_LOG.c)和用户态模块代码(参考libipt_LOG.c)和头文件(参考xt_LOG.h)</p>
+<h2 id="Netfilter源码实现"><a class="header-anchor" href="#Netfilter源码实现"></a>Netfilter源码实现</h2>
+<p>Netfilter的整体工作方式类似下图：<br>
+<img src="/2020/09/14/Netfilter介绍及其实现原理/iptables%E5%86%85%E6%A0%B8%E9%80%9A%E4%BF%A1.jpg" alt></p>
+<h3 id="基本数据结构"><a class="header-anchor" href="#基本数据结构"></a>基本数据结构</h3>
+<p>由于本人也没有精读源码，所以也只能介绍个大概，一切以源码为准。<br>
+<strong>xt_table与xt_table_info</strong><br>
+xt_table是Netfilter的核心数据结构，它包含了每个表的所有规则信息，以及匹配处理方法。数据包进入Netfilter后通过查表，匹配相应的规则来决定对数据包的处理结果。下面是xt_table的完整定义（在X_tables.h中）：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">xt_table</span> &#123;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">list_head</span> <span class="title">list</span>;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/* What hooks you will enter on */</span></span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> valid_hooks;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Man behind the curtain... */</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">xt_table_info</span> *<span class="title">private</span>;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Set this to THIS_MODULE if you are a module, otherwise NULL */</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">module</span> *<span class="title">me</span>;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">u_int8_t</span> af;      <span class="comment">/* address/protocol family */</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> priority;     <span class="comment">/* hook order */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/* A unique name... */</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span> name[XT_TABLE_MAXNAMELEN];</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>每个成员意思见上文定义中的注释，个别成员说明如下：<br>
+valid_hooks：所支持的hook点类型，决定后续注册hook操作的位置。比如filter表的valid_hoos被指定为：(1 &lt;&lt; NF_INET_LOCAL_IN) | (1 &lt;&lt; NF_INET_FORWARD) | (1 &lt;&lt; NF_INET_LOCAL_OUT))，即在NF_INET_LOCAL_IN、NF_INET_FORWARD、NF_INET_LOCAL_OUT三处注册hook操作；<br>
+private：xt_table的数据区，包含了所有规则和规则处理方法等信息。xt_table_info详细信息见下文。</p>
+<p>xt_table的所有数据都存在private的成员变量中，private是结构体struct xt_table_info，其定义如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">xt_table_info</span> &#123;</span></span><br><span class="line">    <span class="comment">/* Size per table */</span></span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> size;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Number of entries: FIXME. --RR */</span></span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> number;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Initial number of entries. Needed for module usage count */</span></span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> initial_entries;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Entry points and underflows */</span></span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> hook_entry[NF_INET_NUMHOOKS];</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> underflow[NF_INET_NUMHOOKS];</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     * Number of user chains. Since tables cannot have loops, at most</span></span><br><span class="line"><span class="comment">     * @stacksize jumps (number of user chains) can possibly be made.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> stacksize;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> __percpu *stackptr;</span><br><span class="line">    <span class="keyword">void</span> ***jumpstack;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* ipt_entry tables: one per CPU */</span></span><br><span class="line">    <span class="comment">/* Note : this field MUST be the last one, see XT_TABLE_INFO_SZ */</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">void</span> *entries[<span class="number">1</span>];</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>重要成员说明：<br>
+hook_entry: 不同hook点的规则的偏移量；<br>
+entries： 规则存储的入口，为可变区域，必须放在结构末尾。entries本质上是ipt_entry结构。关于ipt_entry定义和成员介绍见下文。</p>
+<p><strong>ipt_entry</strong><br>
+ipt_entry结构是对规则的描述，其定义如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* This structure defines each of the firewall rules.  Consists of 3</span></span><br><span class="line"><span class="comment">   parts which are 1) general IP header stuff 2) match specific</span></span><br><span class="line"><span class="comment">   stuff 3) the target to perform if the rule matches */</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">ipt_entry</span> &#123;</span></span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">ipt_ip</span> <span class="title">ip</span>;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Mark with fields that we care about. */</span></span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> nfcache;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Size of ipt_entry + matches */</span></span><br><span class="line">    <span class="keyword">u_int16_t</span> target_offset;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Size of ipt_entry + matches + target */</span></span><br><span class="line">    <span class="keyword">u_int16_t</span> next_offset;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Back pointer */</span></span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> comefrom;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Packet and byte counters. */</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">xt_counters</span> <span class="title">counters</span>;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/* The matches (if any), then the target. */</span></span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">char</span> elems[<span class="number">0</span>];</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>成员elems中，保存了一条规则的所有匹配（matchs），以及匹配后的处理操作（target）。在Iptables.c中，generate_entry（）方法新建一个ipt_entry，可以看到如何将matchs和target添加到ipt_entry中的：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="class"><span class="keyword">struct</span> <span class="title">ipt_entry</span> *</span></span><br><span class="line"><span class="class"><span class="title">generate_entry</span>(<span class="title">const</span> <span class="title">struct</span> <span class="title">ipt_entry</span> *<span class="title">fw</span>,</span></span><br><span class="line"><span class="class">           <span class="title">struct</span> <span class="title">xtables_rule_match</span> *<span class="title">matches</span>,</span></span><br><span class="line"><span class="class">           <span class="title">struct</span> <span class="title">ipt_entry_target</span> *<span class="title">target</span>)</span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> size;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">xtables_rule_match</span> *<span class="title">matchp</span>;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">ipt_entry</span> *<span class="title">e</span>;</span></span><br><span class="line"></span><br><span class="line">    size = <span class="keyword">sizeof</span>(struct ipt_entry);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (matchp = matches; matchp; matchp = matchp-&gt;next)</span><br><span class="line">       size += matchp-&gt;match-&gt;m-&gt;u.match_size;</span><br><span class="line"></span><br><span class="line">    e = xtables_malloc(size + target-&gt;u.target_size);</span><br><span class="line">    *e = *fw;</span><br><span class="line">    e-&gt;target_offset = size;</span><br><span class="line">    e-&gt;next_offset = size + target-&gt;u.target_size;</span><br><span class="line"></span><br><span class="line">    size = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (matchp = matches; matchp; matchp = matchp-&gt;next) &#123;</span><br><span class="line">       <span class="built_in">memcpy</span>(e-&gt;elems + size, matchp-&gt;match-&gt;m, matchp-&gt;match-&gt;m-&gt;u.match_size);</span><br><span class="line">       size += matchp-&gt;match-&gt;m-&gt;u.match_size;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">memcpy</span>(e-&gt;elems + size, target, target-&gt;u.target_size);</span><br><span class="line">    <span class="keyword">return</span> e;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>见上文的程序片段，ipt_entry的空间占用为：ipt_entry结构自身的size，加之所有match的size总和，加之target的size。填写elems时，首先将所有的match依次拷贝到elems指向的存储位置，紧接着将target拷贝到其后。下图是ipt_entry存储示意图：<br>
+<img src="/2020/09/14/Netfilter介绍及其实现原理/ipt_entry%E5%AD%98%E5%82%A8%E5%88%86%E5%B8%83%E7%A4%BA%E6%84%8F%E5%9B%BE.png" alt></p>
+<p><strong>nf_hook_ops</strong><br>
+nf_hook_ops用于注册一个hook操作，它主要包含了hook操作执行函数、hook类型，以及优先级。我们可以认为，一个nf_hook_ops表征了一个表的一条链，因为它与一个表的一个hook类型唯一对应。其完整定义如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">nf_hook_ops</span> &#123;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">list_head</span> <span class="title">list</span>;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/* User fills in from here down. */</span></span><br><span class="line">    nf_hookfn *hook;</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">module</span> *<span class="title">owner</span>;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">u_int8_t</span> pf;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> hooknum;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Hooks are ordered in ascending priority. */</span></span><br><span class="line">    <span class="keyword">int</span> priority;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>重要成员说明：<br>
+hook：hook操作函数；<br>
+owner：所属的表；<br>
+hooknum：hook类型；<br>
+priority：优先级，决定同一hook点，链（不同表在同一个hook点的链）的执行次序。</p>
+<p><strong>ipt_replace</strong><br>
+结构主要用于iptables的规则下发，在setsockopt进行规则下发时以此结构体作为传输数据。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* The argument to IPT_SO_SET_REPLACE. */</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">ipt_replace</span> &#123;</span></span><br><span class="line">	<span class="comment">/* Which table. */</span></span><br><span class="line">	<span class="keyword">char</span> name[XT_TABLE_MAXNAMELEN];</span><br><span class="line"></span><br><span class="line">	<span class="comment">/* Which hook entry points are valid: bitmask.  You can't</span></span><br><span class="line"><span class="comment">           change this. */</span></span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">int</span> valid_hooks;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/* Number of entries */</span></span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">int</span> num_entries;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/* Total size of new entries */</span></span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">int</span> size;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/* Hook entry points. */</span></span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">int</span> hook_entry[NF_INET_NUMHOOKS];</span><br><span class="line"></span><br><span class="line">	<span class="comment">/* Underflow points. */</span></span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">int</span> underflow[NF_INET_NUMHOOKS];</span><br><span class="line"></span><br><span class="line">	<span class="comment">/* Information about old entries: */</span></span><br><span class="line">	<span class="comment">/* Number of counters (must be equal to current number of entries). */</span></span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">int</span> num_counters;</span><br><span class="line">	<span class="comment">/* The old entries' counters. */</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">xt_counters</span> *<span class="title">counters</span>;</span></span><br><span class="line">  </span><br><span class="line">	<span class="comment">/* The entries (hang off end: not really an array). */</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">ipt_entry</span> <span class="title">entries</span>[0];</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>重要成员说明：<br>
+entries：对应的扩展matches和target的数据集合，其组成方式就是上面对应ip_entry的介绍。</p>
+<h3 id="Netfilter内部数据包处理"><a class="header-anchor" href="#Netfilter内部数据包处理"></a>Netfilter内部数据包处理</h3>
+<p>在简介中已经提到了netfilter的hook机制和hook点，现在我们来了解下具体流程。<br>
+首先，内核在收到ip包后，会进行一系列的操作，而hook的位置如下：<br>
+<img src="/2020/09/14/Netfilter介绍及其实现原理/ip%E6%8A%A5%E6%96%87hook%E7%82%B9.drawio.png" alt><br>
+当我们对应的hook点有相应的注册函数时，就会进行相应的注册的hook函数调用：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * 	Deliver IP Packets to the higher protocol layers.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">ip_local_deliver</span><span class="params">(struct sk_buff *skb)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">/*</span></span><br><span class="line"><span class="comment">	 *	Reassemble IP fragments.</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (ip_is_fragment(ip_hdr(skb))) &#123;</span><br><span class="line">		<span class="keyword">if</span> (ip_defrag(skb, IP_DEFRAG_LOCAL_DELIVER))</span><br><span class="line">			<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> NF_HOOK(NFPROTO_IPV4, NF_INET_LOCAL_IN, <span class="literal">NULL</span>, skb,</span><br><span class="line">		       skb-&gt;dev, <span class="literal">NULL</span>,</span><br><span class="line">		       ip_local_deliver_finish);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><em>ip_input.c</em><br>
+而实际的hook处理流程如下：<br>
+<img src="/2020/09/14/Netfilter介绍及其实现原理/Netfilter%E5%86%85%E9%83%A8%E6%95%B0%E6%8D%AE%E5%8C%85%E5%A4%84%E7%90%86%E6%B5%81%E7%A8%8B.drawio.png" alt><br>
+这里主要的实现函数<code>nf_hook_slow</code></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">nf_hook_slow</span><span class="params">(struct sk_buff *skb, struct nf_hook_state *state)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">nf_hook_ops</span> *<span class="title">elem</span>;</span></span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">int</span> verdict;</span><br><span class="line">	<span class="keyword">int</span> ret = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/* We may already have this, but read-locks nest anyway */</span></span><br><span class="line">	rcu_read_lock();</span><br><span class="line"></span><br><span class="line">	elem = list_entry_rcu(&amp;nf_hooks[state-&gt;pf][state-&gt;hook],</span><br><span class="line">			      struct nf_hook_ops, <span class="built_in">list</span>);</span><br><span class="line">next_hook:</span><br><span class="line">	verdict = nf_iterate(&amp;nf_hooks[state-&gt;pf][state-&gt;hook], skb, state,</span><br><span class="line">			     &amp;elem);</span><br><span class="line">	<span class="keyword">if</span> (verdict == NF_ACCEPT || verdict == NF_STOP) &#123;</span><br><span class="line">		ret = <span class="number">1</span>;</span><br><span class="line">	&#125; <span class="keyword">else</span> <span class="keyword">if</span> ((verdict &amp; NF_VERDICT_MASK) == NF_DROP) &#123;</span><br><span class="line">		kfree_skb(skb);</span><br><span class="line">		ret = NF_DROP_GETERR(verdict);</span><br><span class="line">		<span class="keyword">if</span> (ret == <span class="number">0</span>)</span><br><span class="line">			ret = -EPERM;</span><br><span class="line">	&#125; <span class="keyword">else</span> <span class="keyword">if</span> ((verdict &amp; NF_VERDICT_MASK) == NF_QUEUE) &#123;</span><br><span class="line">		<span class="keyword">int</span> err = nf_queue(skb, elem, state,</span><br><span class="line">				   verdict &gt;&gt; NF_VERDICT_QBITS);</span><br><span class="line">		<span class="keyword">if</span> (err &lt; <span class="number">0</span>) &#123;</span><br><span class="line">			<span class="keyword">if</span> (err == -ECANCELED)</span><br><span class="line">				<span class="keyword">goto</span> next_hook;</span><br><span class="line">			<span class="keyword">if</span> (err == -ESRCH &amp;&amp;</span><br><span class="line">			   (verdict &amp; NF_VERDICT_FLAG_QUEUE_BYPASS))</span><br><span class="line">				<span class="keyword">goto</span> next_hook;</span><br><span class="line">			kfree_skb(skb);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	rcu_read_unlock();</span><br><span class="line">	<span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里的<code>nf_hooks[state-&gt;pf][state-&gt;hook]</code>中，<code>state-&gt;pf</code>是对应的协议，比如<code>NFPROTO_IPV4</code>, <code>state-&gt;hook</code>表示hook的点，比如<code>NF_INET_LOCAL_IN</code>。而nf_hooks是一个全局变量，包含了所有的注册hook。<br>
+在进入到<code>ipt_do_table</code>函数后，会进行包的匹配和处理，流程如下：<br>
+<img src="/2020/09/14/Netfilter介绍及其实现原理/netfilter%E5%8C%85%E8%BF%87%E6%BB%A4.drawio.png" alt><br>
+<code>ipt_do_table</code>会先匹配基本match，再匹配扩展match，匹配成功后，进行基础target或扩展target的处理。如果匹配不成功，则会一直匹配直到所有matches匹配完。这也导致了iptables规则在命中一条规则后，后续的规则都不会再进行匹配了(除非你target指向其他链)。<br>
+内部数据包处理大概如上所说，但是我们仍然抱有疑惑，hook函数哪里来？扩展match怎么生效等。这就要归功于netfilter的注册机制。</p>
+<h3 id="Netfilter模块注册"><a class="header-anchor" href="#Netfilter模块注册"></a>Netfilter模块注册</h3>
+<p>模块注册的时机是在模块加载的时候，而模块加载分系统启动时加载，即系统启动时加载netfilter以及编译到内核的模块。<br>
+而没有编译到内核，而是以独立模块存在的netfilter模块，则会在规则下发的时候，会根据你传入的match或target名称到对应的路径下寻找，并载入模块。<br>
+netfilter在设计的时候，就设计了强大的模块加载机制，因此也表现出强大的扩展性。<br>
+<img src="/2020/09/14/Netfilter介绍及其实现原理/Netfilter%E6%89%A9%E5%B1%95%E6%9C%BA%E5%88%B6%E7%A4%BA%E6%84%8F%E5%9B%BE.png" alt><br>
+本质上，模块加载结构都是相似的。我们就以<code>iptable_filter.c</code>为例，讲解一下hook的注册过程。<br>
+<img src="/2020/09/14/Netfilter介绍及其实现原理/netfilter%E6%A8%A1%E5%9D%97%E6%B3%A8%E5%86%8C%E8%BF%87%E7%A8%8B.drawio.png" alt><br>
+对应的部分<code>iptable_filter.c</code>代码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> <span class="class"><span class="keyword">struct</span> <span class="title">xt_table</span> <span class="title">packet_filter</span> = &#123;</span></span><br><span class="line">	.name		= <span class="string">"filter"</span>,</span><br><span class="line">	.valid_hooks	= FILTER_VALID_HOOKS,</span><br><span class="line">	.me		= THIS_MODULE,</span><br><span class="line">	.af		= NFPROTO_IPV4,</span><br><span class="line">	.priority	= NF_IP_PRI_FILTER,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">unsigned</span> <span class="keyword">int</span></span><br><span class="line">iptable_filter_hook(<span class="keyword">const</span> struct nf_hook_ops *ops, struct sk_buff *skb,</span><br><span class="line">		    <span class="keyword">const</span> struct net_device *in, <span class="keyword">const</span> struct net_device *out,</span><br><span class="line">		    <span class="keyword">const</span> struct nf_hook_state *state)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">const</span> <span class="class"><span class="keyword">struct</span> <span class="title">net</span> *<span class="title">net</span>;</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (ops-&gt;hooknum == NF_INET_LOCAL_OUT &amp;&amp;</span><br><span class="line">	    (skb-&gt;len &lt; <span class="keyword">sizeof</span>(struct iphdr) ||</span><br><span class="line">	     ip_hdrlen(skb) &lt; <span class="keyword">sizeof</span>(struct iphdr)))</span><br><span class="line">		<span class="comment">/* root is playing with raw sockets. */</span></span><br><span class="line">		<span class="keyword">return</span> NF_ACCEPT;</span><br><span class="line"></span><br><span class="line">	net = dev_net(state-&gt;in ? state-&gt;in : state-&gt;out);</span><br><span class="line">	<span class="keyword">return</span> ipt_do_table(skb, ops-&gt;hooknum, state, net-&gt;ipv4.iptable_filter);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">....</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">int</span> __<span class="function">init <span class="title">iptable_filter_init</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> ret;</span><br><span class="line"></span><br><span class="line">	ret = register_pernet_subsys(&amp;iptable_filter_net_ops);</span><br><span class="line">	<span class="keyword">if</span> (ret &lt; <span class="number">0</span>)</span><br><span class="line">		<span class="keyword">return</span> ret;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/* Register hooks */</span></span><br><span class="line">	filter_ops = xt_hook_link(&amp;packet_filter, iptable_filter_hook);</span><br><span class="line">	<span class="keyword">if</span> (IS_ERR(filter_ops)) &#123;</span><br><span class="line">		ret = PTR_ERR(filter_ops);</span><br><span class="line">		unregister_pernet_subsys(&amp;iptable_filter_net_ops);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">void</span> __<span class="function"><span class="built_in">exit</span> <span class="title">iptable_filter_fini</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	xt_hook_unlink(&amp;packet_filter, filter_ops);</span><br><span class="line">	unregister_pernet_subsys(&amp;iptable_filter_net_ops);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">module_init(iptable_filter_init);</span><br><span class="line">module_exit(iptable_filter_fini);</span><br></pre></td></tr></table></figure>
+<p>netfilter注册的逻辑依赖内核模块注册。内核模块加载的时候，会自动调用module_init，在iptable_filter中，调用<code>iptable_filter_init</code>，执行<code>xt_hook_link</code>函数，将<code>packet_filter</code>全局量挂载到<code>nf_hooks</code>全局量。实际包过滤的时候，就会根据<code>nf_hooks</code>来调用注册的hook。<br>
+以上就是hook的注册过程，实际在看源码中，match和target等注册过程也是类似的，通过module_init将模块文件的变量注册到全局量中。</p>
+<h3 id="iptables规则下发"><a class="header-anchor" href="#iptables规则下发"></a>iptables规则下发</h3>
+<p>内核空间与用户空间的数据交互通过getsockopt和setsockopt来完成，这个两个函数用来控制相关socket文件描述符的的选项值。先来看这两个函数的原型：<br>
+set/getsockopt(2)函数的基本使用格式为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">int setsockopt(int sockfd, int proto, int cmd, void *data, int datalen)</span><br><span class="line">int getsockopt(int sockfd, int proto, int cmd, void *data, int datalen)</span><br></pre></td></tr></table></figure>
+<p>在调用<code>setsockopt</code>函数时，实际执行的流程如下：<br>
+<img src="/2020/09/14/Netfilter介绍及其实现原理/%E8%A7%84%E5%88%99%E6%8F%90%E4%BA%A4%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8%E7%A4%BA%E6%84%8F%E5%9B%BE.png" alt><br>
+上图中，从setsockopt()到ip_setsockopt()是常规的setsockopt调用流程；在新的流程中，Netfilter加入的自己的处理函数nf_setsockopt()。<br>
+<img src="/2020/09/14/Netfilter介绍及其实现原理/setsockopt%E6%B5%81%E7%A8%8B%E5%9B%BE.drawio.png" alt><br>
+上图中，核心函数<code>do_replace</code>，进行的数据拷贝传输，源码如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">int</span></span><br><span class="line">do_replace(struct net *net, <span class="keyword">const</span> <span class="keyword">void</span> __user *user, <span class="keyword">unsigned</span> <span class="keyword">int</span> len)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">int</span> ret;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">ipt_replace</span> <span class="title">tmp</span>;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">xt_table_info</span> *<span class="title">newinfo</span>;</span></span><br><span class="line">	<span class="keyword">void</span> *loc_cpu_entry;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">ipt_entry</span> *<span class="title">iter</span>;</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (copy_from_user(&amp;tmp, user, <span class="keyword">sizeof</span>(tmp)) != <span class="number">0</span>)</span><br><span class="line">		<span class="keyword">return</span> -EFAULT;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/* overflow check */</span></span><br><span class="line">	<span class="keyword">if</span> (tmp.num_counters &gt;= INT_MAX / <span class="keyword">sizeof</span>(struct xt_counters))</span><br><span class="line">		<span class="keyword">return</span> -ENOMEM;</span><br><span class="line">	<span class="keyword">if</span> (tmp.num_counters == <span class="number">0</span>)</span><br><span class="line">		<span class="keyword">return</span> -EINVAL;</span><br><span class="line"></span><br><span class="line">	tmp.name[<span class="keyword">sizeof</span>(tmp.name)<span class="number">-1</span>] = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	newinfo = xt_alloc_table_info(tmp.size);</span><br><span class="line">	<span class="keyword">if</span> (!newinfo)</span><br><span class="line">		<span class="keyword">return</span> -ENOMEM;</span><br><span class="line"></span><br><span class="line">	loc_cpu_entry = newinfo-&gt;entries;</span><br><span class="line">	<span class="keyword">if</span> (copy_from_user(loc_cpu_entry, user + <span class="keyword">sizeof</span>(tmp),</span><br><span class="line">			   tmp.size) != <span class="number">0</span>) &#123;</span><br><span class="line">		ret = -EFAULT;</span><br><span class="line">		<span class="keyword">goto</span> free_newinfo;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	ret = translate_table(net, newinfo, loc_cpu_entry, &amp;tmp);</span><br><span class="line">	<span class="keyword">if</span> (ret != <span class="number">0</span>)</span><br><span class="line">		<span class="keyword">goto</span> free_newinfo;</span><br><span class="line"></span><br><span class="line">	duprintf(<span class="string">"Translated table\n"</span>);</span><br><span class="line"></span><br><span class="line">	ret = __do_replace(net, tmp.name, tmp.valid_hooks, newinfo,</span><br><span class="line">			   tmp.num_counters, tmp.counters);</span><br><span class="line">	<span class="keyword">if</span> (ret)</span><br><span class="line">		<span class="keyword">goto</span> free_newinfo_untrans;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"> free_newinfo_untrans:</span><br><span class="line">	xt_entry_foreach(iter, loc_cpu_entry, newinfo-&gt;size)</span><br><span class="line">		cleanup_entry(iter, net);</span><br><span class="line"> free_newinfo:</span><br><span class="line">	xt_free_table_info(newinfo);</span><br><span class="line">	<span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>从源码可以看到，iptables和内核间的通信，就是通过调用<code>copy_from_user</code>函数进行数据拷贝来完成的。而拷贝的核心数据结构，就是上面介绍过的<code>ipt_replace</code>结构。<br>
+至此，Netfilter源码实现的主要流程就介绍完了，更多的细节可自行阅读源码。</p>
+<h2 id="自定义match"><a class="header-anchor" href="#自定义match"></a>自定义match</h2>
+<p>主要是为了练习，功能就是命中后打印输出一下。<br>
+要实现一个iptables的自定义功能，那么，我应该产生三个文件libipt_xx.c、ipt_xx.c和ipt_xx.h(ipt更换为xt一样有效)，并放到对应目录中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ipt_xx.c   -&gt; /&lt;linux-kernel-src&gt;/net/ipv4/netfilter/</span><br><span class="line">ipt_xx.h   -&gt; /&lt;linux-kernel-src&gt;/include/uapi/linux/netfilter_ipv4</span><br><span class="line">libipt_xx.c   -&gt; /usr/local/src/iptables-x.x.x/extensions/</span><br></pre></td></tr></table></figure>
+<p>然后再分别编译内核部分ipt_xx.c和ipt_xx.h源码及用户部分libipt_xx.c源码。</p>
+<h3 id="环境准备"><a class="header-anchor" href="#环境准备"></a>环境准备</h3>
+<p><strong>内核源码下载</strong><br>
+通用的linux内核源码的<a href="https://www.kernel.org/" target="_blank" rel="noopener">下载</a><br>
+centos/redhat的内核在上面找不到对应的，他们是自己维护的版本，下载方法如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 先复制及设定 centos-common 源码</span><br><span class="line">[user@host ~]$ git clone  https://git.centos.org/centos-git-common.git</span><br><span class="line">[user@host ~]$ git clone https://git.centos.org/rpms/kernel.git ; cd kernel</span><br><span class="line"># 让我们存取 cenots7 内核</span><br><span class="line">[user@host kernel]$ git checkout c7 </span><br><span class="line"># get_sources会根据你的电脑内核版本，匹配对应的源码。</span><br><span class="line">[user@host kernel]$ ~/centos-git-common/get_sources.sh</span><br></pre></td></tr></table></figure>
+<p>如果你对特定分支感兴趣，也可以下载特定分支：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone -b c7 --single-branch https://git.centos.org/rpms/kernel.git</span><br></pre></td></tr></table></figure>
+<p>这里的内核源码也包含了Netfilter的内核源码。</p>
+<p><strong>iptables源码：</strong><br>
+<em>本文使用的是iptables v1.14.21版本，对应的源码也是这个版本</em> <a href="https://www.netfilter.org/projects/iptables/downloads.html" target="_blank" rel="noopener">下载</a></p>
+<h3 id="自定义match源码"><a class="header-anchor" href="#自定义match源码"></a>自定义match源码</h3>
+<p>内核部分：xt_test.c</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> pr_fmt(fmt) KBUILD_MODNAME <span class="meta-string">": "</span> fmt</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/module.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/types.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/udp.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/skbuff.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/in.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/kernel.h&gt;  </span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/netfilter/xt_test.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/netfilter/x_tables.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/netfilter_ipv4/ip_tables.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/netfilter_ipv6/ip6_tables.h&gt;</span></span></span><br><span class="line"></span><br><span class="line">MODULE_LICENSE(<span class="string">"GPL"</span>);</span><br><span class="line">MODULE_AUTHOR(<span class="string">"Netfilter Core Team &lt;coreteam@netfilter.org&gt;"</span>);</span><br><span class="line">MODULE_DESCRIPTION(<span class="string">"Xtables: multiple port matching for TCP, UDP, UDP-Lite, SCTP and DCCP"</span>);</span><br><span class="line">MODULE_ALIAS(<span class="string">"ipt_test"</span>);</span><br><span class="line">MODULE_ALIAS(<span class="string">"ip6t_test"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">bool</span></span><br><span class="line">test_mt(<span class="keyword">const</span> struct sk_buff *skb, struct xt_action_param *par)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">const</span> <span class="class"><span class="keyword">struct</span> <span class="title">xt_test</span> *<span class="title">testinfo</span> = <span class="title">par</span>-&gt;<span class="title">matchinfo</span>;</span></span><br><span class="line">	<span class="keyword">const</span> <span class="class"><span class="keyword">struct</span> <span class="title">iphdr</span> *<span class="title">ip</span>;</span></span><br><span class="line">	ip = ip_hdr(skb);</span><br><span class="line">	<span class="keyword">if</span> (testinfo-&gt;s_addr == ip-&gt;saddr)&#123;</span><br><span class="line">		printk(<span class="string">"match ip [%s]"</span>,ip-&gt;saddr);</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keyword">bool</span></span><br><span class="line">check(<span class="keyword">u_int16_t</span> proto)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">return</span> proto == IPPROTO_TCP;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">char</span> *</span><br><span class="line">inet_ntoa(struct in_addr ina)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">static</span> <span class="keyword">char</span> buf[<span class="keyword">sizeof</span> <span class="string">"aaa.bbb.ccc.ddd"</span>];</span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">char</span> *ucp = (<span class="keyword">unsigned</span> <span class="keyword">char</span> *)&amp;ina;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">sprintf</span>(buf, <span class="string">"%d.%d.%d.%d"</span>,</span><br><span class="line">		ucp[<span class="number">0</span>] &amp; <span class="number">0xff</span>,</span><br><span class="line">		ucp[<span class="number">1</span>] &amp; <span class="number">0xff</span>,</span><br><span class="line">		ucp[<span class="number">2</span>] &amp; <span class="number">0xff</span>,</span><br><span class="line">		ucp[<span class="number">3</span>] &amp; <span class="number">0xff</span>);</span><br><span class="line">    <span class="keyword">return</span> buf;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">test_mt_check</span><span class="params">(<span class="keyword">const</span> struct xt_mtchk_param *par)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">const</span> <span class="class"><span class="keyword">struct</span> <span class="title">ipt_ip</span> *<span class="title">ip</span> = <span class="title">par</span>-&gt;<span class="title">entryinfo</span>;</span></span><br><span class="line">	printk(<span class="string">"input ip:%s"</span>, inet_ntoa(ip-&gt;src));</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="class"><span class="keyword">struct</span> <span class="title">xt_match</span> <span class="title">test_mt_reg</span> __<span class="title">read_mostly</span> = &#123;</span></span><br><span class="line">	.name		= <span class="string">"test"</span>,</span><br><span class="line">	.family		= NFPROTO_IPV4,</span><br><span class="line">	.revision	= <span class="number">1</span>,</span><br><span class="line">	.checkentry	= test_mt_check,</span><br><span class="line">	.match		= test_mt,</span><br><span class="line">	.matchsize	= <span class="keyword">sizeof</span>(struct xt_test),</span><br><span class="line">	.me		= THIS_MODULE,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">int</span> __<span class="function">init <span class="title">test_mt_init</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	printk(<span class="string">"test module init sucess"</span>);</span><br><span class="line">	<span class="keyword">return</span> xt_register_match(&amp;test_mt_reg);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">void</span> __<span class="function"><span class="built_in">exit</span> <span class="title">test_mt_exit</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	xt_unregister_match(&amp;test_mt_reg);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">module_init(test_mt_init);</span><br><span class="line">module_exit(test_mt_exit);</span><br></pre></td></tr></table></figure>
+<p>用户部分：libxt_test.c</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;netdb.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;xtables.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;limits.h&gt; /* INT_MAX in ip_tables.h/ip6_tables.h */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/netfilter_ipv4/ip_tables.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/netfilter_ipv6/ip6_tables.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/netfilter/xt_test.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/socket.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">enum</span> &#123;</span><br><span class="line">	O_SOURCE_PORTS = <span class="number">0</span>,</span><br><span class="line">	O_DEST_PORTS,</span><br><span class="line">	O_SD_PORTS,</span><br><span class="line">	F_SOURCE_PORTS = <span class="number">1</span> &lt;&lt; O_SOURCE_PORTS,</span><br><span class="line">	F_DEST_PORTS   = <span class="number">1</span> &lt;&lt; O_DEST_PORTS,</span><br><span class="line">	F_SD_PORTS     = <span class="number">1</span> &lt;&lt; O_SD_PORTS,</span><br><span class="line">	F_ANY          = F_SOURCE_PORTS | F_DEST_PORTS | F_SD_PORTS,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* Function which prints out usage message. */</span></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">test_help</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(</span><br><span class="line"><span class="string">"test match options:\n"</span></span><br><span class="line"><span class="string">" --source-ip [ip]\n"</span></span><br><span class="line"><span class="string">" NOTE: just for test.\n"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> <span class="class"><span class="keyword">struct</span> <span class="title">xt_option_entry</span> <span class="title">test_opts</span>[] = &#123;</span></span><br><span class="line">	&#123;.name = <span class="string">"source-ip"</span>, .id = O_SOURCE_PORTS, .type = XTTYPE_STRING,</span><br><span class="line">	 .excl = F_ANY, .flags = XTOPT_INVERT&#125;,</span><br><span class="line">	XTOPT_TABLEEND,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">char</span> *</span><br><span class="line">proto_to_name(<span class="keyword">uint8_t</span> proto)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">switch</span> (proto) &#123;</span><br><span class="line">	<span class="keyword">case</span> IPPROTO_TCP:</span><br><span class="line">		<span class="keyword">return</span> <span class="string">"tcp"</span>;</span><br><span class="line">	<span class="keyword">default</span>:</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">unsigned</span> <span class="keyword">int</span></span><br><span class="line">parse_srource_ip(<span class="keyword">const</span> <span class="keyword">char</span> *portstring)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">char</span> *buffer;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">in_addr</span> <span class="title">addr</span>;</span></span><br><span class="line"></span><br><span class="line">	buffer = strdup(portstring);</span><br><span class="line">	<span class="keyword">if</span> (!buffer) xtables_error(OTHER_PROBLEM, <span class="string">"strdup failed"</span>);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span>(!inet_aton(buffer, &amp;addr)) xtables_error(OTHER_PROBLEM, <span class="string">"ip not vaild"</span>);</span><br><span class="line">	<span class="built_in">free</span>(buffer);</span><br><span class="line">	<span class="keyword">return</span> (<span class="keyword">unsigned</span> <span class="keyword">int</span>)addr.s_addr;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">char</span> *</span><br><span class="line">check_proto(<span class="keyword">uint16_t</span> pnum, <span class="keyword">uint8_t</span> invflags)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">const</span> <span class="keyword">char</span> *proto;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (invflags &amp; XT_INV_PROTO)</span><br><span class="line">		xtables_error(PARAMETER_PROBLEM,</span><br><span class="line">			   <span class="string">"test only works with TCP, UDP, UDPLITE, SCTP and DCCP"</span>);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> ((proto = proto_to_name(pnum)) != <span class="literal">NULL</span>)</span><br><span class="line">		<span class="keyword">return</span> proto;</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span> (!pnum)</span><br><span class="line">		xtables_error(PARAMETER_PROBLEM,</span><br><span class="line">			   <span class="string">"test needs `-p tcp', `-p udp', `-p udplite', "</span></span><br><span class="line">			   <span class="string">"`-p sctp' or `-p dccp'"</span>);</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		xtables_error(PARAMETER_PROBLEM,</span><br><span class="line">			   <span class="string">"test only works with TCP, UDP, UDPLITE, SCTP and DCCP"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">void</span> __test_parse(struct xt_option_call *cb, <span class="keyword">uint16_t</span> pnum,</span><br><span class="line">			      <span class="keyword">uint8_t</span> invflags)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">const</span> <span class="keyword">char</span> *proto;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">xt_test</span> *<span class="title">multiinfo</span> = <span class="title">cb</span>-&gt;<span class="title">data</span>;</span></span><br><span class="line"></span><br><span class="line">	xtables_option_parse(cb);</span><br><span class="line">	<span class="keyword">switch</span> (cb-&gt;entry-&gt;id) &#123;</span><br><span class="line">	<span class="keyword">case</span> O_SOURCE_PORTS:</span><br><span class="line">		<span class="comment">//proto = check_proto(pnum, invflags);</span></span><br><span class="line">		multiinfo-&gt;s_addr = (__be32)parse_srource_ip(cb-&gt;arg);</span><br><span class="line">		<span class="keyword">break</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> (cb-&gt;invert)</span><br><span class="line">		xtables_error(PARAMETER_PROBLEM,</span><br><span class="line">			   <span class="string">"test.0 does not support invert"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">test_parse</span><span class="params">(struct xt_option_call *cb)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">const</span> <span class="class"><span class="keyword">struct</span> <span class="title">ipt_entry</span> *<span class="title">entry</span> = <span class="title">cb</span>-&gt;<span class="title">xt_entry</span>;</span></span><br><span class="line">	<span class="keyword">return</span> __test_parse(cb,</span><br><span class="line">	       entry-&gt;ip.proto, entry-&gt;ip.invflags);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">test_check</span><span class="params">(struct xt_fcheck_call *cb)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (cb-&gt;xflags == <span class="number">0</span>)</span><br><span class="line">		xtables_error(PARAMETER_PROBLEM, <span class="string">"test expection an option"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">void</span></span><br><span class="line">__test_print(<span class="keyword">const</span> struct xt_entry_match *match, <span class="keyword">int</span> numeric,</span><br><span class="line">                  <span class="keyword">uint16_t</span> proto)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">const</span> <span class="class"><span class="keyword">struct</span> <span class="title">xt_test</span> *<span class="title">multiinfo</span></span></span><br><span class="line"><span class="class">		= (<span class="title">const</span> <span class="title">struct</span> <span class="title">xt_test</span> *)<span class="title">match</span>-&gt;<span class="title">data</span>;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">in_addr</span> <span class="title">addr</span>;</span></span><br><span class="line">	addr.s_addr = (<span class="keyword">in_addr_t</span>)multiinfo-&gt;s_addr;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">" test "</span>);</span><br><span class="line"></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%s"</span>,inet_ntoa(addr));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">test_print</span><span class="params">(<span class="keyword">const</span> <span class="keyword">void</span> *ip_void,</span></span></span><br><span class="line"><span class="function"><span class="params">                            <span class="keyword">const</span> struct xt_entry_match *match, <span class="keyword">int</span> numeric)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">const</span> <span class="class"><span class="keyword">struct</span> <span class="title">ipt_ip</span> *<span class="title">ip</span> = <span class="title">ip_void</span>;</span></span><br><span class="line">	__test_print(match, numeric, ip-&gt;proto);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">void</span> __test_save(<span class="keyword">const</span> struct xt_entry_match *match,</span><br><span class="line">                             <span class="keyword">uint16_t</span> proto)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">const</span> <span class="class"><span class="keyword">struct</span> <span class="title">xt_test</span> *<span class="title">multiinfo</span></span></span><br><span class="line"><span class="class">		= (<span class="title">const</span> <span class="title">struct</span> <span class="title">xt_test</span> *)<span class="title">match</span>-&gt;<span class="title">data</span>;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">in_addr</span> <span class="title">addr</span>;</span></span><br><span class="line">	addr.s_addr = (<span class="keyword">in_addr_t</span>)multiinfo-&gt;s_addr;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">" test "</span>);</span><br><span class="line"></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%s"</span>,inet_ntoa(addr));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">test_save</span><span class="params">(<span class="keyword">const</span> <span class="keyword">void</span> *ip_void,</span></span></span><br><span class="line"><span class="function"><span class="params">                           <span class="keyword">const</span> struct xt_entry_match *match)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">const</span> <span class="class"><span class="keyword">struct</span> <span class="title">ipt_ip</span> *<span class="title">ip</span> = <span class="title">ip_void</span>;</span></span><br><span class="line">	__test_save(match, ip-&gt;proto);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="class"><span class="keyword">struct</span> <span class="title">xtables_match</span> <span class="title">test_mt_reg</span> = &#123;</span></span><br><span class="line">	.family        = NFPROTO_IPV4,</span><br><span class="line">	.name          = <span class="string">"test"</span>,</span><br><span class="line">	.revision      = <span class="number">1</span>,</span><br><span class="line">	.version       = XTABLES_VERSION,</span><br><span class="line">	.size          = XT_ALIGN(<span class="keyword">sizeof</span>(struct xt_test)),</span><br><span class="line">	.userspacesize = XT_ALIGN(<span class="keyword">sizeof</span>(struct xt_test)),</span><br><span class="line">	.help          = test_help,</span><br><span class="line">	.x6_parse      = test_parse,</span><br><span class="line">	.x6_fcheck     = test_check,</span><br><span class="line">	.print         = test_print,</span><br><span class="line">	.save          = test_save,</span><br><span class="line">	.x6_options    = test_opts,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span></span><br><span class="line">_init(<span class="keyword">void</span>)</span><br><span class="line">&#123;</span><br><span class="line">	xtables_register_match(&amp;test_mt_reg);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>头文件：xt_test.h</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> _XT_TEST_H</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> _XT_TEST_H</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/types.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* Must fit inside union xt_matchinfo: 16 bytes */</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">xt_test</span> &#123;</span></span><br><span class="line">	__be32	s_addr;				<span class="comment">/* Type of comparison */</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">/*_XT_MULTIPORT_H*/</span></span></span><br></pre></td></tr></table></figure>
+<h3 id="编译"><a class="header-anchor" href="#编译"></a>编译</h3>
+<p>首先把对应的文件放到对应的位置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">xt_test.c   -&gt; /&lt;linux-kernel-src&gt;/net/ipv4/netfilter/</span><br><span class="line">xt_test.h   -&gt; /&lt;linux-kernel-src&gt;/include/uapi/linux/netfilter_ipv4</span><br><span class="line">libxt_test.c   -&gt; /&lt;iptables-x.x.x&gt;/extensions/</span><br></pre></td></tr></table></figure>
+<p>用户态源码编译：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">./autogen.sh</span><br><span class="line">./configure --prefix=/usr/local/iptables</span><br><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
+<p>内核源码编译：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd &lt;your_kernel_src_path&gt;/net/netfilter</span><br><span class="line">#修改Makefile，新增：obj-$(CONFIG_NETFILTER_XT_MATCH_TEST) += xt_test.o</span><br><span class="line">make CONFIG_NETFILTER_XT_MATCH_TEST=m -C &lt;your_kernel_src_path&gt;  M=`pwd` modules</span><br></pre></td></tr></table></figure>
+<p>如果出现<code>No rule to make target 'tools/objtool/objtool'</code>的错误：</p>
+<ol>
+<li><code>yum install kernel-headers kernel-devel -y</code></li>
+<li>找到<code>/usr/src/kernels/</code>下安装的tools/objtool/objtool/objtool，将可执行文件拷贝到你的内核源码对应目录。</li>
+<li>重新执行make</li>
+</ol>
+<h3 id="测试"><a class="header-anchor" href="#测试"></a>测试</h3>
+<ol>
+<li>
+<p>先把编译得到的<code>xt_test.ko</code>放到<code>/usr/lib/modules/3.10.0.xxxx/kernel/net/netfilter/</code>目录下。</p>
+</li>
+<li>
+<p>添加iptables规则：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/iptables/sbin/iptables -A INPUT -p tcp -m test --source-ip &lt;ip&gt; -j DROP</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>使用你配置了的<code>&lt;ip&gt;</code>地址的机器来访问目标机器(tcp)</p>
+</li>
+<li>
+<p><code>dmesg</code>命令来查看打印输出的消息。</p>
+</li>
+</ol>
+<p>如果出现<code>Couldn't load match 'test11':No such file or directory</code>证明你用户态代码，没有找到你编译的模块。<br>
+如果出现<code>iptables:No chain/target/match by the name</code>证明你内核相应的模块没有嵌入。<br>
+如果<code>dmesg</code>没有显示出你想要的信息，可能是输出日志级别不够，尝试：<code>dmesg -n 7</code>；或者是存在缓存，尝试删除原有iptables规则，重新配置，之前的日志消息就打印了。</p>
+<h2 id="链接跟踪-conntrack"><a class="header-anchor" href="#链接跟踪-conntrack"></a>链接跟踪(conntrack)</h2>
+<p>功能就是给链接做标识。这一章节主要都是参考(也就是抄[狗头])Netfilter<a href="http://blog.chinaunix.net/uid-26517122-id-4281274.html" target="_blank" rel="noopener">链接跟踪简介</a>(想看更详细内容最好看原文，我这里只是简单截取了主要核心部分，就不重复copy了)，他其他的netfilter相关的解析也写的挺好，建议去看看。</p>
+<h4 id="conntrack介绍"><a class="header-anchor" href="#conntrack介绍"></a>conntrack介绍</h4>
+<p>我们期望一种场景，即外网无法访问内网，但是内网能够访问外网。但配置了拒绝所有外网来的数据包以后，内网访问外网返回的包也无法进入内网，导致内网访问外网失败。因此我们可以利用conntrack(链接跟踪)来解决这一问题。<br>
+通用的数据访问方式分两种：</p>
+<ol>
+<li>TCP这种面向连接的协议，源和目的的连接终止时，状态防火墙通过检查TCP头的控制标记来跟踪整个过程，并动态地将该连接从状态表中删除。</li>
+<li>DP和ICMP不是面向连接的协议，无法通过报文来判断连接是否终止。状态防火墙会把将UDP流量看成是有连接的，通过在状态表中设置一个定时器，来定期的老化删除一些无用连接。</li>
+</ol>
+<p>期望连接：<br>
+有一些协议，连接时会分为控制连接和数据连接，我们把数据连接称为是控制连接的期望连接。<br>
+我们以tftp协议为例来说明一下期望连接：<br>
+<img src="/2020/09/14/Netfilter介绍及其实现原理/%E6%9C%9F%E6%9C%9B%E9%93%BE%E6%8E%A5.jpg" alt><br>
+如果，客户端先发起连接，使用熟知的69端口。因为69端口是分给了tftp server的，tftp server接收到连接请求后，会自己申请一个server主机上未用的端口1235（因为tftp server的69端口还需要接收其他client发来的连接请求，所有不能使用69来传输数据），给tftp client发送回应。以后client和server就使用端口1235来进行通信了。<br>
+现在来看，上面连接是两条不同的连接。我们把第二条连接是其一条连接的期望连接。<br>
+比如防火墙上只放开了目的端口号69的访问，当内网访问外网的tftp server时，回应报文就会被拦截，导致tftp 功能失效。状态防火墙提出期望连接，当回应报文根据目的端口号发现该回应是已存在连接的期望连接，防火墙放过该回应报文，这样tftp功能OK。<br>
+做个实验：<br>
+在一台主机上配置如下规则：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iptables  -P  INPUT DROP   //丢弃所有到本机的报文</span><br><span class="line">iptables -A INPUT -p udp --dport 69 -j ACCEPT //放行目的端口69的报文</span><br></pre></td></tr></table></figure>
+<p>这时把该主机当tftp client，从tftp server下载东西是无法下载的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -m conntrack --ctstatus EXPECTED -j ACCEPT//放行期望连接</span><br></pre></td></tr></table></figure>
+<p>这时tftp功能OK。</p>
+<p>因此，为了满足上述需求，链接跟踪实现了以下功能：</p>
+<ol>
+<li>建立一张连接状态表，来存放连接记录</li>
+<li>连接状态表中，有定时的垃圾回收机制</li>
+<li>根据报文进行连接状态的建立及对已有连接状态的更新</li>
+<li>期望连接的建立和关联</li>
+<li>在连接跟踪上需要提供易于扩展的接口，来实现用户自定义的一些功能。<br>
+下面本文将从两个方向来描述链接跟踪，一是从模块扩展上，模块如何注册到conntrack中，提供报文的处理方法；第二是数据流上，报文时如何一步步的在netfilter框架中流动，被conntrack处理的。</li>
+</ol>
+<h3 id="conntrack标识"><a class="header-anchor" href="#conntrack标识"></a>conntrack标识</h3>
+<p>连接跟踪是根据报文的L3，L4层头信息来标识一条连接的，而这些标识需要一个数据结构来进行定义和存储。改数据结构包含了一条连接的全部信息，并且链接跟踪的查找，建立，关联和更新都是依据该数据结构，我们称该数据结构为元组。<br>
+<strong>元组数据结构：</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">nf_conntrack_tuple</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">     <span class="class"><span class="keyword">struct</span> <span class="title">nf_conntrack_man</span> <span class="title">src</span>;</span>  <span class="comment">//源端信息</span></span><br><span class="line"></span><br><span class="line">   <span class="comment">//目的端信息。</span></span><br><span class="line">    <span class="comment">/* These are the parts of the tuple which are fixed. */</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">        <span class="keyword">union</span> nf_inet_addr u3;  <span class="comment">//目的IP地址</span></span><br><span class="line">　　  <span class="comment">//目的端口的信息，不同协议使用不同的报文字段</span></span><br><span class="line">        <span class="keyword">union</span> &#123;</span><br><span class="line">             <span class="comment">/* Add other protocols here. */</span></span><br><span class="line">            __be16 all;</span><br><span class="line">            <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">                __be16 port;<span class="comment">//TCP报文就使用目的端口</span></span><br><span class="line">            &#125; tcp;</span><br><span class="line">            <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">                 __be16 port;<span class="comment">//UDP报文就使用目的端口</span></span><br><span class="line">            &#125; udp;</span><br><span class="line">            <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">                <span class="keyword">u_int8_t</span> type, code;<span class="comment">//ICMPP报文使用type，cod两个字段</span></span><br><span class="line">            &#125; icmp;</span><br><span class="line">            ... <span class="comment">//其他协议此处省略</span></span><br><span class="line">        &#125; u;</span><br><span class="line">        <span class="comment">//传输层协议类型，既L4协议类型</span></span><br><span class="line">        <span class="keyword">u_int8_t</span> protonum;</span><br><span class="line">        <span class="comment">//标识连接的方向，一条连接分两个方向，一来一回</span></span><br><span class="line">        <span class="comment">/* The direction (for tuplehash) */</span></span><br><span class="line">        <span class="keyword">u_int8_t</span> dir;</span><br><span class="line">    &#125; dst;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">nf_conntrack_man</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">     <span class="keyword">union</span> nf_inet_addr u3; <span class="comment">//IP地址</span></span><br><span class="line">    <span class="comment">//L4协议源端信息</span></span><br><span class="line">    <span class="keyword">union</span> nf_conntrack_man_proto u;</span><br><span class="line">    <span class="comment">//L3协议类型</span></span><br><span class="line">    <span class="keyword">u_int16_t</span> l3num;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//L4层源端的信息。</span></span><br><span class="line"><span class="keyword">union</span> nf_conntrack_man_proto</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">/* Add other protocols here. */</span></span><br><span class="line">    __be16 all;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">        __be16 port;</span><br><span class="line">    &#125; tcp;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">        __be16 port;</span><br><span class="line">    &#125; udp;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">        __be16 id;</span><br><span class="line">    &#125; icmp;</span><br><span class="line">    .... <span class="comment">//其他协议此处省略</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>从上面数据结构定义看，标识一条连接的元组为：<br>
+TCP  源IP，源端口，L3协议类型，目的IP，目的端口号，L4协议类型<br>
+UDP  源IP，源端口，L3协议类型，目的IP，目的端口号，L4协议类型<br>
+ICMP 源IP，L3协议类型，目的IP，id，type，code,，L4协议类型</p>
+<p><strong>conntrack数据结构：</strong><br>
+一个连接包含正反两个方向的两条报文流.</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">nf_conn</span> &#123;</span></span><br><span class="line">    <span class="comment">//对连接的引用计数</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">nf_conntrack</span> <span class="title">ct_general</span>;</span></span><br><span class="line">    <span class="keyword">spinlock_t</span> lock;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//正向和反向的连接元组信息。</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">nf_conntrack_tuple_hash</span> <span class="title">tuplehash</span>[<span class="title">IP_CT_DIR_MAX</span>];</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//该连接的连接状态</span></span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> status;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//如果该连接是期望连接，指向跟其关联的主连接</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">nf_conn</span> *<span class="title">master</span>;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//连接垃圾回收定时器</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">timer_list</span> <span class="title">timeout</span>;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/*存储特定协议的连接跟踪信息*/</span></span><br><span class="line">    <span class="keyword">union</span> nf_conntrack_proto proto;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*指向扩展结构，该结构中包含一些基于连接的功能扩展处理函数 */</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">nf_ct_ext</span> *<span class="title">ext</span>;</span></span><br><span class="line">   <span class="comment">//网络命名空间</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">net</span> *<span class="title">ct_net</span>;</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">nf_conntrack_tuple_hash</span> &#123;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">hlist_nulls_node</span> <span class="title">hnnode</span>;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">nf_conntrack_tuple</span> <span class="title">tuple</span>;</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>每个struct nf_conn实例代表一个连接。每个skb都有一个指针，指向和它相关联的连接。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sk_buff</span> &#123;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">nf_conntrack</span> *<span class="title">nfct</span>;</span><span class="comment">//指向struct nf_conn实例</span></span><br><span class="line"></span><br><span class="line">	kmemcheck_bitfield_begin(flags1);</span><br><span class="line">	__u8 local_df:<span class="number">1</span>,</span><br><span class="line">	cloned:<span class="number">1</span>,</span><br><span class="line">	ip_summed:<span class="number">2</span>,</span><br><span class="line">	nohdr:<span class="number">1</span>,</span><br><span class="line">	nfctinfo:<span class="number">3</span>; <span class="comment">//记录报文的连接状态。</span></span><br><span class="line">	kmemcheck_bitfield_end(flags1);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><strong>conntrack的存储:</strong><br>
+<em>/include/net/netns/conntrack.h</em><br>
+每个网络命名空间有如下一个数据结构的实例，来管理和存放生成的连接的一些信息。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">netns_ct</span> </span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">atomic_t</span> count;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> expect_count;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> htable_size; </span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">kmem_cache</span> *<span class="title">nf_conntrack_cachep</span>;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">hlist_nulls_head</span> *<span class="title">hash</span>;</span><span class="comment">//存放已经经过确认的连接hash表</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">hlist_head</span> *<span class="title">expect_hash</span>;</span><span class="comment">//期望连接hash表</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">hlist_nulls_head</span> <span class="title">unconfirmed</span>;</span> <span class="comment">//存放没经过确认的连接hash表</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">hlist_nulls_head</span> <span class="title">dying</span>;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">ip_conntrack_stat</span> *<span class="title">stat</span>;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> hash_vmalloc;</span><br><span class="line">    <span class="keyword">int</span> expect_vmalloc;</span><br><span class="line">    <span class="keyword">char</span> *slabname;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>整体conntrack相关的数据结构如下：<br>
+<img src="/2020/09/14/Netfilter介绍及其实现原理/conntrack%E7%9A%84%E5%AD%98%E5%82%A8.jpg" alt></p>
+<h3 id="conntrack的建立过程"><a class="header-anchor" href="#conntrack的建立过程"></a>conntrack的建立过程</h3>
+<p>我们先来看一下iptables定义的连接状态：<br>
+<strong>INVALID</strong> :无效连接，防火墙一般会丢弃该连接<br>
+<strong>NEW</strong>：新建立的，既只是通信双方中只一方发送了报文，还没有得到回应的<br>
+<strong>ESTABLISHED</strong>：已经得到回应的连接。既通信双方都发送过报文的连接<br>
+<strong>RELATED</strong>:关联的连接，既有期望连接关联的连接<br>
+<strong>UNTRACKED</strong>：不进行连接跟踪的连接<br>
+<strong>SNAT</strong>:配置了SNAT的连接<br>
+<strong>DNAT</strong>:配置了DNAT的连接</p>
+<h4 id="一般连接建立过程："><a class="header-anchor" href="#一般连接建立过程："></a>一般连接建立过程：</h4>
+<p>这里我们拿一个udp通信的例子来走一遍连接建立的过程。先不具体到代码的实现。</p>
+<p>1、首先，PC和SERVER使用udp报文进行通信。<br>
+<img src="/2020/09/14/Netfilter介绍及其实现原理/conntrack%E4%B8%80%E8%88%AC%E8%BF%9E%E6%8E%A5%E5%BB%BA%E7%AB%8B1.jpg" alt><br>
+<strong>PC---------&gt;SERVER</strong></p>
+<p>报文的元组信息如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Sip：1.1.1.6</span><br><span class="line">Sport:1116</span><br><span class="line">Dip:1.1.1.5</span><br><span class="line">Dport:1115</span><br><span class="line">l4protonum:udp</span><br><span class="line">L3num:INET</span><br></pre></td></tr></table></figure>
+<p>报文到达防火墙，防火墙的处理如下：<br>
+<strong>防火墙入口处:</strong></p>
+<ol>
+<li>conntrack模块截获报文。</li>
+<li>根据报文的元组信息在防火墙内的连接表中查找是否已经存在建立的连接，因为第一次通信，没有已建立的连接。</li>
+</ol>
+<p>建立一个新的连接，连接的正反向元组信息如下图，并把该连接的正向连接A挂到unconfirmed链表上<br>
+<img src="/2020/09/14/Netfilter介绍及其实现原理/conntrack%E4%B8%80%E8%88%AC%E8%BF%9E%E6%8E%A5%E5%BB%BA%E7%AB%8B2.jpg" alt><br>
+如上，新建连接后，把该连接和报文进行关联，连接状态是NEW。</p>
+<p><strong>防火墙出口处：</strong><br>
+拦截报文后，根据报文携带的连接信息，找到连接，把该连接的正向连接A从unconfirmed链表上摘下来，把该连接的正反向连接A和B加入到连接hash表中。并把该连接确认状态置为confirmed状态，即置位status的IPS_CONFIRMED_BIT位。<br>
+<img src="/2020/09/14/Netfilter介绍及其实现原理/conntrack%E4%B8%80%E8%88%AC%E8%BF%9E%E6%8E%A5%E5%BB%BA%E7%AB%8B3.jpg" alt></p>
+<p><strong>SERVER-----&gt;PC</strong><br>
+SERVER回应PC的报文元组信息如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Sip：1.1.1.5</span><br><span class="line">Sport:1115</span><br><span class="line">Dip:1.1.1.6</span><br><span class="line">Dport:1116</span><br><span class="line">l4protonum:udp</span><br><span class="line">L3num:INET</span><br></pre></td></tr></table></figure>
+<p>报文到达防火墙，防火墙的处理如下：<br>
+<strong>防火墙入口处:</strong></p>
+<ol>
+<li>conntrack模块截获报文。</li>
+<li>根据报文的元组信息在防火墙内的连接表中查找是否已经存在建立的连接，可以找到已建立的连接B。</li>
+<li>发现连接B里的dir是reply，表明该连接已经有回应报文了，给连接中的status置位IPS_SEEN_REPLY_BIT，表明该连接已经收到了回应报文。这时把报文的连接状态变为ESTABLISHED</li>
+</ol>
+<p><strong>防火墙出口处：</strong></p>
+<ol>
+<li>拦截报文后，根据报文携带的连接信息，找到连接，发现该连接确认状态是confirmed的，直接不进行连接处理。</li>
+</ol>
+<p>至此，连接建立完成。</p>
+<p>后续该连接的正反方向的报文都可以在连接表中查到相应的连接，就可以根据连接进行相应的处理了。</p>
+<h4 id="期望连接的建立过程："><a class="header-anchor" href="#期望连接的建立过程："></a>期望连接的建立过程：</h4>
+<p>这里就不介绍了，详情可看<a href="http://blog.chinaunix.net/uid-26517122-id-4281305.html" target="_blank" rel="noopener">原文</a></p>
+<p><strong>奉上原文后续章节：</strong><br>
+<a href="http://blog.chinaunix.net/uid-26517122-id-4292718.html" target="_blank" rel="noopener">Netfilter中conntrack 功能扩展机制</a><br>
+<a href="http://blog.chinaunix.net/uid-26517122-id-4292730.html" target="_blank" rel="noopener">Netfilter中conntrack helper扩展实现</a><br>
+<a href="http://blog.chinaunix.net/uid-26517122-id-4292946.html" target="_blank" rel="noopener">Netfilter中L3和L4层提供的conntrack处理方法</a><br>
+<a href="http://blog.chinaunix.net/uid-26517122-id-4293010.html" target="_blank" rel="noopener">Netfilter中conntrack的HOOK点</a><br>
+<a href="http://blog.chinaunix.net/uid-26517122-id-4293135.html" target="_blank" rel="noopener">Nefilter中IP conntrack核心函数详解</a></p>
+<h2 id="参考"><a class="header-anchor" href="#参考"></a>参考</h2>
+<p><a href="https://zh.wikipedia.org/wiki/Netfilter" target="_blank" rel="noopener">Netfilter</a><br>
+<a href="https://www.ibm.com/developerworks/cn/linux/network/s-netip/index.html" target="_blank" rel="noopener">netfilter/iptables 简介</a><br>
+<a href="https://www.xiayinchang.top/post/d617cc74.html" target="_blank" rel="noopener">Netfilter 框架及其周边组件</a><br>
+<a href="https://opengers.github.io/openstack/openstack-base-netfilter-framework-overview/#connection-tracking" target="_blank" rel="noopener">netfilter框架研究</a><br>
+<a href="https://cloud.tencent.com/developer/article/1199506" target="_blank" rel="noopener">使用iptables控制网络流量</a><br>
+<a href="https://xiaoz.co/2020/01/10/a-deep-dive-into-iptables-and-netfilter-architecture/" target="_blank" rel="noopener">深入理解Iptables和Netfilter架构</a><br>
+<a href="http://arthurchiao.art/blog/deep-dive-into-iptables-and-netfilter-arch-zh/" target="_blank" rel="noopener">深入理解Iptables和Netfilter架构</a><br>
+<a href="https://blog.csdn.net/haolipengzhanshen/article/details/85007427" target="_blank" rel="noopener">iptables和netfilter的通信流程</a><br>
+<a href="https://blog.csdn.net/venoy4806/article/details/5136626" target="_blank" rel="noopener">netfilter内核源码分析</a><br>
+<a href="https://blog.csdn.net/venoy4806/article/details/5136626" target="_blank" rel="noopener">Netfilter内核源码分析</a><br>
+<a href="http://chinaunix.net/uid-29547110-id-5038602.html" target="_blank" rel="noopener">Netfilter全面讲解</a><br>
+<a href="http://blog.chinaunix.net/uid-26517122-id-4292718.html" target="_blank" rel="noopener">conntrack详解</a></p>
+
+      
+    </div>
+    
+    
+    
+
+	<div>
+		
+			<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+		
+	</div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/NETFILTER/" rel="tag"> <i class="fa fa-tag"></i> NETFILTER</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/09/14/Docker使用/" rel="next" title="Docker使用">
+                <i class="fa fa-chevron-left"></i> Docker使用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/09/22/APISIX调研和使用/" rel="prev" title="APISIX调研和使用">
+                APISIX调研和使用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+		<div>
+		</div>
+    
+  </div>
+ 
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/touxiang.jpg" alt="JiHan">
+          <p class="site-author-name" itemprop="name">JiHan</p>
+           
+              <p class="site-description motion-element" itemprop="description">瘫着贼舒服</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">41</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/JiHanHuang/" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:Mr.JiHan.Mail@gmail.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                    
+                      E-Mail
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基础结构"><span class="nav-number">1.1.</span> <span class="nav-text">基础结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#建立规则和链"><span class="nav-number">1.2.</span> <span class="nav-text">建立规则和链</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#用法"><span class="nav-number">1.2.1.</span> <span class="nav-text">用法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#示例"><span class="nav-number">1.2.2.</span> <span class="nav-text">示例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#跟踪iptables规则匹配"><span class="nav-number">1.2.3.</span> <span class="nav-text">跟踪iptables规则匹配</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#规则构成"><span class="nav-number">2.</span> <span class="nav-text">规则构成</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#表-table"><span class="nav-number">2.1.</span> <span class="nav-text">表(table)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#链-chain"><span class="nav-number">2.2.</span> <span class="nav-text">链(chain)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#匹配-match"><span class="nav-number">2.3.</span> <span class="nav-text">匹配(match)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#目标-target"><span class="nav-number">2.4.</span> <span class="nav-text">目标(target)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#通用目标"><span class="nav-number">2.4.1.</span> <span class="nav-text">通用目标</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#扩展目标"><span class="nav-number">2.4.2.</span> <span class="nav-text">扩展目标</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Netfilter源码实现"><span class="nav-number">3.</span> <span class="nav-text">Netfilter源码实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本数据结构"><span class="nav-number">3.1.</span> <span class="nav-text">基本数据结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Netfilter内部数据包处理"><span class="nav-number">3.2.</span> <span class="nav-text">Netfilter内部数据包处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Netfilter模块注册"><span class="nav-number">3.3.</span> <span class="nav-text">Netfilter模块注册</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#iptables规则下发"><span class="nav-number">3.4.</span> <span class="nav-text">iptables规则下发</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自定义match"><span class="nav-number">4.</span> <span class="nav-text">自定义match</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#环境准备"><span class="nav-number">4.1.</span> <span class="nav-text">环境准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自定义match源码"><span class="nav-number">4.2.</span> <span class="nav-text">自定义match源码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编译"><span class="nav-number">4.3.</span> <span class="nav-text">编译</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试"><span class="nav-number">4.4.</span> <span class="nav-text">测试</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#链接跟踪-conntrack"><span class="nav-number">5.</span> <span class="nav-text">链接跟踪(conntrack)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#conntrack介绍"><span class="nav-number">5.0.1.</span> <span class="nav-text">conntrack介绍</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#conntrack标识"><span class="nav-number">5.1.</span> <span class="nav-text">conntrack标识</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#conntrack的建立过程"><span class="nav-number">5.2.</span> <span class="nav-text">conntrack的建立过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一般连接建立过程："><span class="nav-number">5.2.1.</span> <span class="nav-text">一般连接建立过程：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#期望连接的建立过程："><span class="nav-number">5.2.2.</span> <span class="nav-text">期望连接的建立过程：</span></a></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">JiHan</span>
+
+
+  
+	<div class="post-wordcount">
+		
+		  <span class="post-meta-divider">|</span>
+		
+		<span class="post-meta-item-icon">
+		  <i class="fa fa-area-chart"></i>
+		</span>
+		
+		  <span class="post-meta-item-text">本站总字数</span>
+		
+		<span title="本站总字数">
+		  89.3k
+		</span>
+	</div>
+   
+ </div>
+
+
+
+
+  <script src="https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js"></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({theme: 'forest'});
+    }
+  </script>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 本站访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'VgnMRYmQLHYX1MQApA7bN511-gzGzoHsz',
+        appKey: 'A37Y5jPoqc8cxMaOoNiXSh9s',
+        placeholder: '小伙子，我看你骨骼惊奇...',
+        avatar:'mp',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body>
+</html>

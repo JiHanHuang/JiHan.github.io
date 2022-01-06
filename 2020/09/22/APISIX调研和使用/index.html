@@ -1,0 +1,1336 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="JiHan's Blog" type="application/atom+xml">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="针对性的了解apisix插件化api网关，期望能给项目提供一些参考和优化(•̀⌄•́) 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan  官方Git 管理端页面 router-radixtree 结构设计 安装参考 APISIX高性能实践 APISIX高性能实践续 APISIX上手 官方参考dashboard 目前只在Coentos 7上安装测试，Centos">
+<meta property="og:type" content="article">
+<meta property="og:title" content="APISIX调研和使用">
+<meta property="og:url" content="http://yoursite.com/2020/09/22/APISIX调研和使用/index.html">
+<meta property="og:site_name" content="JiHan&#39;s Blog">
+<meta property="og:description" content="针对性的了解apisix插件化api网关，期望能给项目提供一些参考和优化(•̀⌄•́) 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan  官方Git 管理端页面 router-radixtree 结构设计 安装参考 APISIX高性能实践 APISIX高性能实践续 APISIX上手 官方参考dashboard 目前只在Coentos 7上安装测试，Centos">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2020/09/22/APISIX调研和使用/radixtree_init%E6%B5%81%E7%A8%8B%E5%9B%BE.drawio.png">
+<meta property="og:image" content="http://yoursite.com/2020/09/22/APISIX调研和使用/radixtree_match%E6%B5%81%E7%A8%8B%E5%9B%BE.drawio.png">
+<meta property="og:updated_time" content="2020-10-15T03:24:28.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="APISIX调研和使用">
+<meta name="twitter:description" content="针对性的了解apisix插件化api网关，期望能给项目提供一些参考和优化(•̀⌄•́) 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan  官方Git 管理端页面 router-radixtree 结构设计 安装参考 APISIX高性能实践 APISIX高性能实践续 APISIX上手 官方参考dashboard 目前只在Coentos 7上安装测试，Centos">
+<meta name="twitter:image" content="http://yoursite.com/2020/09/22/APISIX调研和使用/radixtree_init%E6%B5%81%E7%A8%8B%E5%9B%BE.drawio.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always","offset":12,"offset_float":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/09/22/APISIX调研和使用/">
+
+
+
+
+
+  <title>APISIX调研和使用 | JiHan's Blog</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-144130643-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">JiHan's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">随笔写写啦 (๑`･ᴗ･´๑)</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/09/22/APISIX调研和使用/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiHan">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/touxiang.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiHan's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">APISIX调研和使用</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-09-22T17:20:35+08:00">
+                2020-09-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/09/22/APISIX调研和使用/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/09/22/APISIX调研和使用/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 阅读次数
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  1.8k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  8
+                </span>
+              
+            </div>
+          
+			
+          
+
+        </div>
+      </header>
+    
+
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>针对性的了解apisix插件化api网关，期望能给项目提供一些参考和优化(•̀⌄•́)<br>
+　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan</p>
+<hr>
+<p><em><a href="https://github.com/apache/apisix" target="_blank" rel="noopener">官方Git</a></em><br>
+<em><a href="https://github.com/apache/apisix-dashboard" target="_blank" rel="noopener">管理端页面</a></em><br>
+<em><a href="https://github.com/apache/apisix/blob/master/doc/router-radixtree.md" target="_blank" rel="noopener">router-radixtree</a></em><br>
+<em><a href="https://github.com/apache/apisix/blob/master/doc/zh-cn/architecture-design.md" target="_blank" rel="noopener">结构设计</a></em><br>
+<em><a href="http://www.itheima.com/news/20200404/193127.html" target="_blank" rel="noopener">安装参考</a></em><br>
+<em><a href="https://segmentfault.com/a/1190000020128654" target="_blank" rel="noopener">APISIX高性能实践</a></em><br>
+<em><a href="https://zhuanlan.zhihu.com/p/89610466" target="_blank" rel="noopener">APISIX高性能实践续</a></em><br>
+<em><a href="https://cloud.tencent.com/developer/article/1528618" target="_blank" rel="noopener">APISIX上手</a></em><br>
+<em><a href="https://apisix.iresty.com/apisix/dashboard/#/schema/routes/list" target="_blank" rel="noopener">官方参考dashboard</a></em><br>
+<em>目前只在Coentos 7上安装测试，Centos 6上需要升级gcc，要支持<code>GLIBC_2.14</code></em></p>
+<a id="more"></a>
+<h2 id="简介和安装"><a class="header-anchor" href="#简介和安装"></a>简介和安装</h2>
+<h3 id="apisix安装"><a class="header-anchor" href="#apisix安装"></a>apisix安装</h3>
+<p>直接看这个就可以了<a href="https://github.com/apache/apisix/blob/master/README_CN.md" target="_blank" rel="noopener"><strong>官方中文</strong></a><br>
+可能遇到问题：</p>
+<ol>
+<li>openresty libssl.so.1.1 not found<br>
+<a href="https://www.cnblogs.com/emanlee/p/6100019.html" target="_blank" rel="noopener">升级openssl</a></li>
+<li>需要注意的是，etcd的协议版本问题，需要支持2版本? <code>export ETCDCTL_API=2</code></li>
+</ol>
+<h3 id="APISIX-Dashboard安装"><a class="header-anchor" href="#APISIX-Dashboard安装"></a>APISIX Dashboard安装</h3>
+<ol>
+<li>
+<p>安装前置环境：mysql，golang，nodejs(version &gt;=10.xx)</p>
+</li>
+<li>
+<p>安装启用apisix</p>
+</li>
+<li>
+<p>配置mysql</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>输入你的密码和用户名</span><br><span class="line"><span class="meta">$</span> mysql –uroot –p123456</span><br><span class="line"><span class="meta"> &gt;</span> source ./api/script/db/schema.sql</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>编译运行后端程序</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd api &amp;&amp; go build -o ../manager-api . &amp;&amp; cd ..</span><br><span class="line">sh ./api/run/run.sh &amp;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>编译前端</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm insert -g yarn</span><br><span class="line">yarn install</span><br><span class="line">yarn build</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>联合apisix使用</p>
+<ol>
+<li>
+<p>将刚刚前端编译得到的<code>/dist</code>的内容，放到apisix下的dashboard文件夹</p>
+</li>
+<li>
+<p>修改apisix脚本，添加如下服务：</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> vi ./bin/apisix</span><br><span class="line">server &#123;</span><br><span class="line">    listen 10080;</span><br><span class="line">    # gzip config</span><br><span class="line">    gzip on; </span><br><span class="line">    gzip_min_length 1k; </span><br><span class="line">    gzip_comp_level 9;</span><br><span class="line">    gzip_types text/plain text/css text/javascript application/json application/javascript application/x-javascript application/xml;</span><br><span class="line">    gzip_vary on; </span><br><span class="line">    gzip_disable "MSIE [1-6]\.";</span><br><span class="line"></span><br><span class="line">    root /usr/share/nginx/html;</span><br><span class="line">    include /usr/local/openresty/nginx/conf/mime.types;</span><br><span class="line"></span><br><span class="line">    location / &#123; </span><br><span class="line">        alias dashboard/;</span><br><span class="line"></span><br><span class="line">        try_files $uri $uri/index.html /index.html =404;</span><br><span class="line">    &#125;   </span><br><span class="line"></span><br><span class="line">    location /apisix/admin &#123;</span><br><span class="line">        proxy_pass http://127.0.0.1:8080/apisix/admin;</span><br><span class="line">    &#125;   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>重启apisix<code>./bin/apisix restart</code></p>
+</li>
+</ol>
+</li>
+<li>
+<p>访问<code>http://192.168.81.128:10080/</code>ip根据自己而定。默认登录名<code>admin</code>密码<code>admin</code>，可以在dashboard的<code>conf.json</code>中自己修改。</p>
+</li>
+</ol>
+<h2 id="APISIX的route匹配"><a class="header-anchor" href="#APISIX的route匹配"></a>APISIX的route匹配</h2>
+<p>项目需要，了解下apisix的route匹配方式。<br>
+首先apisix的架构参考<a href="https://github.com/apache/apisix/blob/master/doc/zh-cn/architecture-design.md" target="_blank" rel="noopener">结构设计</a><br>
+apisix扩展匹配介绍<a href="https://github.com/apache/apisix/blob/master/doc/router-radixtree.md" target="_blank" rel="noopener">router-radixtree</a></p>
+<h3 id="匹配原理和机制"><a class="header-anchor" href="#匹配原理和机制"></a>匹配原理和机制</h3>
+<p>其核心的实现机制是使用了<code>resty.radixtree</code>这个lua库，<a href="https://github.com/api7/lua-resty-radixtree" target="_blank" rel="noopener">详情</a>。包括路由匹配，域名匹配，方法匹配等。说白，都是字符匹配。<br>
+<code>route</code>匹配源码如下：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> <span class="built_in">require</span> = <span class="built_in">require</span></span><br><span class="line"><span class="keyword">local</span> router = <span class="built_in">require</span>(<span class="string">"resty.radixtree"</span>)</span><br><span class="line"><span class="keyword">local</span> core = <span class="built_in">require</span>(<span class="string">"apisix.core"</span>)</span><br><span class="line"><span class="keyword">local</span> plugin = <span class="built_in">require</span>(<span class="string">"apisix.plugin"</span>)</span><br><span class="line"><span class="keyword">local</span> <span class="built_in">ipairs</span> = <span class="built_in">ipairs</span></span><br><span class="line"><span class="keyword">local</span> <span class="built_in">type</span> = <span class="built_in">type</span></span><br><span class="line"><span class="keyword">local</span> <span class="built_in">error</span> = <span class="built_in">error</span></span><br><span class="line"><span class="keyword">local</span> loadstring = loadstring</span><br><span class="line"><span class="keyword">local</span> user_routes</span><br><span class="line"><span class="keyword">local</span> cached_version</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> _M = &#123;version = <span class="number">0.2</span>&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">local</span> uri_routes = &#123;&#125;</span><br><span class="line">    <span class="keyword">local</span> uri_router</span><br><span class="line"><span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">create_radixtree_router</span><span class="params">(routes)</span></span></span><br><span class="line">    routes = routes <span class="keyword">or</span> &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">local</span> api_routes = plugin.api_routes()</span><br><span class="line">    core.<span class="built_in">table</span>.clear(uri_routes)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> _, route <span class="keyword">in</span> <span class="built_in">ipairs</span>(api_routes) <span class="keyword">do</span></span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">type</span>(route) == <span class="string">"table"</span> <span class="keyword">then</span></span><br><span class="line">            core.<span class="built_in">table</span>.<span class="built_in">insert</span>(uri_routes, &#123;</span><br><span class="line">                paths = route.uris <span class="keyword">or</span> route.uri,</span><br><span class="line">                methods = route.methods,</span><br><span class="line">                handler = route.handler,</span><br><span class="line">            &#125;)</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> _, route <span class="keyword">in</span> <span class="built_in">ipairs</span>(routes) <span class="keyword">do</span></span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">type</span>(route) == <span class="string">"table"</span> <span class="keyword">then</span></span><br><span class="line">            <span class="keyword">local</span> filter_fun, err</span><br><span class="line">            <span class="keyword">if</span> route.value.filter_func <span class="keyword">then</span></span><br><span class="line">                filter_fun, err = loadstring(</span><br><span class="line">                                        <span class="string">"return "</span> .. route.value.filter_func,</span><br><span class="line">                                        <span class="string">"router#"</span> .. route.value.id)</span><br><span class="line">                <span class="keyword">if</span> <span class="keyword">not</span> filter_fun <span class="keyword">then</span></span><br><span class="line">                    core.<span class="built_in">log</span>.<span class="built_in">error</span>(<span class="string">"failed to load filter function: "</span>, err,</span><br><span class="line">                                   <span class="string">" route id: "</span>, route.value.id)</span><br><span class="line">                    <span class="keyword">goto</span> CONTINUE</span><br><span class="line">                <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">                filter_fun = filter_fun()</span><br><span class="line">            <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">            core.<span class="built_in">log</span>.info(<span class="string">"insert uri route: "</span>,</span><br><span class="line">                          core.json.delay_encode(route.value))</span><br><span class="line">            core.<span class="built_in">table</span>.<span class="built_in">insert</span>(uri_routes, &#123;</span><br><span class="line">                paths = route.value.uris <span class="keyword">or</span> route.value.uri,</span><br><span class="line">                methods = route.value.methods,</span><br><span class="line">                priority = route.value.priority,</span><br><span class="line">                hosts = route.value.hosts <span class="keyword">or</span> route.value.host,</span><br><span class="line">                remote_addrs = route.value.remote_addrs</span><br><span class="line">                               <span class="keyword">or</span> route.value.remote_addr,</span><br><span class="line">                vars = route.value.vars,</span><br><span class="line">                filter_fun = filter_fun,</span><br><span class="line">                <span class="comment">--主要处理函数，如果uri_router匹配上了，会调用这个headler</span></span><br><span class="line">                handler = <span class="function"><span class="keyword">function</span> <span class="params">(api_ctx)</span></span></span><br><span class="line">                    api_ctx.matched_params = <span class="literal">nil</span></span><br><span class="line">                    api_ctx.matched_route = route</span><br><span class="line">                <span class="keyword">end</span></span><br><span class="line">            &#125;)</span><br><span class="line"></span><br><span class="line">            ::CONTINUE::</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    core.<span class="built_in">log</span>.info(<span class="string">"route items: "</span>, core.json.delay_encode(uri_routes, <span class="literal">true</span>))</span><br><span class="line">    uri_router = router.new(uri_routes)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">local</span> match_opts = &#123;&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">_M.match</span><span class="params">(api_ctx)</span></span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> cached_version <span class="keyword">or</span> cached_version ~= user_routes.conf_version <span class="keyword">then</span></span><br><span class="line">        <span class="comment">-- 这里生成uri_router</span></span><br><span class="line">        create_radixtree_router(user_routes.values)</span><br><span class="line">        cached_version = user_routes.conf_version</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> uri_router <span class="keyword">then</span></span><br><span class="line">        core.<span class="built_in">log</span>.<span class="built_in">error</span>(<span class="string">"failed to fetch valid `uri` router: "</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    core.<span class="built_in">table</span>.clear(match_opts)</span><br><span class="line">    match_opts.method = api_ctx.var.request_method</span><br><span class="line">    match_opts.host = api_ctx.var.host</span><br><span class="line">    match_opts.remote_addr = api_ctx.var.remote_addr</span><br><span class="line">    match_opts.vars = api_ctx.var</span><br><span class="line"></span><br><span class="line">    <span class="comment">-- 这里是匹配核心</span></span><br><span class="line">    <span class="keyword">local</span> ok = uri_router:dispatch(api_ctx.var.uri, match_opts, api_ctx)</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> ok <span class="keyword">then</span></span><br><span class="line">        core.<span class="built_in">log</span>.info(<span class="string">"not find any matched route"</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">_M.routes</span><span class="params">()</span></span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> user_routes <span class="keyword">then</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">nil</span>, <span class="literal">nil</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> user_routes.values, user_routes.conf_version</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">_M.init_worker</span><span class="params">(filter)</span></span></span><br><span class="line">    <span class="keyword">local</span> err</span><br><span class="line">    user_routes, err = core.<span class="built_in">config</span>.new(<span class="string">"/routes"</span>, &#123;</span><br><span class="line">            automatic = <span class="literal">true</span>,</span><br><span class="line">            item_schema = core.schema.route,</span><br><span class="line">            filter = filter,</span><br><span class="line">        &#125;)</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> user_routes <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">error</span>(<span class="string">"failed to create etcd instance for fetching /routes : "</span> .. err)</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> _M</span><br></pre></td></tr></table></figure>
+<p>而在访问过程中对这个调用方式如下：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--调用上述的match函数</span></span><br><span class="line">router.router_http.<span class="built_in">match</span>(api_ctx)</span><br><span class="line"><span class="comment">--判断匹配是否成功</span></span><br><span class="line"><span class="keyword">local</span> route = api_ctx.matched_route</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> route <span class="keyword">then</span></span><br><span class="line">        <span class="keyword">return</span> core.response.<span class="built_in">exit</span>(<span class="number">404</span>,</span><br><span class="line">                    &#123;error_msg = <span class="string">"failed to match any routes"</span>&#125;)</span><br><span class="line">    <span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<h4 id="resty-radixtree匹配原理"><a class="header-anchor" href="#resty-radixtree匹配原理"></a>resty.radixtree匹配原理</h4>
+<p>主要分为两个部分，初始化注册<code>router</code>和运行时匹配过滤：<br>
+<strong>初始化：</strong><br>
+<img src="/2020/09/22/APISIX调研和使用/radixtree_init%E6%B5%81%E7%A8%8B%E5%9B%BE.drawio.png" alt></p>
+<ol>
+<li>数据存储和查找的主key都是uri，全量匹配使用hash，通用匹配使用的都是radixtree。数据结构都可以参考图中的表。</li>
+<li>同一个uri有多个route的情况，会以数组的方式扩展，并且使用sort排序，排序顺序依据route中<code>priority</code>参数，越大优先级越高，越优先匹配。</li>
+</ol>
+<p><strong>运行时Match：</strong><br>
+<img src="/2020/09/22/APISIX调研和使用/radixtree_match%E6%B5%81%E7%A8%8B%E5%9B%BE.drawio.png" alt></p>
+<ol>
+<li>
+<p>调用<code>router:match(api_ctx.var.uri, match_opts, ...)</code>时，先使用<code>hash</code>来寻找相应的注册routes(routes在注册的时候，也是根据uri来进行hash表插入，如果hash表设置不能用，才使用radix_tree)。如果hash找不到，就使用<code>radix_tree</code>查找匹配(这部分是c代码，还没看)</p>
+</li>
+<li>
+<p>如果都匹配成功，<code>dispatch</code>会调用<code>route</code>里加入的<code>handler</code>。而<code>match</code>函数会返回<code>metadata</code></p>
+</li>
+<li>
+<p>自定义函数方面，在定义route的时候，自定义<code>filter_fun</code>函数，进行匹配过滤的时候，就会调用<code>filter_fun</code>调用。类似示例如下：</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">=== TEST 1: sanity</span><br><span class="line">--- config</span><br><span class="line">    location /t &#123;</span><br><span class="line">        content_by_lua_block &#123;</span><br><span class="line">            local radix = require("resty.radixtree")</span><br><span class="line">            local rx = radix.new(&#123;</span><br><span class="line">                &#123;</span><br><span class="line">                    paths = "/aa",</span><br><span class="line">                    metadata = "metadata /aa",</span><br><span class="line">                    filter_fun = function(vars)</span><br><span class="line">                        ngx.log(ngx.WARN, "start to filter")</span><br><span class="line">                        return vars['arg_k'] == 'v'</span><br><span class="line">                    end</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;)</span><br><span class="line">            ngx.say(rx:match("/aa", &#123;vars = ngx.var&#125;))</span><br><span class="line">            ngx.say(rx:match("/aa", &#123;&#125;))</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">--- request</span><br><span class="line">GET /t?k=v</span><br><span class="line">--- no_error_log</span><br><span class="line">[error]</span><br><span class="line">--- error_log</span><br><span class="line">start to filter</span><br><span class="line">--- response_body</span><br><span class="line">metadata /aa</span><br><span class="line">metadata /aa</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>对于自定义变量的读取，比如有header，args和cookie里分别有个stub；nginx.var可以分别通过’http_'，'arg_'和’cookie_'直接读取相应的变量：<br>
+nginx配置：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">access_by_lua_block &#123;</span><br><span class="line">     ngx.say("nnnnnnnnngxxxxxxx say:")</span><br><span class="line">     ngx.say(ngx.var['http_stub'])</span><br><span class="line">     ngx.say(ngx.var['arg_stub'])</span><br><span class="line">     ngx.say(ngx.var['cookie_stub'])</span><br><span class="line">     apisix.http_access_phase()</span><br><span class="line"> &#125;   </span><br><span class="line"><span class="meta"> $</span> curl -H 'stub:cloudxx' --cookie "stub=cccccookie" http://192.168.81.128:9080/args/?stub=arrrrg</span><br><span class="line"> nnnnnnnnngxxxxxxx say:</span><br><span class="line"> cloudxx</span><br><span class="line"> arrrrg</span><br><span class="line"> cccccookie</span><br><span class="line"> &#123;"error_msg":"failed to match any routes"&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="route匹配成功后server或upstream流程"><a class="header-anchor" href="#route匹配成功后server或upstream流程"></a>route匹配成功后server或upstream流程</h3>
+<p>首先，在route的配置中，<code>plugins</code>、<code>script</code>、<code>upstream/upstream_id</code>、<code>service_id</code>至少选择一个<br>
+当route匹配成功后会相应执行<code>plugins</code>…(目前猜测是根据优先级)<br>
+server最后关联的也是upstream，那么主要的还是介绍upstream的外发：<br>
+在route匹配成功后，会进行server_id和upstream_id的检查，如果有，就将相应的upstream结构赋值到<code>api_ctx.upstream_conf</code>，如果只有一个node，那么可以直接赋值相应的<code>upstream_host</code>，进行负载平衡，负载平衡特点：</p>
+<ol>
+<li>动态支持有权重的 round-robin 负载平衡</li>
+<li>动态支持一致性 hash 的负载均衡。</li>
+<li>启用上游节点的健康检查，将在负载均衡期间自动过滤不健康的节点，以确保系统稳定性。</li>
+<li>可以在 balancer 阶段使用自定义负载均衡算法。</li>
+</ol>
+<h2 id="性能"><a class="header-anchor" href="#性能"></a>性能</h2>
+<h3 id="route匹配性能"><a class="header-anchor" href="#route匹配性能"></a>route匹配性能</h3>
+<p><a href="https://github.com/api7/lua-resty-radixtree" target="_blank" rel="noopener">lua-resty-radixtree</a><br>
+We wrote some simple benchmark scripts. Machine environment: MacBook Pro (16-inch, 2019), CPU 2.3 GHz Intel Core i9.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">$ make</span><br><span class="line">cc -O2 -g -Wall -fpic -std=c99 -Wno-pointer-to-int-cast -Wno-int-to-pointer-cast -DBUILDING_SO -c src/rax.c -o src/rax.o</span><br><span class="line">cc -O2 -g -Wall -fpic -std=c99 -Wno-pointer-to-int-cast -Wno-int-to-pointer-cast -DBUILDING_SO -c src/easy_rax.c -o src/easy_rax.o</span><br><span class="line">cc -shared -fvisibility=hidden src/rax.o src/easy_rax.o -o librestyradixtree.so</span><br><span class="line"></span><br><span class="line">$ make bench</span><br><span class="line">resty -I=./lib -I=./deps/share/lua/5.1 benchmark/match-parameter.lua</span><br><span class="line">matched res: 1</span><br><span class="line">route count: 100000</span><br><span class="line">match times: 10000000</span><br><span class="line">time used  : 3.3849999904633 sec</span><br><span class="line">QPS        : 2954209</span><br><span class="line">each time  : 0.33849999904633 ns</span><br><span class="line"></span><br><span class="line">resty -I=./lib -I=./deps/share/lua/5.1 benchmark/match-prefix.lua</span><br><span class="line">matched res: 500</span><br><span class="line">route count: 100000</span><br><span class="line">match times: 1000000</span><br><span class="line">time used  : 0.4229998588562 sec</span><br><span class="line">QPS        : 2364066</span><br><span class="line"></span><br><span class="line">resty -I=./lib -I=./deps/share/lua/5.1 benchmark/match-static.lua</span><br><span class="line">matched res: 500</span><br><span class="line">route count: 100000</span><br><span class="line">match times: 10000000</span><br><span class="line">time used  : 0.78799986839294 sec</span><br><span class="line">QPS        : 12690357</span><br><span class="line"></span><br><span class="line">resty -I=./lib -I=./deps/share/lua/5.1 benchmark/match-hosts.lua</span><br><span class="line">matched res: 500</span><br><span class="line">route count: 1000</span><br><span class="line">match times: 100000</span><br><span class="line">time used  : 1.6989998817444 sec</span><br><span class="line">QPS        : 58858</span><br><span class="line"></span><br><span class="line">resty -I=./lib -I=./deps/share/lua/5.1 benchmark/match-wildcard-hosts.lua</span><br><span class="line">matched res: 500</span><br><span class="line">route count: 1000</span><br><span class="line">match times: 50000</span><br><span class="line">time used  : 1.2469999790192 sec</span><br><span class="line">QPS        : 40096</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+	<div>
+		
+			<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+		
+	</div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/09/14/Netfilter介绍及其实现原理/" rel="next" title="Netfilter介绍及其实现原理">
+                <i class="fa fa-chevron-left"></i> Netfilter介绍及其实现原理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/10/27/《高性能mysql第三版》读书笔记/" rel="prev" title="《高性能mysql第三版》读书笔记">
+                《高性能mysql第三版》读书笔记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+		<div>
+		</div>
+    
+  </div>
+ 
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/touxiang.jpg" alt="JiHan">
+          <p class="site-author-name" itemprop="name">JiHan</p>
+           
+              <p class="site-description motion-element" itemprop="description">瘫着贼舒服</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">41</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/JiHanHuang/" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:Mr.JiHan.Mail@gmail.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                    
+                      E-Mail
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简介和安装"><span class="nav-number">1.</span> <span class="nav-text">简介和安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#apisix安装"><span class="nav-number">1.1.</span> <span class="nav-text">apisix安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#APISIX-Dashboard安装"><span class="nav-number">1.2.</span> <span class="nav-text">APISIX Dashboard安装</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#APISIX的route匹配"><span class="nav-number">2.</span> <span class="nav-text">APISIX的route匹配</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#匹配原理和机制"><span class="nav-number">2.1.</span> <span class="nav-text">匹配原理和机制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#resty-radixtree匹配原理"><span class="nav-number">2.1.1.</span> <span class="nav-text">resty.radixtree匹配原理</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#route匹配成功后server或upstream流程"><span class="nav-number">2.2.</span> <span class="nav-text">route匹配成功后server或upstream流程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#性能"><span class="nav-number">3.</span> <span class="nav-text">性能</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#route匹配性能"><span class="nav-number">3.1.</span> <span class="nav-text">route匹配性能</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">JiHan</span>
+
+
+  
+	<div class="post-wordcount">
+		
+		  <span class="post-meta-divider">|</span>
+		
+		<span class="post-meta-item-icon">
+		  <i class="fa fa-area-chart"></i>
+		</span>
+		
+		  <span class="post-meta-item-text">本站总字数</span>
+		
+		<span title="本站总字数">
+		  89.3k
+		</span>
+	</div>
+   
+ </div>
+
+
+
+
+  <script src="https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js"></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({theme: 'forest'});
+    }
+  </script>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 本站访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'VgnMRYmQLHYX1MQApA7bN511-gzGzoHsz',
+        appKey: 'A37Y5jPoqc8cxMaOoNiXSh9s',
+        placeholder: '小伙子，我看你骨骼惊奇...',
+        avatar:'mp',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body>
+</html>
