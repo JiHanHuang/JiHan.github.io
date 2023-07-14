@@ -92,6 +92,31 @@
     
     
     <entry>
+      <title>CS144 计算机网络笔记</title>
+      <link href="/2022/11/12/CS144-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%94%E8%AE%B0/"/>
+      <url>/2022/11/12/CS144-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%94%E8%AE%B0/</url>
+      
+        <content type="html"><![CDATA[<p>补足一下计算机网络知识(•̀⌄•́)<br>　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　By Jihan</p><hr><p>主题：计算机网络<br>类别：计算机-&gt;原理性+实用性-&gt;计算机网络<br>概要：更加系统的学习计算机网络，并完成相应的实验</p><a id="more"></a><h2 id="前言"><a class="header-anchor" href="#前言"></a>前言</h2><p>计算机网络知识一直比较欠缺，并且没有系统学习过。工作后发现很多地方都是一知半解，故重新学习。<br><code>CS144</code>也是比较知名的计算机网络公开课，主要是搭配了对应的lab，从学习到实践深度理解。<br><a href="https://cs144.github.io/" target="_blank" rel="noopener">CS144课程主页</a><br><a href="https://www.bilibili.com/video/BV1e5411c7aY/" target="_blank" rel="noopener">bilibili课程视频</a></p><p><em>课程lab是基于C++和linux平台的，这些都是前置的基础知识</em></p><h2 id="课程学习"><a class="header-anchor" href="#课程学习"></a>课程学习</h2><p>如果只看视频课程，估计没有几分钟就睡着了。建议看几节课程后开始进行对应的lab，如果有对应的网络基础，可以直接进行lab。</p><h3 id="基础课程-lab0"><a class="header-anchor" href="#基础课程-lab0"></a>基础课程+lab0</h3><h4 id="基础课程"><a class="header-anchor" href="#基础课程"></a>基础课程</h4><p>课程基础，以上面bilibili的视频为例，学完P0-Pxx基本就可以开始lab0了</p><h4 id="lab0"><a class="header-anchor" href="#lab0"></a>lab0</h4><p><a href="https://cs144.github.io/assignments/lab0.pdf" target="_blank" rel="noopener">lab0 指导手册</a><br>英文不好的(比如我)，有点耐心慢慢看就好。<br>lab0中主要使用c<ins>作为主要开发语言，而且采用了比较严格的c</ins>的语法，还是需要一定的基础的。</p><h4 id="lab1"><a class="header-anchor" href="#lab1"></a>lab1</h4><p><a href="https://cs144.github.io/assignments/lab1.pdf" target="_blank" rel="noopener">lab1 指导手册</a></p><h3 id="观点2"><a class="header-anchor" href="#观点2"></a>观点2</h3><h3 id="观点3"><a class="header-anchor" href="#观点3"></a>观点3</h3><h2 id="结语"><a class="header-anchor" href="#结语"></a>结语</h2><h3 id="延展"><a class="header-anchor" href="#延展"></a>延展</h3><h4 id="作者所提出的问题，是否就是你真正想问的问题？是否有必要进行分析阅读？理由？"><a class="header-anchor" href="#作者所提出的问题，是否就是你真正想问的问题？是否有必要进行分析阅读？理由？"></a>作者所提出的问题，是否就是你真正想问的问题？是否有必要进行分析阅读？理由？</h4><h3 id="相关"><a class="header-anchor" href="#相关"></a>相关</h3><h4 id="可以列出相关的看过的书籍，或者问题参考链接网页一类的。"><a class="header-anchor" href="#可以列出相关的看过的书籍，或者问题参考链接网页一类的。"></a>可以列出相关的看过的书籍，或者问题参考链接网页一类的。</h4>]]></content>
+      
+      
+      <categories>
+          
+          <category> 笔记 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 计算机网络 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>linux进程通信及示例</title>
       <link href="/2022/08/03/linux%E8%BF%9B%E7%A8%8B%E9%80%9A%E4%BF%A1%E5%8F%8A%E7%A4%BA%E4%BE%8B/"/>
       <url>/2022/08/03/linux%E8%BF%9B%E7%A8%8B%E9%80%9A%E4%BF%A1%E5%8F%8A%E7%A4%BA%E4%BE%8B/</url>
