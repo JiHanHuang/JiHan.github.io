@@ -96,17 +96,17 @@
 
 
 
-<meta name="description" content="苦于python环境的迁移，开始尝试使用docker来实现不同linux平台的环境搬迁。(•̀⌄•́) 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan  Docker官方 参考教程1  参考教程2 Docker Hub">
+<meta name="description" content="苦于python环境的迁移，开始尝试使用docker来实现不同linux平台的环境搬迁。(•̀⌄•́) 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　By Jihan  Docker官方 参考教程1  参考教程2 Docker Hub">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Docker使用">
 <meta property="og:url" content="http://yoursite.com/2020/09/14/Docker使用/index.html">
 <meta property="og:site_name" content="JiHan&#39;s Blog">
-<meta property="og:description" content="苦于python环境的迁移，开始尝试使用docker来实现不同linux平台的环境搬迁。(•̀⌄•́) 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan  Docker官方 参考教程1  参考教程2 Docker Hub">
+<meta property="og:description" content="苦于python环境的迁移，开始尝试使用docker来实现不同linux平台的环境搬迁。(•̀⌄•́) 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　By Jihan  Docker官方 参考教程1  参考教程2 Docker Hub">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-09-14T03:28:16.000Z">
+<meta property="og:updated_time" content="2022-06-09T03:21:28.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Docker使用">
-<meta name="twitter:description" content="苦于python环境的迁移，开始尝试使用docker来实现不同linux平台的环境搬迁。(•̀⌄•́) 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan  Docker官方 参考教程1  参考教程2 Docker Hub">
+<meta name="twitter:description" content="苦于python环境的迁移，开始尝试使用docker来实现不同linux平台的环境搬迁。(•̀⌄•́) 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　By Jihan  Docker官方 参考教程1  参考教程2 Docker Hub">
 
 
 
@@ -393,7 +393,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  774
+                  1.3k
                 </span>
               
 
@@ -409,7 +409,7 @@
                   <span class="post-meta-item-text">阅读时长</span>
                 
                 <span title="阅读时长">
-                  3
+                  5
                 </span>
               
             </div>
@@ -432,7 +432,7 @@
 
       
         <p>苦于python环境的迁移，开始尝试使用docker来实现不同linux平台的环境搬迁。(•̀⌄•́)<br>
-　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan</p>
+　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　By Jihan</p>
 <hr>
 <p><em><a href="https://www.docker.com" target="_blank" rel="noopener">Docker官方</a></em><br>
 <em><a href="https://www.runoob.com/docker/centos-docker-install.html" target="_blank" rel="noopener">参考教程1</a>  <a href="https://yeasy.gitbooks.io/docker_practice/install/mirror.html" target="_blank" rel="noopener">参考教程2</a></em><br>
@@ -539,6 +539,25 @@ Ubuntu 16.04+、Debian 8+、CentOS 7<br>
 </ol>
 </li>
 </ol>
+<h3 id="docker应用调研"><a class="header-anchor" href="#docker应用调研"></a>docker应用调研</h3>
+<p>看了一些关于docker优缺点的调研，发现我们产品并不适合docker，或者说只能解决环境不一致的问题，但docker的引入肯定会带来其他新问题。<br>
+比较了一下docker的优势，以及和我们产品的应用场景</p>
+<ol>
+<li>docker在环境隔离上很强势，一台设备可以跑几千个相互隔离的容器。但我们的产品是主机/虚拟机 独占。</li>
+<li>docker在环境部署上的统一，这的确可以解决我们产品在不同平台适配的问题以及开发测试发布一条龙环境一致。这也是调研docker的主要原因。</li>
+<li>docker动态扩容很强。但我们产品不需要，独占主机嘛，不行就加设备。毕竟toB厂商</li>
+<li>docker有更快速的启动时间，以及资源消耗。emmm，这个对我们产品优点鸡肋，独占主机或者跑在主机的虚拟机上，没有必要需要这个特性。<br>
+总结：docker除了一致性环境能给我们带来好处，似乎没有其他明显好处了。</li>
+</ol>
+<p>再说一下引入docker带来的问题：</p>
+<ol>
+<li>我们产品是网络设备，加了一层docker，端口映射问题老大难。并且产品在使用过程中会新增监听接口，每加一个都去reload一下docker的映射配置，有点蠢</li>
+<li>docker的数据持久化问题，简单查阅资料显示，docker的数据持久化有需要注意的地方，有坑。但是具体未深究。</li>
+<li>引入docker会增加发布版本包的大小，并且出现问题后的排查也是需要注意的。</li>
+<li>其他未考量到的问题。<br>
+总结：引入docker明显有3-4个大点或者坑需要注意，并且容器的学习成本比较高，除了开发，测试和运维也需要学习和维护，代价较大。</li>
+</ol>
+<p>最后决定不引入docker，不适合。（虽然我说了也不算）</p>
 
       
     </div>
@@ -665,7 +684,7 @@ Ubuntu 16.04+、Debian 8+、CentOS 7<br>
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">41</span>
+                <span class="site-state-item-count">39</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -687,7 +706,7 @@ Ubuntu 16.04+、Debian 8+、CentOS 7<br>
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">16</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -753,7 +772,7 @@ Ubuntu 16.04+、Debian 8+、CentOS 7<br>
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建基本镜像"><span class="nav-number">1.</span> <span class="nav-text">创建基本镜像</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建基本镜像"><span class="nav-number">1.</span> <span class="nav-text">创建基本镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker应用调研"><span class="nav-number">2.</span> <span class="nav-text">docker应用调研</span></a></li></ol></div>
             
 
           </div>
@@ -786,7 +805,7 @@ Ubuntu 16.04+、Debian 8+、CentOS 7<br>
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2022</span>
+  <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -805,7 +824,7 @@ Ubuntu 16.04+、Debian 8+、CentOS 7<br>
 		  <span class="post-meta-item-text">本站总字数</span>
 		
 		<span title="本站总字数">
-		  89.3k
+		  115.3k
 		</span>
 	</div>
    

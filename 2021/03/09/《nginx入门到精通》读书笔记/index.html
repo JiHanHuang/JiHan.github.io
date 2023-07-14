@@ -96,20 +96,20 @@
 
 
 
-<meta name="description" content="从实践入门介绍nginx(•̀⌄•́) 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan  在线阅读 主题： nginx模块开发和原理解析 类别：计算机-&amp;gt;实用性+理论性论述书-&amp;gt;nginx 概要：从模块开发了解nginx的使用以及nginx整体结构。从源码原理解析了解nginx底层设计和各种优化操作。 这个玩意儿太监了，没有写完，很多东西都只有大纲。">
+<meta name="description" content="从实践入门介绍nginx(•̀⌄•́) 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　By Jihan  在线阅读 主题： nginx模块开发和原理解析 类别：计算机-&amp;gt;实用性+理论性论述书-&amp;gt;nginx 概要：从模块开发了解nginx的使用以及nginx整体结构。从源码原理解析了解nginx底层设计和各种优化操作。 这个玩意儿太监了，没有写完，很多东西都只有大纲。">
 <meta name="keywords" content="nginx">
 <meta property="og:type" content="article">
 <meta property="og:title" content="《nginx入门到精通》读书笔记">
 <meta property="og:url" content="http://yoursite.com/2021/03/09/《nginx入门到精通》读书笔记/index.html">
 <meta property="og:site_name" content="JiHan&#39;s Blog">
-<meta property="og:description" content="从实践入门介绍nginx(•̀⌄•́) 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan  在线阅读 主题： nginx模块开发和原理解析 类别：计算机-&amp;gt;实用性+理论性论述书-&amp;gt;nginx 概要：从模块开发了解nginx的使用以及nginx整体结构。从源码原理解析了解nginx底层设计和各种优化操作。 这个玩意儿太监了，没有写完，很多东西都只有大纲。">
+<meta property="og:description" content="从实践入门介绍nginx(•̀⌄•́) 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　By Jihan  在线阅读 主题： nginx模块开发和原理解析 类别：计算机-&amp;gt;实用性+理论性论述书-&amp;gt;nginx 概要：从模块开发了解nginx的使用以及nginx整体结构。从源码原理解析了解nginx底层设计和各种优化操作。 这个玩意儿太监了，没有写完，很多东西都只有大纲。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2021/03/09/《nginx入门到精通》读书笔记/nginx%E6%9E%B6%E6%9E%84.png">
 <meta property="og:image" content="http://yoursite.com/2021/03/09/《nginx入门到精通》读书笔记/request%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F.png">
-<meta property="og:updated_time" content="2021-11-07T04:16:47.000Z">
+<meta property="og:updated_time" content="2022-01-07T07:29:19.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《nginx入门到精通》读书笔记">
-<meta name="twitter:description" content="从实践入门介绍nginx(•̀⌄•́) 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan  在线阅读 主题： nginx模块开发和原理解析 类别：计算机-&amp;gt;实用性+理论性论述书-&amp;gt;nginx 概要：从模块开发了解nginx的使用以及nginx整体结构。从源码原理解析了解nginx底层设计和各种优化操作。 这个玩意儿太监了，没有写完，很多东西都只有大纲。">
+<meta name="twitter:description" content="从实践入门介绍nginx(•̀⌄•́) 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　By Jihan  在线阅读 主题： nginx模块开发和原理解析 类别：计算机-&amp;gt;实用性+理论性论述书-&amp;gt;nginx 概要：从模块开发了解nginx的使用以及nginx整体结构。从源码原理解析了解nginx底层设计和各种优化操作。 这个玩意儿太监了，没有写完，很多东西都只有大纲。">
 <meta name="twitter:image" content="http://yoursite.com/2021/03/09/《nginx入门到精通》读书笔记/nginx%E6%9E%B6%E6%9E%84.png">
 
 
@@ -458,7 +458,7 @@
 
       
         <p>从实践入门介绍nginx(•̀⌄•́)<br>
-　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan</p>
+　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　By Jihan</p>
 <hr>
 <p><a href="http://tengine.taobao.org/book/index.html" target="_blank" rel="noopener">在线阅读</a><br>
 主题： nginx模块开发和原理解析<br>
@@ -652,7 +652,7 @@ connection生命周期：master读取配置文件，建立监听并获得fd-&gt;
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">41</span>
+                <span class="site-state-item-count">39</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -674,7 +674,7 @@ connection生命周期：master读取配置文件，建立监听并获得fd-&gt;
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">16</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -773,7 +773,7 @@ connection生命周期：master读取配置文件，建立监听并获得fd-&gt;
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2022</span>
+  <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -792,7 +792,7 @@ connection生命周期：master读取配置文件，建立监听并获得fd-&gt;
 		  <span class="post-meta-item-text">本站总字数</span>
 		
 		<span title="本站总字数">
-		  89.3k
+		  115.3k
 		</span>
 	</div>
    

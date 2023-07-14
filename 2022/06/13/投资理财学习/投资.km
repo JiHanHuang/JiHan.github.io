@@ -1,0 +1,1051 @@
+{
+    "root": {
+        "data": {
+            "id": "cni8r81h26o0",
+            "created": 1665404871663,
+            "text": " 投资方式",
+            "priority": null
+        },
+        "children": [
+            {
+                "data": {
+                    "id": "cni9r5suxwg0",
+                    "created": 1665407687899,
+                    "text": "储蓄",
+                    "layout": null
+                },
+                "children": [
+                    {
+                        "data": {
+                            "id": "cnicnkpdqmo0",
+                            "created": 1665415870213,
+                            "text": "银行定期",
+                            "layout": null
+                        },
+                        "children": [
+                            {
+                                "data": {
+                                    "id": "cnicnq4vr1s0",
+                                    "created": 1665415882034,
+                                    "text": "利率通常较低：定期年利率2-3%",
+                                    "layout": null
+                                },
+                                "children": []
+                            },
+                            {
+                                "data": {
+                                    "id": "cnicoep8i7s0",
+                                    "created": 1665415935508,
+                                    "text": "活期利率几乎等于0，定期存取不变",
+                                    "layout": null
+                                },
+                                "children": []
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "data": {
+                    "id": "cnicq29dads0",
+                    "created": 1665416065155,
+                    "text": "流动资金",
+                    "layout": null
+                },
+                "children": [
+                    {
+                        "data": {
+                            "id": "cnicq6mnqsw0",
+                            "created": 1665416074666,
+                            "text": "现金",
+                            "layout": null
+                        },
+                        "children": [
+                            {
+                                "data": {
+                                    "id": "cnicqtvu2lk0",
+                                    "created": 1665416125287,
+                                    "text": "一个月内小额现金，随取随用",
+                                    "layout": null
+                                },
+                                "children": []
+                            }
+                        ]
+                    },
+                    {
+                        "data": {
+                            "id": "cnicqfnol4o0",
+                            "created": 1665416094319,
+                            "text": "余额宝类似的货币基金",
+                            "layout": null
+                        },
+                        "children": [
+                            {
+                                "data": {
+                                    "id": "cnicr02tjqo0",
+                                    "created": 1665416138770,
+                                    "text": "几个月的日常使用资金，随取随用",
+                                    "layout": null
+                                },
+                                "children": []
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "data": {
+                    "id": "cnicosoxx3s0",
+                    "created": 1665415965965,
+                    "text": "黄金",
+                    "layout": null
+                },
+                "children": [
+                    {
+                        "data": {
+                            "id": "cnicp0380wg0",
+                            "created": 1665415982066,
+                            "text": "可用于保险资金，几千年全世界硬通货",
+                            "layout": null
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "cnicpohtahc0",
+                            "created": 1665416035191,
+                            "text": "可根据黄金行情进行增加和减少资金",
+                            "layout": null
+                        },
+                        "children": []
+                    }
+                ]
+            },
+            {
+                "data": {
+                    "id": "cni9sk927hk0",
+                    "created": 1665407797717,
+                    "text": "基金",
+                    "layout": null,
+                    "layout_right_offset": {
+                        "x": 10,
+                        "y": -41
+                    }
+                },
+                "children": [
+                    {
+                        "data": {
+                            "id": "cnid1c7n40g0",
+                            "created": 1665416948825,
+                            "text": "基金分类",
+                            "expandState": "expand",
+                            "layout": null
+                        },
+                        "children": [
+                            {
+                                "data": {
+                                    "id": "cnicwl2kuw00",
+                                    "created": 1665416576289,
+                                    "text": "按照投资类型分类",
+                                    "layout": null,
+                                    "expandState": "expand"
+                                },
+                                "children": [
+                                    {
+                                        "data": {
+                                            "id": "cnicz9sgd0g0",
+                                            "created": 1665416786824,
+                                            "text": "货币基金",
+                                            "expandState": "expand",
+                                            "layout": null
+                                        },
+                                        "children": [
+                                            {
+                                                "data": {
+                                                    "id": "cnkwd7us68w0",
+                                                    "created": 1665674600711,
+                                                    "text": "用于存放日常使用的资金，通常利率较低但是稳定，能够灵活存取。",
+                                                    "layout": null
+                                                },
+                                                "children": []
+                                            },
+                                            {
+                                                "data": {
+                                                    "id": "cnkwebxv6m00",
+                                                    "created": 1665674687969,
+                                                    "text": "利率：2-5%，低风险",
+                                                    "layout": null
+                                                },
+                                                "children": []
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "cnicy8moks00",
+                                            "created": 1665416705934,
+                                            "text": "债券基金",
+                                            "layout": null
+                                        },
+                                        "children": [
+                                            {
+                                                "data": {
+                                                    "id": "cnkx24u2vhk0",
+                                                    "created": 1665676553243,
+                                                    "text": "购买债券，5-8%，低风险",
+                                                    "layout": null
+                                                },
+                                                "children": []
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "cnkx2hn4xyo0",
+                                            "created": 1665676581121,
+                                            "text": "分支主题",
+                                            "layout": null
+                                        },
+                                        "children": [
+                                            {
+                                                "data": {
+                                                    "id": "cnkx2lj0m8w0",
+                                                    "created": 1665676589579,
+                                                    "text": "购买一些列股票，有指数基金，主动型基金等，10-50%，中高风险",
+                                                    "layout": null
+                                                },
+                                                "children": []
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "cnicyxlm34w0",
+                                            "created": 1665416760289,
+                                            "text": "RETIs基金(投资不动产基金)",
+                                            "layout": null
+                                        },
+                                        "children": [
+                                            {
+                                                "data": {
+                                                    "id": "cnkwwxpycd40",
+                                                    "created": 1665676145935,
+                                                    "text": "需要开通债券交易账号，这类略过",
+                                                    "layout": null
+                                                },
+                                                "children": []
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "cnid0sgqbog0",
+                                            "created": 1665416905839,
+                                            "text": "QDII基金(投资海外基金)",
+                                            "layout": null
+                                        },
+                                        "children": [
+                                            {
+                                                "data": {
+                                                    "id": "cnkwxlg1n4o0",
+                                                    "created": 1665676197579,
+                                                    "text": "购买方式和国内基本相似",
+                                                    "layout": null
+                                                },
+                                                "children": []
+                                            },
+                                            {
+                                                "data": {
+                                                    "id": "cnkwxrffp0g0",
+                                                    "created": 1665676210602,
+                                                    "text": "风险点",
+                                                    "layout": null
+                                                },
+                                                "children": [
+                                                    {
+                                                        "data": {
+                                                            "id": "cnkwxu7d2600",
+                                                            "created": 1665676216645,
+                                                            "text": "汇率变动",
+                                                            "layout": null
+                                                        },
+                                                        "children": []
+                                                    },
+                                                    {
+                                                        "data": {
+                                                            "id": "cnkwy0ynmjk0",
+                                                            "created": 1665676231356,
+                                                            "text": "管理费用较高",
+                                                            "layout": null
+                                                        },
+                                                        "children": []
+                                                    },
+                                                    {
+                                                        "data": {
+                                                            "id": "cnkwy75i0hc0",
+                                                            "created": 1665676244830,
+                                                            "text": "买入和赎回的周期更长",
+                                                            "layout": null
+                                                        },
+                                                        "children": []
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "data": {
+                                    "id": "cnicwgekvb40",
+                                    "created": 1665416566130,
+                                    "text": "按风险分类",
+                                    "expandState": "expand",
+                                    "layout": null
+                                },
+                                "children": [
+                                    {
+                                        "data": {
+                                            "id": "cnid2wik6340",
+                                            "created": 1665417071385,
+                                            "text": "债券基金",
+                                            "layout": null,
+                                            "expandState": "expand"
+                                        },
+                                        "children": [
+                                            {
+                                                "data": {
+                                                    "id": "cnkwelj7knk0",
+                                                    "created": 1665674708851,
+                                                    "text": "利率：5-8%，低风险",
+                                                    "layout": null
+                                                },
+                                                "children": []
+                                            },
+                                            {
+                                                "data": {
+                                                    "id": "cnidbnzar940",
+                                                    "created": 1665417758083,
+                                                    "text": "债券基金投资方法",
+                                                    "layout": null
+                                                },
+                                                "children": [
+                                                    {
+                                                        "data": {
+                                                            "id": "cnkwf1iaibc0",
+                                                            "created": 1665674743624,
+                                                            "text": "分纯债基金和股票债券",
+                                                            "layout": null
+                                                        },
+                                                        "children": []
+                                                    },
+                                                    {
+                                                        "data": {
+                                                            "id": "cnkwf9zd7dc0",
+                                                            "created": 1665674762071,
+                                                            "text": "买入时机：十年国债收益率>3.5%",
+                                                            "layout": null
+                                                        },
+                                                        "children": []
+                                                    },
+                                                    {
+                                                        "data": {
+                                                            "id": "cnkwfoz4co00",
+                                                            "created": 1665674794707,
+                                                            "text": "卖出时机：十年国债收益率<2.5%",
+                                                            "layout": null
+                                                        },
+                                                        "children": []
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "cnkwhowl43k0",
+                                            "created": 1665674951283,
+                                            "text": "股票基金",
+                                            "layout": null,
+                                            "progress": 9
+                                        },
+                                        "children": [
+                                            {
+                                                "data": {
+                                                    "id": "cnkwmw5ujpk0",
+                                                    "created": 1665675358901,
+                                                    "text": "利率：10%-50%，高风险，风险大小根据股票占比判断",
+                                                    "layout": null
+                                                },
+                                                "children": []
+                                            },
+                                            {
+                                                "data": {
+                                                    "id": "cnkwm4151lk0",
+                                                    "created": 1665675297666,
+                                                    "text": "通常是经理人根据自己的经验选择少量股票组合成基金",
+                                                    "layout": null
+                                                },
+                                                "children": []
+                                            },
+                                            {
+                                                "data": {
+                                                    "id": "cnkwnpxagjs0",
+                                                    "created": 1665675423687,
+                                                    "text": "股票基金投资方法",
+                                                    "layout": null
+                                                },
+                                                "children": [
+                                                    {
+                                                        "data": {
+                                                            "id": "cnkwo3wctgw0",
+                                                            "created": 1665675454105,
+                                                            "text": "使用最大回撤评估基金风险",
+                                                            "layout": null
+                                                        },
+                                                        "children": []
+                                                    },
+                                                    {
+                                                        "data": {
+                                                            "id": "cnkwordkfl40",
+                                                            "created": 1665675505212,
+                                                            "text": "使用夏普比率比较基金收益，沪深300都跑不过的就不要选了",
+                                                            "layout": null
+                                                        },
+                                                        "children": []
+                                                    },
+                                                    {
+                                                        "data": {
+                                                            "id": "cnkwqj6u8yo0",
+                                                            "created": 1665675644119,
+                                                            "text": "使用北斗七星比较基金",
+                                                            "layout": null
+                                                        },
+                                                        "children": [
+                                                            {
+                                                                "data": {
+                                                                    "id": "cnkwr0un4880",
+                                                                    "created": 1665675682564,
+                                                                    "text": "历史收益率，越高越好",
+                                                                    "layout": null
+                                                                },
+                                                                "children": []
+                                                            },
+                                                            {
+                                                                "data": {
+                                                                    "id": "cnkwr8zy2kg0",
+                                                                    "created": 1665675700299,
+                                                                    "text": "基金规模：5-100亿",
+                                                                    "layout": null
+                                                                },
+                                                                "children": []
+                                                            },
+                                                            {
+                                                                "data": {
+                                                                    "id": "cnkwriq5jvk0",
+                                                                    "created": 1665675721475,
+                                                                    "text": "成立时间：3年以上",
+                                                                    "layout": null
+                                                                },
+                                                                "children": []
+                                                            },
+                                                            {
+                                                                "data": {
+                                                                    "id": "cnkwrq1z2ow0",
+                                                                    "created": 1665675737427,
+                                                                    "text": "重仓股：是否有异常的股票",
+                                                                    "layout": null
+                                                                },
+                                                                "children": []
+                                                            },
+                                                            {
+                                                                "data": {
+                                                                    "id": "cnkws9ldsmg0",
+                                                                    "created": 1665675779959,
+                                                                    "text": "基金经理：从业时间>3年，历史业绩 较好，专业对口",
+                                                                    "layout": null
+                                                                },
+                                                                "children": []
+                                                            },
+                                                            {
+                                                                "data": {
+                                                                    "id": "cnkwsomtkr40",
+                                                                    "created": 1665675812698,
+                                                                    "text": "基金排名：选排名前 25%的基金，重点关注",
+                                                                    "layout": null
+                                                                },
+                                                                "children": []
+                                                            },
+                                                            {
+                                                                "data": {
+                                                                    "id": "cnkwt0yvcpk0",
+                                                                    "created": 1665675839548,
+                                                                    "text": "评级：权威机构基金评级，选择5星评级",
+                                                                    "layout": null
+                                                                },
+                                                                "children": []
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "data": {
+                                                            "id": "cnkwuerjphc0",
+                                                            "created": 1665675947944,
+                                                            "text": "手续费越低越好",
+                                                            "layout": null
+                                                        },
+                                                        "children": []
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "cnicytnh0eo0",
+                                            "created": 1665416751695,
+                                            "text": "指数基金",
+                                            "expandState": "expand",
+                                            "layout": null,
+                                            "progress": 9
+                                        },
+                                        "children": [
+                                            {
+                                                "data": {
+                                                    "id": "cnkwgo762q80",
+                                                    "created": 1665674871381,
+                                                    "text": "利率：5%-30%，中风险",
+                                                    "layout": null
+                                                },
+                                                "children": []
+                                            },
+                                            {
+                                                "data": {
+                                                    "id": "cnid3ultcu00",
+                                                    "created": 1665417145592,
+                                                    "text": "指数基金投资方法",
+                                                    "layout": null
+                                                },
+                                                "children": [
+                                                    {
+                                                        "data": {
+                                                            "id": "cnkwh8db2s00",
+                                                            "created": 1665674915288,
+                                                            "text": "只要是宽指数，都按照指数温度进行买卖，窄指数，就要参考股票基金和行业指数基金的购买方法",
+                                                            "layout": null
+                                                        },
+                                                        "children": []
+                                                    },
+                                                    {
+                                                        "data": {
+                                                            "id": "cnkwiganut40",
+                                                            "created": 1665675010907,
+                                                            "text": "都是打包一一个类型股票的基金，按照宽窄酌情判断风险",
+                                                            "layout": null
+                                                        },
+                                                        "children": []
+                                                    },
+                                                    {
+                                                        "data": {
+                                                            "id": "cnkwup7wfpc0",
+                                                            "created": 1665675970701,
+                                                            "text": "手续费越低越好",
+                                                            "layout": null
+                                                        },
+                                                        "children": []
+                                                    },
+                                                    {
+                                                        "data": {
+                                                            "id": "cnlq6xlxyc00",
+                                                            "created": 1665758741521,
+                                                            "text": "根据北斗七星进行基金比较，可以选择忽略其中基金经理和重仓股的影响",
+                                                            "layout": null
+                                                        },
+                                                        "children": []
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "data": {
+                                                    "id": "cnid3yxs57s0",
+                                                    "created": 1665417155023,
+                                                    "text": "行业指数基金投资方法",
+                                                    "layout": null
+                                                },
+                                                "children": [
+                                                    {
+                                                        "data": {
+                                                            "id": "cnkwjrrhrt40",
+                                                            "created": 1665675114233,
+                                                            "text": "看行业历史收益率选择好的行业(医药和消费)，只选择收益率>10%",
+                                                            "layout": null
+                                                        },
+                                                        "children": []
+                                                    },
+                                                    {
+                                                        "data": {
+                                                            "id": "cnkwkhg1urk0",
+                                                            "created": 1665675170138,
+                                                            "text": "看行业后续的需求是否还是很大，可以考虑直接剔除周期性行业(钢铁，煤炭，船舶等)",
+                                                            "layout": null
+                                                        },
+                                                        "children": []
+                                                    },
+                                                    {
+                                                        "data": {
+                                                            "id": "cnkwlendr2g0",
+                                                            "created": 1665675242415,
+                                                            "text": "行业指数使用博格公式来进行估值",
+                                                            "layout": null
+                                                        },
+                                                        "children": []
+                                                    },
+                                                    {
+                                                        "data": {
+                                                            "id": "cnkww3y80dk0",
+                                                            "created": 1665676081131,
+                                                            "text": "可使用北斗七星方法比较基金",
+                                                            "layout": null
+                                                        },
+                                                        "children": []
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "data": {
+                            "id": "cnid1l4wzmo0",
+                            "created": 1665416968251,
+                            "text": "基金投资方法",
+                            "expandState": "expand",
+                            "layout": null
+                        },
+                        "children": [
+                            {
+                                "data": {
+                                    "id": "cnid4894q5s0",
+                                    "created": 1665417175300,
+                                    "text": "风险控制方法",
+                                    "layout": null,
+                                    "progress": 9
+                                },
+                                "children": [
+                                    {
+                                        "data": {
+                                            "id": "cnid55qcp1k0",
+                                            "created": 1665417248175,
+                                            "text": "基金选择",
+                                            "layout": null
+                                        },
+                                        "children": [
+                                            {
+                                                "data": {
+                                                    "id": "cnlq12mhna00",
+                                                    "created": 1665758282253,
+                                                    "text": "按照北斗七星选择更靠谱的基金",
+                                                    "layout": null
+                                                },
+                                                "children": []
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "cnid5shlmm00",
+                                            "created": 1665417297712,
+                                            "text": "分散投资",
+                                            "expandState": "expand",
+                                            "layout": null
+                                        },
+                                        "children": [
+                                            {
+                                                "data": {
+                                                    "id": "cnid76njqpk0",
+                                                    "created": 1665417406911,
+                                                    "text": "分散到多个行业(不宜过多，并且时自己看好的)",
+                                                    "layout": null
+                                                },
+                                                "children": []
+                                            },
+                                            {
+                                                "data": {
+                                                    "id": "cnid81belug0",
+                                                    "created": 1665417473657,
+                                                    "text": "有主动类型的基金，一个类型可多选1-2个",
+                                                    "layout": null
+                                                },
+                                                "children": []
+                                            },
+                                            {
+                                                "data": {
+                                                    "id": "cnlq1l2dr8o0",
+                                                    "created": 1665758322396,
+                                                    "text": "按基金类型的风险程度，投资不同类型的基金",
+                                                    "layout": null
+                                                },
+                                                "children": []
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "cnid7125f8g0",
+                                            "created": 1665417394733,
+                                            "text": "资金分配",
+                                            "layout": null
+                                        },
+                                        "children": [
+                                            {
+                                                "data": {
+                                                    "id": "cnida8hiksg0",
+                                                    "created": 1665417645992,
+                                                    "text": "预留充足的短期使用基金，目的基金，应急保险资金",
+                                                    "layout": null
+                                                },
+                                                "children": []
+                                            },
+                                            {
+                                                "data": {
+                                                    "id": "cnid9ejcbk80",
+                                                    "created": 1665417580799,
+                                                    "text": "根据基金风险，分配投入资金占比",
+                                                    "layout": null
+                                                },
+                                                "children": []
+                                            },
+                                            {
+                                                "data": {
+                                                    "id": "cnid9wwxf880",
+                                                    "created": 1665417620803,
+                                                    "text": "根据市场行情，及时进行股债平衡",
+                                                    "layout": null
+                                                },
+                                                "children": []
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "data": {
+                                    "id": "cnidctp3ilk0",
+                                    "created": 1665417848891,
+                                    "text": "资金投入策略",
+                                    "layout": null,
+                                    "progress": 9
+                                },
+                                "children": [
+                                    {
+                                        "data": {
+                                            "id": "cnidd6kcqqw0",
+                                            "created": 1665417876903,
+                                            "text": "定投",
+                                            "layout": null
+                                        },
+                                        "children": [
+                                            {
+                                                "data": {
+                                                    "id": "cnlq2f43r4o0",
+                                                    "created": 1665758387804,
+                                                    "text": "设定总金额，固定时间投入固定的金钱",
+                                                    "layout": null
+                                                },
+                                                "children": []
+                                            },
+                                            {
+                                                "data": {
+                                                    "id": "cnlq3acoz540",
+                                                    "created": 1665758455804,
+                                                    "text": "定投贵在坚持，需要长期持有",
+                                                    "layout": null
+                                                },
+                                                "children": []
+                                            },
+                                            {
+                                                "data": {
+                                                    "id": "cnlq3n4vgdc0",
+                                                    "created": 1665758483629,
+                                                    "text": "最好选择宽指数基金，并且有良好历史收益的基金",
+                                                    "layout": null
+                                                },
+                                                "children": []
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "cnidd91b1ew0",
+                                            "created": 1665417882281,
+                                            "text": "金字塔",
+                                            "layout": null
+                                        },
+                                        "children": [
+                                            {
+                                                "data": {
+                                                    "id": "cnlq45t789s0",
+                                                    "created": 1665758524282,
+                                                    "text": "在定投的基础上，对每次投入的资金进行一定比例的变动，基金曲线越低，投入的资金比例越高，当然总资金额度不变",
+                                                    "layout": null
+                                                },
+                                                "children": []
+                                            },
+                                            {
+                                                "data": {
+                                                    "id": "cnlq5h1tipc0",
+                                                    "created": 1665758627112,
+                                                    "text": "稳妥选择宽指数，稍微激进选择好的行业基金，并且指数基金的选择方式进行选择",
+                                                    "layout": null
+                                                },
+                                                "children": []
+                                            },
+                                            {
+                                                "data": {
+                                                    "id": "cnlq59vlup40",
+                                                    "created": 1665758611499,
+                                                    "text": "设定好每个梯度的投入额度，同样需要长期坚持",
+                                                    "layout": null
+                                                },
+                                                "children": []
+                                            },
+                                            {
+                                                "data": {
+                                                    "id": "cnlq90jr9u00",
+                                                    "created": 1665758904648,
+                                                    "text": "股市温度表可以初步判断预测未来的基金走向，根据温度设定下跌额度的大小",
+                                                    "layout": null
+                                                },
+                                                "children": []
+                                            },
+                                            {
+                                                "data": {
+                                                    "id": "cnlq9jt3cyw0",
+                                                    "created": 1665758946571,
+                                                    "text": "买入就一直涨，也没有必要追加，见好就收",
+                                                    "layout": null
+                                                },
+                                                "children": []
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "cniddf20xy00",
+                                            "created": 1665417895385,
+                                            "text": "网格",
+                                            "layout": null
+                                        },
+                                        "children": [
+                                            {
+                                                "data": {
+                                                    "id": "cnlq9x9myu80",
+                                                    "created": 1665758975870,
+                                                    "text": "只针对震荡市有用",
+                                                    "layout": null
+                                                },
+                                                "children": []
+                                            },
+                                            {
+                                                "data": {
+                                                    "id": "cnlqa5lgnxs0",
+                                                    "created": 1665758993999,
+                                                    "text": "设置买入梯度和卖出梯度，下跌多少，买入，上涨多少卖出",
+                                                    "layout": null
+                                                },
+                                                "children": []
+                                            },
+                                            {
+                                                "data": {
+                                                    "id": "cnlqajjpp8g0",
+                                                    "created": 1665759024368,
+                                                    "text": "进行每笔买入卖出的记录，用于统计",
+                                                    "layout": null
+                                                },
+                                                "children": []
+                                            },
+                                            {
+                                                "data": {
+                                                    "id": "cnlqauhajmo0",
+                                                    "created": 1665759048167,
+                                                    "text": "存在失效的情况",
+                                                    "layout": null
+                                                },
+                                                "children": [
+                                                    {
+                                                        "data": {
+                                                            "id": "cnlqb0talfc0",
+                                                            "created": 1665759061953,
+                                                            "text": "长时间上涨",
+                                                            "layout": null
+                                                        },
+                                                        "children": []
+                                                    },
+                                                    {
+                                                        "data": {
+                                                            "id": "cnlqbsf831c0",
+                                                            "created": 1665759122052,
+                                                            "text": "长时间下跌",
+                                                            "layout": null
+                                                        },
+                                                        "children": []
+                                                    },
+                                                    {
+                                                        "data": {
+                                                            "id": "cnlqbwcys9s0",
+                                                            "created": 1665759130623,
+                                                            "text": "震荡过小",
+                                                            "layout": null
+                                                        },
+                                                        "children": []
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "data": {
+                                                    "id": "cnlqc1u55740",
+                                                    "created": 1665759142545,
+                                                    "text": "适合场内基金，手续费较低",
+                                                    "layout": null
+                                                },
+                                                "children": []
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "data": {
+                                    "id": "cniddizrvq00",
+                                    "created": 1665417903956,
+                                    "text": "投资心态",
+                                    "layout": null,
+                                    "progress": 9
+                                },
+                                "children": [
+                                    {
+                                        "data": {
+                                            "id": "cnlqcuwbqi00",
+                                            "created": 1665759205804,
+                                            "text": "使用应急，日常，目的以外的资金投资",
+                                            "layout": null
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "cnlqdptm49s0",
+                                            "created": 1665759273120,
+                                            "text": "不要有赌博心态，降低投资预期，不要想着赚快钱",
+                                            "layout": null
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "cnlqdzy4emo0",
+                                            "created": 1665759295161,
+                                            "text": "合理的风险控制，分散投资，股债平衡",
+                                            "layout": null
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "cnlqejiz2js0",
+                                            "created": 1665759337780,
+                                            "text": "避免追涨杀跌，避免频繁交易",
+                                            "layout": null
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "cnlqf75qsig0",
+                                            "created": 1665759389223,
+                                            "text": "合理止损，避免资金长期占用",
+                                            "layout": null
+                                        },
+                                        "children": []
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "data": {
+                    "id": "cni9su0iiq00",
+                    "created": 1665407818969,
+                    "text": "股票",
+                    "layout": null
+                },
+                "children": []
+            },
+            {
+                "data": {
+                    "id": "cnicrrhegdk0",
+                    "created": 1665416198426,
+                    "text": "保险",
+                    "expandState": "expand",
+                    "layout": null
+                },
+                "children": [
+                    {
+                        "data": {
+                            "id": "cnicsase3zk0",
+                            "created": 1665416240448,
+                            "text": "社保，工作人员必缴纳，包含五险一金，为基础的生活、医疗和养老保障",
+                            "layout": null
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "cnicrzfv4f40",
+                            "created": 1665416215746,
+                            "text": "医保，最为重要，家庭每人必配置",
+                            "expandState": "expand",
+                            "layout": null
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "cnict9oqce80",
+                            "created": 1665416316414,
+                            "text": "重疾险，优先配置家庭收入支柱，其他成员也可酌情配置",
+                            "layout": null
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "cnicuej30v40",
+                            "created": 1665416405321,
+                            "text": "意外险，价格便宜，优先家庭支柱，其他成员酌情配置",
+                            "layout": null
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "cnicuwum2dc0",
+                            "created": 1665416445200,
+                            "text": "寿险，优先家庭支柱，老年人配置性价比不高，小孩同样性价比不高",
+                            "layout": null
+                        },
+                        "children": []
+                    }
+                ]
+            }
+        ]
+    },
+    "template": "right",
+    "theme": "fresh-blue",
+    "version": "1.4.43"
+}

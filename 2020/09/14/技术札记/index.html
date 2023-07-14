@@ -106,7 +106,11 @@
 <meta property="og:image" content="http://yoursite.com/2020/09/14/技术札记/ssh%E5%85%8D%E5%AF%86%E7%99%BB%E5%BD%95%E5%8E%9F%E7%90%86.png">
 <meta property="og:image" content="http://yoursite.com/2020/09/14/技术札记/%E6%9F%A5%E6%89%BE%E4%B8%8E%E5%BD%93%E5%89%8D%E8%BF%9B%E7%A8%8B%E9%80%9A%E4%BF%A1%E7%9A%84%E6%89%80%E6%9C%89%E8%BF%9B%E7%A8%8B.jpg">
 <meta property="og:image" content="http://yoursite.com/2020/09/14/技术札记/linux%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84.jpg">
-<meta property="og:updated_time" content="2021-12-22T08:14:28.000Z">
+<meta property="og:image" content="http://yoursite.com/2020/09/14/技术札记/linux%E6%80%A7%E8%83%BD%E6%8E%92%E6%9F%A5%E5%B7%A5%E5%85%B7%E5%A4%A7%E5%85%A8.png">
+<meta property="og:image" content="http://yoursite.com/2020/09/14/技术札记/wireshark_1.jpg">
+<meta property="og:image" content="http://yoursite.com/2020/09/14/技术札记/wireshark_2.jpg">
+<meta property="og:image" content="http://yoursite.com/2020/09/14/技术札记/wireshark_3.jpg">
+<meta property="og:updated_time" content="2023-05-03T04:34:33.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="技术札记">
 <meta name="twitter:description" content="谁知道这里面有多少小技巧，没准哪个能帮上你呢？(•̀⌄•́) 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan">
@@ -419,7 +423,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  5.6k
+                  7.7k
                 </span>
               
 
@@ -435,7 +439,7 @@
                   <span class="post-meta-item-text">阅读时长</span>
                 
                 <span title="阅读时长">
-                  22
+                  30
                 </span>
               
             </div>
@@ -462,7 +466,8 @@
 <hr>
 <a id="more"></a>
 <h3 id="ssh免密登录"><a class="header-anchor" href="#ssh免密登录"></a>ssh免密登录</h3>
-<p><strong>原理：</strong><br>
+<p>A是主机，B是远程服务器<br>
+<strong>原理：</strong><br>
 <img src="/2020/09/14/技术札记/ssh%E5%85%8D%E5%AF%86%E7%99%BB%E5%BD%95%E5%8E%9F%E7%90%86.png" alt="ssh免密登录原理"><br>
 <strong>实际配置：</strong></p>
 <ol>
@@ -526,7 +531,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl restart sshd</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
-<h3 id="VSCODE"><a class="header-anchor" href="#VSCODE"></a>VSCODE</h3>
+<h3 id="VSCODE-配置同步到github账号：gotables"><a class="header-anchor" href="#VSCODE-配置同步到github账号：gotables"></a>VSCODE(配置同步到github账号：gotables)</h3>
 <p>插件列表：</p>
 <ol>
 <li>Remote-SSH：远程ssh登录，linux版本太低不支持</li>
@@ -542,6 +547,10 @@ font-family: -apple-system, BlinkMacSystemFont, “Segoe UI”, Helvetica, Arial
 <li>koroFileHeader：用于生成标准格式函数头说明，或者代码文件头说明</li>
 <li>bookmarks：给代码打标签</li>
 <li><a href="http://Draw.io" target="_blank" rel="noopener">Draw.io</a> integration：drawio的绘图插件</li>
+<li>格式补全：在命令行输入：Format Document 或 Format Selection</li>
+<li>koroFileHeader插件对应命令：fileheader或cursorTip（函数头注释）,各种语言都支持</li>
+<li>Doxygen Documentation Generator插件也用于生成注释，只需要输入/**回车就行，文件注释和函数注释都是（貌似只针对c/cpp）</li>
+<li>针对golang的注释插入：安装Go extension for Visual Studio Code，然后在代码中使用/**或者///来开始一个注释块，并按回车键。</li>
 </ol>
 <h3 id="C-段错误处理-Linux"><a class="header-anchor" href="#C-段错误处理-Linux"></a>C 段错误处理(Linux)</h3>
 <ol>
@@ -659,7 +668,9 @@ test.c:</p>
 <ol>
 <li>找到当前进程S的进程pid</li>
 <li>获取与S通信A的tcp端口号</li>
-<li>通过A的tcp端口号，获得A的进程pid。这里也可以使用<code>lsof -i:&lt;port&gt;</code>来查看，速度更快。<br>
+<li>通过A的tcp端口号，获得A的进程pid。这里也可以使用<code>lsof -i:&lt;port&gt;</code>来查看，速度更快。</li>
+<li>或者使用<code>ss -atnp -o 'dport = :7'</code>命令进行查看，更多使用可以看<code>man ss</code>中的示例</li>
+<li>如果遇到瞬时完成的请求，那么可以先增加防火墙，拦住接收接口，抓包观测到有包到来时，执行命令查看。<br>
 <img src="/2020/09/14/技术札记/%E6%9F%A5%E6%89%BE%E4%B8%8E%E5%BD%93%E5%89%8D%E8%BF%9B%E7%A8%8B%E9%80%9A%E4%BF%A1%E7%9A%84%E6%89%80%E6%9C%89%E8%BF%9B%E7%A8%8B.jpg" alt="举个栗子"></li>
 </ol>
 <h3 id="程序执行时的系统调用"><a class="header-anchor" href="#程序执行时的系统调用"></a>程序执行时的系统调用</h3>
@@ -775,7 +786,8 @@ LD_LIBRARY_PATH环境变量：指定程序动态链接库文件搜索路径</p>
 <code>ldd &lt;your_lib&gt;</code>：查看可执行程序或者动态库运行时的链接库<br>
 <code>readelf -d &lt;your_lib&gt;</code>：和ldd类似，不用运行程序，查看可执行程序或动态库<a href="https://en.wikipedia.org/wiki/Executable_and_Linkable_Format" target="_blank" rel="noopener">ELF</a><br>
 <code>LD_DEBUG=libs ./&lt;your_exe&gt;</code>：查看程序执行时的动态库调度过程。很有用。<br>
-<code>ldconfig</code>：它会遍历默认所有共享库目录，比如/lib，/usr/lib等，然后更新所有的软链接，使她们指向最新共享库。替换了新的动态库，有时需要使用该命令来清除<code>search cache</code></p>
+<code>ldconfig</code>：它会遍历默认所有共享库目录，比如/lib，/usr/lib等，然后更新所有的软链接，使她们指向最新共享库。替换了新的动态库，有时需要使用该命令来清除<code>search cache</code><br>
+<a href="https://unix.stackexchange.com/questions/353405/cannot-find-shared-object-file-even-though-its-in-library-path" target="_blank" rel="noopener">关于动态链接库找不到的问题汇总</a></p>
 <p>指定动态库版本或路径：<br>
 <code>-Wl,-rpath,&lt;your_lib_path&gt;</code>: 指定程序运行时动态库链接路径。<br>
 将<code>-lxxx</code>直接修改为<code>/you/path/libxxx</code>，可以指定动态库的绝对路径。</p>
@@ -861,6 +873,198 @@ LD_LIBRARY_PATH环境变量：指定程序动态链接库文件搜索路径</p>
 <p><a href="https://lists.freebsd.org/pipermail/freebsd-performance/2005-February/001143.html" target="_blank" rel="noopener">unix domain sockets vs. internet sockets</a></p>
 <h3 id="Go和Rust的区别"><a class="header-anchor" href="#Go和Rust的区别"></a>Go和Rust的区别</h3>
 <p><a href="https://jishuin.proginn.com/p/763bfbd31320" target="_blank" rel="noopener">参考</a></p>
+<h3 id="git代码仓库管理"><a class="header-anchor" href="#git代码仓库管理"></a>git代码仓库管理</h3>
+<p><a href="https://blog.csdn.net/bocai_xiaodaidai/article/details/103814409" target="_blank" rel="noopener">中文参考</a><br>
+<a href="https://nvie.com/posts/a-successful-git-branching-model/" target="_blank" rel="noopener">英文参考</a></p>
+<h3 id="网络快速学习"><a class="header-anchor" href="#网络快速学习"></a>网络快速学习</h3>
+<p><a href="https://mp.weixin.qq.com/s/IOCUGXjKCQV8qPycxhM2YA" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/IOCUGXjKCQV8qPycxhM2YA</a><br>
+路由中有个类似:<code>192.168.88.0/24 dev eth1 scope link</code>这种路由，如果你<code>ping 192.168.88.0/24</code>网段的ip，那么会进行路由匹配，命中改路由，认为这个是本地路由，直接进行本地广播链接</p>
+<p><strong>为什么需要三次握手？</strong></p>
+<ul>
+<li>第一次握手：客户发送请求，此时服务器知道客户能发；</li>
+<li>第二次握手：服务器发送确认，此时客户知道服务器能发能收；</li>
+<li>第三次握手：客户发送确认，此时服务器知道客户能收。</li>
+</ul>
+<p><strong>客户端TIME_WAIT为什么需要等待2MSL?</strong></p>
+<ul>
+<li>最后一个报文没有确认；</li>
+<li>确保发送方的ACK可以到达接收方；</li>
+<li>2MSL时间内没有收到，则接收方会重发；</li>
+<li>确保当前连接的所有报文都已经过期。</li>
+</ul>
+<p><strong>TCP四次挥手，为什么是四次？</strong><br>
+<a href="https://blog.csdn.net/Shuffle_Ts/article/details/93909003" target="_blank" rel="noopener">关于为何要四次挥手</a></p>
+<h3 id="Go自动化测试"><a class="header-anchor" href="#Go自动化测试"></a>Go自动化测试</h3>
+<p><a href="https://www.infoq.cn/article/goyirzr19vqvtupois92" target="_blank" rel="noopener">一个 Golang 项目的测试实践全记录</a><br>
+<a href="https://learnku.com/articles/52896#9daa8c" target="_blank" rel="noopener">GoLang快速上手单元测试</a><br>
+<a href="https://github.com/golang/mock/" target="_blank" rel="noopener">GoMock</a>：</p>
+<ol>
+<li>用于接口，测试方法是实现你某个函数的接口，来测试你上次业务逻辑。httpmock就是自定义实现<code>Transport</code>来实现。</li>
+<li>可以无侵入式测试业务逻辑，可脱离数据库，网络等底层带有<code>interface</code>的依赖</li>
+</ol>
+<p><a href="net/http/httptest">httptest</a>：<br>
+官方提供的一个http测试桩的库，在依赖第三方服务时，可使用该测试脱离第三方测试。<br>
+<a href="https://www.cnblogs.com/Detector/p/9769840.html" target="_blank" rel="noopener">使用标准库httptest完成HTTP请求的Mock测试</a></p>
+<p><a href="https://github.com/smartystreets/goconvey" target="_blank" rel="noopener">GoConvey</a>：<br>
+严格上来说，只是一个用于test的ui页面展示工具，方便查看代码的测试覆盖情况和通过情况等。</p>
+<p><a href="https://github.com/DATA-DOG/go-sqlmock" target="_blank" rel="noopener">sqlmock</a><br>
+用于提供数据库的mock</p>
+<p><a href="https://github.com/agiledragon/gomonkey" target="_blank" rel="noopener">gomonkey</a><br>
+做函数和变量替换。进行打桩</p>
+<p><strong>自动化测试常见场景：</strong><br>
+<a href="https://new.qq.com/omn/20210727/20210727A0AWOH00.html" target="_blank" rel="noopener">一文说尽Golang单元测试实战的那些事儿</a></p>
+<p>单元测试：<br>
+使用官方推荐的test即可，保证逻辑拆分以及每个模块都写上单元测试。</p>
+<p>表格驱动测试：<br>
+表格驱动测试通过定义一组不同的输入，可以让代码得到充分的测试，同时也能有效地测试负路径。比如在<code>golang</code>中使用<code>t.Run(name string, subTest func(t *T))</code>来测试多种情况。<br>
+可以使用更强大直观的<code>GoConvey</code>在配置多个测试用例</p>
+<p>http接口依赖：<br>
+可使用<code>httptest</code>解除依赖</p>
+<p>依赖底层接口或者第三方函数：<br>
+接口依赖，可以使用<code>GoMock</code>解决<br>
+第三方函数依赖，可以使用<code>gomonkey</code>进行函数替换解决</p>
+<p>数据库依赖：<br>
+<code>mysql</code>依赖：可使用<code>sqlmock</code><br>
+<code>redis</code>依赖: 可以使用<code>miniredis</code>搭建一个微型服务器。<br>
+通常数据库都是以接口形式实现的，也可以通过<code>GoMock</code>来自定义做自定义返回。</p>
+<h3 id="查看哪个进程向我发送了信号"><a class="header-anchor" href="#查看哪个进程向我发送了信号"></a>查看哪个进程向我发送了信号</h3>
+<p><code>strace -p 59951 -e 'trace=!all'</code></p>
+<h3 id="缓存技术"><a class="header-anchor" href="#缓存技术"></a>缓存技术</h3>
+<ol>
+<li>FIFO</li>
+<li>LFU</li>
+<li>LRU
+<ol>
+<li>LUR-K: LRU-2常用</li>
+<li>2Q: FIFO+LRU</li>
+</ol>
+</li>
+</ol>
+<h3 id="linux-向本地syslog发数据"><a class="header-anchor" href="#linux-向本地syslog发数据"></a>linux 向本地syslog发数据</h3>
+<p><a href="https://blog.csdn.net/u011630575/article/details/52055116" target="_blank" rel="noopener">logger详解</a><br>
+示例：<code>logger -i -t &quot;my_test&quot; -p local3.notice &quot;test_info&quot; </code></p>
+<h3 id="证书常用命令"><a class="header-anchor" href="#证书常用命令"></a>证书常用命令</h3>
+<ol>
+<li>
+<p>pfx格式转crt格式（未验证，有问题）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">openssl pkcs12 -in myssl.pfx -nodes -out server.pem</span><br><span class="line">openssl rsa -in server.pem -out server.key</span><br><span class="line">openssl x509 -in server.pem -out server.crt</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>crt格式转pfx<br>
+<code>openssl pkcs12 -export -in server.crt -inkey server.key -out server.pfx</code></p>
+</li>
+<li>
+<p>crt的key增加密码<br>
+<code>openssl pkey -in server.key -out server_1.key -passout pass:&quot;12345678&quot;</code></p>
+</li>
+<li>
+<p>查看pem证书</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">openssl rsa -noout -text -in myserver.key</span><br><span class="line">openssl req -noout -text -in myserver.csr</span><br><span class="line">openssl x509 -noout -text -in ca.crt</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="kill-9无法杀死的情况"><a class="header-anchor" href="#kill-9无法杀死的情况"></a>kill -9无法杀死的情况</h3>
+<p><a href="https://www.ibm.com/support/pages/why-cant-i-kill-my-process" target="_blank" rel="noopener">参考</a><br>
+正常情况<code>kill</code>命令发送的是<code>SIGTERM</code>信号，表示用户想要中断，进程可以优雅的退出。<br>
+而<code>kill -9</code>发送的是<code>SIGKILL</code>信号，表示直接杀死进程，但是有两种情况是杀不掉的：</p>
+<ol>
+<li>该进程是<a href="https://blog.csdn.net/eunice_fan1207/article/details/81387417" target="_blank" rel="noopener">僵尸进程</a>，此时进程已经释放所有的资源，但是没有被父进程释放。僵尸进程要等到父进程结束，或者重启系统才可以被释放。</li>
+<li>进程处于“核心态”，并且在等待不可获得的资源，处于“核心态 ”的资源默认忽略所有信号。只能重启系统。</li>
+</ol>
+<h3 id="进程通信的各种情况，以及适用场景"><a class="header-anchor" href="#进程通信的各种情况，以及适用场景"></a>进程通信的各种情况，以及适用场景</h3>
+<p><a href="https://blog.csdn.net/zy20150613/article/details/80089704" target="_blank" rel="noopener">共享内存的实现详解</a></p>
+<h3 id="性能排查工具大全"><a class="header-anchor" href="#性能排查工具大全"></a>性能排查工具大全</h3>
+<p><a href="https://www.cnblogs.com/sjli-blog/p/15076966.html" target="_blank" rel="noopener">参考</a><br>
+<img src="/2020/09/14/技术札记/linux%E6%80%A7%E8%83%BD%E6%8E%92%E6%9F%A5%E5%B7%A5%E5%85%B7%E5%A4%A7%E5%85%A8.png" alt></p>
+<h3 id="wireshark解密https："><a class="header-anchor" href="#wireshark解密https："></a>wireshark解密https：</h3>
+<p>secret<br>
+<a href="https://www.cnblogs.com/yurang/p/11505741.html" target="_blank" rel="noopener">参考</a></p>
+<ol>
+<li>证书导入：
+<ol>
+<li>首先导出pkcs12类型的证书(会要求输入密码)：<code>openssl pkcs12 -export -in gateway.pem -out key.pkcs12</code></li>
+<li>在wireshark中选择编辑-&gt;首选项-&gt;协议-&gt;tls，选择RSA key list：<br>
+<img src="/2020/09/14/技术札记/wireshark_1.jpg" alt></li>
+<li>导入服务器证书：<img src="/2020/09/14/技术札记/wireshark_2.jpg" alt></li>
+</ol>
+</li>
+<li>环境配置导入：
+<ol>
+<li>设置环境变量：SSLKEYLOGFILE=路径\sslkey.log</li>
+<li>wireshark中配置相应链接文件：<img src="/2020/09/14/技术札记/wireshark_3.jpg" alt></li>
+</ol>
+</li>
+</ol>
+<h3 id="方案调研方法"><a class="header-anchor" href="#方案调研方法"></a>方案调研方法</h3>
+<ol>
+<li>明确需求</li>
+<li>从网上查找对应的解决方案：
+<ol>
+<li>GitHub的<a href="https://github.com/topics" target="_blank" rel="noopener">topic</a></li>
+<li>工具索引对比类网站<a href="https://stackshare.io/feed" target="_blank" rel="noopener">stackshare</a>，<a href="https://www.libhunt.com/" target="_blank" rel="noopener">LibHunt</a></li>
+</ol>
+</li>
+</ol>
+<h3 id="代码覆盖率统计"><a class="header-anchor" href="#代码覆盖率统计"></a>代码覆盖率统计</h3>
+<p><a href="https://www.jianshu.com/p/a42bbd9de1b7" target="_blank" rel="noopener">关于代码覆盖lcov的使用</a></p>
+<h3 id="linux下C死锁排查"><a class="header-anchor" href="#linux下C死锁排查"></a>linux下C死锁排查</h3>
+<p><a href="https://blog.csdn.net/zsiming/article/details/126695393" target="_blank" rel="noopener">https://blog.csdn.net/zsiming/article/details/126695393</a></p>
+<h3 id="valgrind使用"><a class="header-anchor" href="#valgrind使用"></a>valgrind使用</h3>
+<p>内存泄漏分析，性能分析:<a href="https://zhuanlan.zhihu.com/p/92074597" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/92074597</a></p>
+<h3 id="gdb十六进制打印"><a class="header-anchor" href="#gdb十六进制打印"></a>gdb十六进制打印</h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x /5xb ptr</span><br></pre></td></tr></table></figure>
+<p>格式: x /nfu<br>
+参数说明：<br>
+n表示要显示的内存单元的个数<br>
+f表示显示方式, 可取如下值<br>
+x 按十六进制格式显示变量。<br>
+d 按十进制格式显示变量。<br>
+u 按十进制格式显示无符号整型。<br>
+o 按八进制格式显示变量。<br>
+t 按二进制格式显示变量。<br>
+a 按十六进制格式显示变量。<br>
+i 指令地址格式<br>
+c 按字符格式显示变量。<br>
+f 按浮点数格式显示变量。<br>
+u 表示一个地址单元的长度<br>
+b 表示单字节，<br>
+h 表示双字节，<br>
+w 表示四字节，<br>
+g 表示八字节</p>
+<h3 id="基于nc的反向代理"><a class="header-anchor" href="#基于nc的反向代理"></a>基于nc的反向代理</h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkfifo nc_proxy</span><br><span class="line">(nc dst_ip dst_port &lt; nc_porxy) | (nc -k -l 0.0.0.0 12345 &gt; ./nc_porxy)</span><br></pre></td></tr></table></figure>
+<p>-k 表示可以建立多条sock<br>
+上述命令含义：<br>
+上行：在当前设备上建立12345监听，接收数据输出到管道nc_proxy，nc_proxy作为<code>nc dst_ip dst_port &lt; nc_porxy</code>输入<br>
+下行：<code>nc dst_ip dst_port &lt; nc_porxy</code>命令输出下行数据，通过<code>|</code>输入给<code>nc -k -l 0.0.0.0 12345 &gt; ./nc_porxy</code></p>
+<h3 id="堆栈段偏移排查"><a class="header-anchor" href="#堆栈段偏移排查"></a>堆栈段偏移排查</h3>
+<p>对于一些堆栈溢出的日志，可以通过下面命令排查：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">addr2line -e [进程] [相对地址]</span><br></pre></td></tr></table></figure>
+<p>示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">./lb(dumpBacktrace+0x44f)[0x6f32fd]</span><br><span class="line">/lib/x86_64-linux-gnu/libc.so.6(+0x3ef20)[0x7ff61b3a5f20]</span><br><span class="line">./lb(clientSessionRemove+0x277)[0x476713]</span><br><span class="line">./lb(clientTcpMsgProc+0x63e)[0x47a914]</span><br><span class="line">./lb(HTTP2JobMaster+0x122)[0x45f6fa]</span><br><span class="line">./lb(Http2JobEntry+0x100)[0x46017f]</span><br><span class="line">./lb(ScheProcMsg+0x245)[0x68292c]</span><br><span class="line">./lb(IoThread+0x173)[0x683878]</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ addr2line -e ./lb 0x47a914</span><br><span class="line">/home/xxxx/src/http2-client.c:1226</span><br></pre></td></tr></table></figure>
+<h3 id="zsh快捷键"><a class="header-anchor" href="#zsh快捷键"></a>zsh快捷键</h3>
+<p>基本命令：<br>
+<strong>ctrl + u：清空当前行</strong><br>
+<strong>ctrl + a：移动到行首</strong><br>
+<strong>ctrl + e：移动到行尾</strong><br>
+ctrl + f：向前移动<br>
+ctrl + b：向后移动<br>
+ctrl + p：上一条命令<br>
+ctrl + n：下一条命令<br>
+<strong>ctrl + r：搜索历史命令</strong><br>
+<strong>ctrl + y：召回最近用命令删除的文字</strong><br>
+ctrl + h：删除光标之前的字符<br>
+ctrl + d：删除光标所指的字符<br>
+<strong>ctrl + w：删除光标之前的单词</strong><br>
+<strong>ctrl + k：删除从光标到行尾的内容</strong><br>
+ctrl + t：交换光标和之前的字符</p>
+<p>命令自动补全(zsh-autosuggestions)：<br>
+<strong>ctrl + →：到自动补全命令的下一个单词</strong><br>
+<strong>→：到自动补全命令末尾</strong></p>
+<h3 id="const"><a class="header-anchor" href="#const"></a>const</h3>
+<p><code>const char *ptr;</code>: const 修饰的是<code>*ptr</code>，意味着指针指向的数据不能修改<br>
+<code>char const *ptr;</code>：同<code>const char *ptr;</code><br>
+<code>char * const ptr;</code>:const 修饰的是<code>ptr</code>，意味着指针本身不能修改</p>
 
       
     </div>
@@ -895,8 +1099,8 @@ LD_LIBRARY_PATH环境变量：指定程序动态链接库文件搜索路径</p>
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/09/14/2020阅读史/" rel="next" title="2020阅读史">
-                <i class="fa fa-chevron-left"></i> 2020阅读史
+              <a href="/2020/09/14/关于如何写文档/" rel="next" title="关于如何写文档">
+                <i class="fa fa-chevron-left"></i> 关于如何写文档
               </a>
             
           </div>
@@ -987,7 +1191,7 @@ LD_LIBRARY_PATH环境变量：指定程序动态链接库文件搜索路径</p>
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">41</span>
+                <span class="site-state-item-count">39</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1009,7 +1213,7 @@ LD_LIBRARY_PATH环境变量：指定程序动态链接库文件搜索路径</p>
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">16</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -1075,7 +1279,7 @@ LD_LIBRARY_PATH环境变量：指定程序动态链接库文件搜索路径</p>
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#ssh免密登录"><span class="nav-number">1.</span> <span class="nav-text">ssh免密登录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#VSCODE"><span class="nav-number">2.</span> <span class="nav-text">VSCODE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#C-段错误处理-Linux"><span class="nav-number">3.</span> <span class="nav-text">C 段错误处理(Linux)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进程运行状态查看"><span class="nav-number">4.</span> <span class="nav-text">进程运行状态查看</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#断言assert"><span class="nav-number">5.</span> <span class="nav-text">断言assert</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ipset源码技巧"><span class="nav-number">6.</span> <span class="nav-text">ipset源码技巧</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一些工具"><span class="nav-number">7.</span> <span class="nav-text">一些工具</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#go好用的开源组件"><span class="nav-number">8.</span> <span class="nav-text">go好用的开源组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Go技巧"><span class="nav-number">9.</span> <span class="nav-text">Go技巧</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#xrags"><span class="nav-number">10.</span> <span class="nav-text">xrags</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#shell调试"><span class="nav-number">11.</span> <span class="nav-text">shell调试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查找与当前进程通信的所有进程"><span class="nav-number">12.</span> <span class="nav-text">查找与当前进程通信的所有进程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#程序执行时的系统调用"><span class="nav-number">13.</span> <span class="nav-text">程序执行时的系统调用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#程序内存检测"><span class="nav-number">14.</span> <span class="nav-text">程序内存检测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux文件锁定"><span class="nav-number">15.</span> <span class="nav-text">Linux文件锁定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux-内核小版本升级"><span class="nav-number">16.</span> <span class="nav-text">Linux 内核小版本升级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#linux源码编译"><span class="nav-number">17.</span> <span class="nav-text">linux源码编译</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内核模块源码编译安装"><span class="nav-number">18.</span> <span class="nav-text">内核模块源码编译安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux-内核模块加载"><span class="nav-number">19.</span> <span class="nav-text">Linux 内核模块加载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux路由操作"><span class="nav-number">20.</span> <span class="nav-text">Linux路由操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#route命令操作"><span class="nav-number">20.1.</span> <span class="nav-text">route命令操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ip命令路由操作"><span class="nav-number">20.2.</span> <span class="nav-text">ip命令路由操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#nm命令操作"><span class="nav-number">20.3.</span> <span class="nav-text">nm命令操作</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mysql-性能优化"><span class="nav-number">21.</span> <span class="nav-text">mysql 性能优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sudo、su和sudo-s的差别"><span class="nav-number">22.</span> <span class="nav-text">sudo、su和sudo -s的差别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#relocation-error-usr-lib64-libc-so-6-symbol-dl-starting-up"><span class="nav-number">23.</span> <span class="nav-text">relocation error: /usr/lib64/libc.so.6: symbol _dl_starting_up,</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#linux死亡操作"><span class="nav-number">24.</span> <span class="nav-text">linux死亡操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Gcc静-动态链接库链接顺序"><span class="nav-number">25.</span> <span class="nav-text">Gcc静/动态链接库链接顺序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#有关linux下的目录"><span class="nav-number">26.</span> <span class="nav-text">有关linux下的目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于系统监控"><span class="nav-number">27.</span> <span class="nav-text">关于系统监控</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于软件项目方案评估"><span class="nav-number">28.</span> <span class="nav-text">关于软件项目方案评估</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tcpdump"><span class="nav-number">29.</span> <span class="nav-text">tcpdump</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#linux环境加载"><span class="nav-number">30.</span> <span class="nav-text">linux环境加载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设计模式的六大原则："><span class="nav-number">31.</span> <span class="nav-text">设计模式的六大原则：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mysql-bin-log："><span class="nav-number">32.</span> <span class="nav-text">mysql-bin-log：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#linux下载离线rpm包"><span class="nav-number">33.</span> <span class="nav-text">linux下载离线rpm包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#git-submodule"><span class="nav-number">34.</span> <span class="nav-text">git submodule</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#git-merge提前检测冲突"><span class="nav-number">35.</span> <span class="nav-text">git merge提前检测冲突</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#排查cpu占用高，或进程死锁问题"><span class="nav-number">36.</span> <span class="nav-text">排查cpu占用高，或进程死锁问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于unix-sock和localhost-tcp对比"><span class="nav-number">37.</span> <span class="nav-text">关于unix sock和localhost tcp对比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Go和Rust的区别"><span class="nav-number">38.</span> <span class="nav-text">Go和Rust的区别</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#ssh免密登录"><span class="nav-number">1.</span> <span class="nav-text">ssh免密登录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#VSCODE-配置同步到github账号：gotables"><span class="nav-number">2.</span> <span class="nav-text">VSCODE(配置同步到github账号：gotables)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#C-段错误处理-Linux"><span class="nav-number">3.</span> <span class="nav-text">C 段错误处理(Linux)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进程运行状态查看"><span class="nav-number">4.</span> <span class="nav-text">进程运行状态查看</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#断言assert"><span class="nav-number">5.</span> <span class="nav-text">断言assert</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ipset源码技巧"><span class="nav-number">6.</span> <span class="nav-text">ipset源码技巧</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一些工具"><span class="nav-number">7.</span> <span class="nav-text">一些工具</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#go好用的开源组件"><span class="nav-number">8.</span> <span class="nav-text">go好用的开源组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Go技巧"><span class="nav-number">9.</span> <span class="nav-text">Go技巧</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#xrags"><span class="nav-number">10.</span> <span class="nav-text">xrags</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#shell调试"><span class="nav-number">11.</span> <span class="nav-text">shell调试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查找与当前进程通信的所有进程"><span class="nav-number">12.</span> <span class="nav-text">查找与当前进程通信的所有进程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#程序执行时的系统调用"><span class="nav-number">13.</span> <span class="nav-text">程序执行时的系统调用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#程序内存检测"><span class="nav-number">14.</span> <span class="nav-text">程序内存检测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux文件锁定"><span class="nav-number">15.</span> <span class="nav-text">Linux文件锁定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux-内核小版本升级"><span class="nav-number">16.</span> <span class="nav-text">Linux 内核小版本升级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#linux源码编译"><span class="nav-number">17.</span> <span class="nav-text">linux源码编译</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内核模块源码编译安装"><span class="nav-number">18.</span> <span class="nav-text">内核模块源码编译安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux-内核模块加载"><span class="nav-number">19.</span> <span class="nav-text">Linux 内核模块加载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux路由操作"><span class="nav-number">20.</span> <span class="nav-text">Linux路由操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#route命令操作"><span class="nav-number">20.1.</span> <span class="nav-text">route命令操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ip命令路由操作"><span class="nav-number">20.2.</span> <span class="nav-text">ip命令路由操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#nm命令操作"><span class="nav-number">20.3.</span> <span class="nav-text">nm命令操作</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mysql-性能优化"><span class="nav-number">21.</span> <span class="nav-text">mysql 性能优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sudo、su和sudo-s的差别"><span class="nav-number">22.</span> <span class="nav-text">sudo、su和sudo -s的差别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#relocation-error-usr-lib64-libc-so-6-symbol-dl-starting-up"><span class="nav-number">23.</span> <span class="nav-text">relocation error: /usr/lib64/libc.so.6: symbol _dl_starting_up,</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#linux死亡操作"><span class="nav-number">24.</span> <span class="nav-text">linux死亡操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Gcc静-动态链接库链接顺序"><span class="nav-number">25.</span> <span class="nav-text">Gcc静/动态链接库链接顺序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#有关linux下的目录"><span class="nav-number">26.</span> <span class="nav-text">有关linux下的目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于系统监控"><span class="nav-number">27.</span> <span class="nav-text">关于系统监控</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于软件项目方案评估"><span class="nav-number">28.</span> <span class="nav-text">关于软件项目方案评估</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tcpdump"><span class="nav-number">29.</span> <span class="nav-text">tcpdump</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#linux环境加载"><span class="nav-number">30.</span> <span class="nav-text">linux环境加载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设计模式的六大原则："><span class="nav-number">31.</span> <span class="nav-text">设计模式的六大原则：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mysql-bin-log："><span class="nav-number">32.</span> <span class="nav-text">mysql-bin-log：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#linux下载离线rpm包"><span class="nav-number">33.</span> <span class="nav-text">linux下载离线rpm包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#git-submodule"><span class="nav-number">34.</span> <span class="nav-text">git submodule</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#git-merge提前检测冲突"><span class="nav-number">35.</span> <span class="nav-text">git merge提前检测冲突</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#排查cpu占用高，或进程死锁问题"><span class="nav-number">36.</span> <span class="nav-text">排查cpu占用高，或进程死锁问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于unix-sock和localhost-tcp对比"><span class="nav-number">37.</span> <span class="nav-text">关于unix sock和localhost tcp对比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Go和Rust的区别"><span class="nav-number">38.</span> <span class="nav-text">Go和Rust的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#git代码仓库管理"><span class="nav-number">39.</span> <span class="nav-text">git代码仓库管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#网络快速学习"><span class="nav-number">40.</span> <span class="nav-text">网络快速学习</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Go自动化测试"><span class="nav-number">41.</span> <span class="nav-text">Go自动化测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看哪个进程向我发送了信号"><span class="nav-number">42.</span> <span class="nav-text">查看哪个进程向我发送了信号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缓存技术"><span class="nav-number">43.</span> <span class="nav-text">缓存技术</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#linux-向本地syslog发数据"><span class="nav-number">44.</span> <span class="nav-text">linux 向本地syslog发数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#证书常用命令"><span class="nav-number">45.</span> <span class="nav-text">证书常用命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#kill-9无法杀死的情况"><span class="nav-number">46.</span> <span class="nav-text">kill -9无法杀死的情况</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进程通信的各种情况，以及适用场景"><span class="nav-number">47.</span> <span class="nav-text">进程通信的各种情况，以及适用场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#性能排查工具大全"><span class="nav-number">48.</span> <span class="nav-text">性能排查工具大全</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#wireshark解密https："><span class="nav-number">49.</span> <span class="nav-text">wireshark解密https：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方案调研方法"><span class="nav-number">50.</span> <span class="nav-text">方案调研方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码覆盖率统计"><span class="nav-number">51.</span> <span class="nav-text">代码覆盖率统计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#linux下C死锁排查"><span class="nav-number">52.</span> <span class="nav-text">linux下C死锁排查</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#valgrind使用"><span class="nav-number">53.</span> <span class="nav-text">valgrind使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gdb十六进制打印"><span class="nav-number">54.</span> <span class="nav-text">gdb十六进制打印</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基于nc的反向代理"><span class="nav-number">55.</span> <span class="nav-text">基于nc的反向代理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#堆栈段偏移排查"><span class="nav-number">56.</span> <span class="nav-text">堆栈段偏移排查</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#zsh快捷键"><span class="nav-number">57.</span> <span class="nav-text">zsh快捷键</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#const"><span class="nav-number">58.</span> <span class="nav-text">const</span></a></li></ol></div>
             
 
           </div>
@@ -1108,7 +1312,7 @@ LD_LIBRARY_PATH环境变量：指定程序动态链接库文件搜索路径</p>
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2022</span>
+  <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -1127,7 +1331,7 @@ LD_LIBRARY_PATH环境变量：指定程序动态链接库文件搜索路径</p>
 		  <span class="post-meta-item-text">本站总字数</span>
 		
 		<span title="本站总字数">
-		  89.3k
+		  115.3k
 		</span>
 	</div>
    

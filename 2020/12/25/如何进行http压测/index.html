@@ -96,17 +96,17 @@
 
 
 
-<meta name="description" content="测试新手上线 (•̀⌄•́) 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan">
+<meta name="description" content="测试新手上线 (•̀⌄•́) 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　By Jihan">
 <meta property="og:type" content="article">
 <meta property="og:title" content="如何进行http压测">
 <meta property="og:url" content="http://yoursite.com/2020/12/25/如何进行http压测/index.html">
 <meta property="og:site_name" content="JiHan&#39;s Blog">
-<meta property="og:description" content="测试新手上线 (•̀⌄•́) 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan">
+<meta property="og:description" content="测试新手上线 (•̀⌄•́) 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　By Jihan">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2021-12-16T10:00:11.000Z">
+<meta property="og:updated_time" content="2022-09-13T07:51:59.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="如何进行http压测">
-<meta name="twitter:description" content="测试新手上线 (•̀⌄•́) 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan">
+<meta name="twitter:description" content="测试新手上线 (•̀⌄•́) 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　By Jihan">
 
 
 
@@ -454,7 +454,7 @@
 
       
         <p>测试新手上线 (•̀⌄•́)<br>
-　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan</p>
+　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　By Jihan</p>
 <hr>
 <a id="more"></a>
 <h2 id="如何进行http压测"><a class="header-anchor" href="#如何进行http压测"></a>如何进行http压测</h2>
@@ -509,7 +509,7 @@
 </li>
 <li>
 <p>大量timeout占用socket<br>
-可以通过<code>ss -tan | grep TIME-WAIT</code>命令查看是否有大量的time_wait(<code>ss -tan | awk  '{++S[$1]} END {for(a in S) print a, S[a]}'</code>可进行统计)。如果存在大量time_wait可通过配置<code> /etc/sysctl.conf</code>文件修改：</p>
+可以通过<code>ss -tan | grep TIME-WAIT</code>或<code>ss -s</code>命令查看是否有大量的time_wait(<code>ss -tan | awk  '{++S[$1]} END {for(a in S) print a, S[a]}'</code>可进行统计)。如果存在大量time_wait可通过配置<code> /etc/sysctl.conf</code>文件修改：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># Controls the use of TCP syncookies</span><br><span class="line">net.ipv4.tcp_syncookies = 1</span><br><span class="line"></span><br><span class="line"># The TIME-WAIT sockets for new connections can be reused</span><br><span class="line">net.ipv4.tcp_tw_reuse = 1</span><br><span class="line"></span><br><span class="line"># Enable fast recycling of TIME-WAIT sockets status</span><br><span class="line">net.ipv4.tcp_tw_recycle = 1</span><br><span class="line"></span><br><span class="line"># Decrease the time default value for tcp_fin_timeout connection</span><br><span class="line">net.ipv4.tcp_fin_timeout = 30</span><br></pre></td></tr></table></figure>
 <p>然后执行 <code>/sbin/sysctl -p</code> 让参数生效</p>
 </li>
@@ -600,8 +600,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/11/06/常用技术汇总/" rel="next" title="常用技术汇总">
-                <i class="fa fa-chevron-left"></i> 常用技术汇总
+              <a href="/2020/11/05/《mysql必知必会》读书笔记/" rel="next" title="《mysql必知必会》读书笔记">
+                <i class="fa fa-chevron-left"></i> 《mysql必知必会》读书笔记
               </a>
             
           </div>
@@ -610,8 +610,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/12/31/2020年终-2021年初/" rel="prev" title="2020年终-2021年初">
-                2020年终-2021年初 <i class="fa fa-chevron-right"></i>
+              <a href="/2021/01/13/《怪诞行为学：可预测的非理性》读书笔记/" rel="prev" title="《怪诞行为学：可预测的非理性》读书笔记">
+                《怪诞行为学：可预测的非理性》读书笔记 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -692,7 +692,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">41</span>
+                <span class="site-state-item-count">39</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -714,7 +714,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">16</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -813,7 +813,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2022</span>
+  <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -832,7 +832,7 @@
 		  <span class="post-meta-item-text">本站总字数</span>
 		
 		<span title="本站总字数">
-		  89.3k
+		  115.3k
 		</span>
 	</div>
    

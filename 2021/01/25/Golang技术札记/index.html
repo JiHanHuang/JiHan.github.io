@@ -103,7 +103,7 @@
 <meta property="og:site_name" content="JiHan&#39;s Blog">
 <meta property="og:description" content="全当一个适合自己的golang快捷手册(•̀⌄•́) 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2021-12-27T10:00:10.000Z">
+<meta property="og:updated_time" content="2022-12-09T03:47:48.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Golang技术札记">
 <meta name="twitter:description" content="全当一个适合自己的golang快捷手册(•̀⌄•́) 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan">
@@ -415,7 +415,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  944
+                  2.9k
                 </span>
               
 
@@ -431,7 +431,7 @@
                   <span class="post-meta-item-text">阅读时长</span>
                 
                 <span title="阅读时长">
-                  4
+                  11
                 </span>
               
             </div>
@@ -531,7 +531,7 @@
 <code>go get -u all</code>  将项目中的包升级到最新的次要版本或者修订版本；<br>
 <code>go get -u [包名]</code>  将项目中的包升级到最新的修订版本；<br>
 <code>go get [包名]@[版本号]</code>  下载对应包的指定版本或者将对应包升级到指定的版本。<br>
-<code>go list -m -versions [包名]</code>可以查看该包支持版本</li>
+<code>go list -m  -mod=mod -versions [包名]</code>可以查看该包支持版本</li>
 <li>也可以使用<code>go-mod-upgrade</code>第三方可视化组件升级，<a href="https://learnku.com/go/t/40982" target="_blank" rel="noopener">参考</a>
 <ol>
 <li><code>go get -u github.com/oligot/go-mod-upgrade</code> 下载该组件</li>
@@ -541,6 +541,7 @@
 </li>
 </ol>
 </li>
+<li>如果有第三方依赖，需要修改依赖项，可以使用<code>replace</code>进行相应版本包的替换，比如：<code>replace github.com/ozgio/strutil v0.3.0 =&gt; github.com/shiweifu/strutil v0.3.0</code></li>
 <li>执行<code>go mod tidy</code>和<code>go mod vendor</code>(如果有必要)</li>
 </ol>
 <h3 id="golang性能分析"><a class="header-anchor" href="#golang性能分析"></a>golang性能分析</h3>
@@ -582,6 +583,281 @@
 <p>这里有一个路径问题，那么执行的命令要做适当修改：<br>
 <code>protoc --proto_path=. --go_opt=Mproto/greeter.proto=./proto --micro_out=. --go_out=.  proto/greeter.proto</code><br>
 有关<code> --go_opt</code>参数以及<code>protoc-gen-go: unable to determine Go import path for &quot;proto/greeter.proto&quot;</code>问题<a href="https://developers.google.com/protocol-buffers/docs/reference/go-generated#package" target="_blank" rel="noopener">处理方法</a></p>
+<h3 id="字符串拼接"><a class="header-anchor" href="#字符串拼接"></a>字符串拼接</h3>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">isFirst := <span class="literal">true</span></span><br><span class="line"><span class="keyword">var</span> b strings.Builder</span><br><span class="line"><span class="keyword">for</span> k, _ := <span class="keyword">range</span> oneMap &#123;</span><br><span class="line">	<span class="keyword">if</span> !isFirst &#123;</span><br><span class="line">		b.WriteString(<span class="string">","</span>)</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		isFirst = <span class="literal">false</span></span><br><span class="line">	&#125;</span><br><span class="line">	b.WriteString(k.String())</span><br><span class="line">&#125;</span><br><span class="line">idsStr := b.String()</span><br></pre></td></tr></table></figure>
+<h3 id="有关panic"><a class="header-anchor" href="#有关panic"></a>有关panic</h3>
+<p>go在触发<code>panic</code>的时候，程序退出码和C程序退出码不一致。golang遇到panic是自己内部触发的，并非接收到内核信号，退出码是<code>2</code>。而c语言触发段错误，内核会发送一个信号给该进程<code>SIGSEGV</code>，然后程序退出，退出码是<code>139</code></p>
+<h3 id="有关golang内存泄漏"><a class="header-anchor" href="#有关golang内存泄漏"></a>有关golang内存泄漏</h3>
+<h4 id="go内存泄漏分类："><a class="header-anchor" href="#go内存泄漏分类："></a>go内存泄漏分类：</h4>
+<p>golang内存也存在泄漏，也就是没有按照想要的方式释放。一般分为以下几个方面：</p>
+<ol>
+<li>goroutine泄漏，即有些协程一直阻塞，无法得到释放，导致里面的变量无法释放，从而引起内存泄漏。比如：
+<ol>
+<li>goroutine过多</li>
+<li>goroutine阻塞
+<ol>
+<li>IO阻塞</li>
+<li>channel阻塞</li>
+<li>select阻塞</li>
+<li>互斥锁，或信号量阻塞</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>代码内存泄漏，代码中申请了一些内存，没有及时释放，或者被其他引用导致内存不断增加而泄漏。比如：
+<ol>
+<li>time.After中函数延迟过大，这个After等到结束后才会释放</li>
+<li>time.ticker 未stop</li>
+<li>slice被全局变量引用导致不能释放。</li>
+</ol>
+</li>
+<li>GC释放问题，在一些低版本中如1.12-1.15版本，gc采用了一些惰性回收机制，要等到内核压力大时才进行回收和释放。不过在1.16后的版本，gc基本比较稳定了。</li>
+</ol>
+<h4 id="排查工具和方法："><a class="header-anchor" href="#排查工具和方法："></a>排查工具和方法：</h4>
+<ol>
+<li>使用<code>pprof</code>工具，一个很强的工具，能排查各种阻塞，协程异常，内存异常等问题。通常使用这一个工具就足够了。<a href="https://zhuanlan.zhihu.com/p/396363069" target="_blank" rel="noopener">使用指南</a></li>
+<li><code>valgrind</code>进一步分析内存溢出问题，(这个工具对c和c++好使，在go上没有试过)。<a href="https://valgrind.org/docs/manual/quick-start.html#quick-start.mcrun" target="_blank" rel="noopener">官方文档</a></li>
+</ol>
+<h4 id="pprof对性能影响："><a class="header-anchor" href="#pprof对性能影响："></a>pprof对性能影响：</h4>
+<p>通过<a href="https://stackoverflow.com/questions/26545159/how-big-is-pprof-import-overhead-in-go" target="_blank" rel="noopener">stackoverflow的文章</a>以及<a href="https://medium.com/google-cloud/continuous-profiling-of-go-programs-96d4416af77b" target="_blank" rel="noopener">引用的文章</a>，可以得到一个待验证的观点：<strong>每分钟开启10s的pprof的性能分析，也会导致5%的额外开销。</strong><br>
+另外一个<a href="https://groups.google.com/g/golang-nuts/c/e6lB8ENbIw8" target="_blank" rel="noopener">讨论组</a>的观点是：<strong>脱离具体程序谈性能影响是不切实际的。使用性能分析工具进行问题排查是可靠安全的，如果担心性能影响，可只针对部分业务进行分析(类似集群，只分析一台)。</strong></p>
+<h4 id="关于golang的版本特性："><a class="header-anchor" href="#关于golang的版本特性："></a>关于golang的版本特性：</h4>
+<table>
+<thead>
+<tr>
+<th>版本</th>
+<th>功能</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Go 1.5</td>
+<td>垃圾收集器优化</td>
+<td>并发收集</td>
+</tr>
+<tr>
+<td></td>
+<td>内部包支持</td>
+<td>内部引用的库放在<code>internal</code>文件夹下，外部无法引用</td>
+</tr>
+<tr>
+<td></td>
+<td><code>GOMAXPROCS=</code>可用核心数</td>
+<td>意味着大部分情况下无需手动设置<code>GOMAXPROCS</code>，旧版本<code>GOMAXPROCS=1</code></td>
+</tr>
+<tr>
+<td></td>
+<td><code>go tool trace</code>命令</td>
+<td>支持细粒度的程序执行跟踪</td>
+</tr>
+<tr>
+<td></td>
+<td><code>go doc</code>命令</td>
+<td><code>1.13</code>被移除，需要单独下载安装</td>
+</tr>
+<tr>
+<td>Go 1.6</td>
+<td>支持<code>HTTP/2</code>协议</td>
+<td>只要我们使用<code>TLS</code>则会默认启动<code>HTTP/2</code>特性</td>
+</tr>
+<tr>
+<td>Go 1.7</td>
+<td><code>Context</code>库和<code>vendor</code>支持优化</td>
+<td><code>context</code>成为重要的控制流、上下文传递工具</td>
+</tr>
+<tr>
+<td>Go 1.8</td>
+<td>垃圾回收器进一步优化</td>
+<td>延迟时间全面降到毫秒级别以下</td>
+</tr>
+<tr>
+<td>Go 1.9</td>
+<td><code>type alias</code>支持</td>
+<td>当你使用<code>type T2 T1</code>的时候需要考虑是不是使用 <code>type T2 = T1</code>更好</td>
+</tr>
+<tr>
+<td></td>
+<td><code>Test Helper</code>函数</td>
+<td>新加<code>(T).Helper</code>和<code>(B).Helper m</code>， 用来标记调用的函数是一个测试辅助函数</td>
+</tr>
+<tr>
+<td>Go 1.10</td>
+<td><code>go build/test</code>增加缓存优化</td>
+<td>加速构建/测试性能，当你使用 容器进行构建/测试时，如果效率较低，考虑复用缓存</td>
+</tr>
+<tr>
+<td>Go 1.11</td>
+<td>引入<code>Go modules</code></td>
+<td>从此<code>go mod</code>逐渐成为主流包管理方式</td>
+</tr>
+<tr>
+<td>Go 1.12</td>
+<td><code>go vet</code>工具</td>
+<td><code>go tool vet</code>不再支持</td>
+</tr>
+<tr>
+<td>Go 1.13</td>
+<td><code>sync.Pool</code>优化</td>
+<td>垃圾回收时，<code>pool</code>中对象不会被完全清理掉。它引入了一个<code>cache</code>，用于在两次GC之前清理pool中未使用的对象实例</td>
+</tr>
+<tr>
+<td></td>
+<td><code>defer</code>性能优化</td>
+<td>性能提高 30%</td>
+</tr>
+<tr>
+<td></td>
+<td>新的逃逸分析(<code>escape analysis</code>)器</td>
+<td>分析代码，何时分配到<code>stack</code>而不是<code>heap</code></td>
+</tr>
+<tr>
+<td></td>
+<td><code>errors</code>包优化</td>
+<td>支持<code>wrapping</code>，<code>fmt.Errorf</code>增加<code>%w</code>格式符，<code>errors</code>包增加三个函数（<code>Unwrap、Is、As</code>），很实用</td>
+</tr>
+<tr>
+<td></td>
+<td><code>Go modules</code>成为默认值</td>
+<td><code>Go 1.13</code>后<code>GOPROXY</code>和<code>GOSUMDB</code>都会有默认值</td>
+</tr>
+<tr>
+<td>Go 1.14</td>
+<td><code>defer</code>性能再次优化</td>
+<td><code>Go1.14</code>提高了<code>defer</code>的大多数用法的性能，几乎0开销。defer已经可以用于对性能要求很高的场景了</td>
+</tr>
+<tr>
+<td></td>
+<td><code>time.Timer</code>性能提升</td>
+<td>针对<code>timer</code>性能问题的很多优化不再有必要了</td>
+</tr>
+<tr>
+<td></td>
+<td>允许嵌入具有重叠方法集的接口</td>
+<td><code>type ReadWriteCloser interface { io.ReadCloser;io.WriteCloser}</code>不会报错</td>
+</tr>
+<tr>
+<td></td>
+<td><code>testing</code>包的<code>T、B和TB</code>都加上了<code>CleanUp</code>方法</td>
+<td>类似<code>defer</code>，清理测试申请资源</td>
+</tr>
+<tr>
+<td></td>
+<td>引入基于信号的的异步抢占机制</td>
+<td>死循环的goroutine能够被抢占了，不过代价是出现死循环导致的性能下降问题更难排查了</td>
+</tr>
+<tr>
+<td></td>
+<td>更高效的页分配器</td>
+<td>页分配器效率变高，并且在<code>GOMAXPROCS</code>值较高时，导致的锁争用显着减少</td>
+</tr>
+<tr>
+<td>Go 1.15</td>
+<td>链接器的重大改进，可减少链接器资源的使用</td>
+<td>全新链接器，代码健壮性可维护性，开销都有改进</td>
+</tr>
+<tr>
+<td></td>
+<td>tzdata包</td>
+<td>该程序包允许将时区数据库嵌入程序中</td>
+</tr>
+<tr>
+<td>Go 1.16</td>
+<td>添加了对<code>macOS ARM64</code>的支持</td>
+<td>也称为<code>Apple</code>芯片</td>
+</tr>
+<tr>
+<td></td>
+<td>开始禁止<code>import</code>导入的模块以<code>.</code>开头</td>
+<td><code>import &quot;./tools/image&quot;</code>将不合法</td>
+</tr>
+<tr>
+<td></td>
+<td>默认使用<code>go mod</code>进行管理</td>
+<td><code>GO111MODULE</code>环境变量现在默认为<code>on</code></td>
+</tr>
+<tr>
+<td></td>
+<td>新增<code>embed</code>包</td>
+<td><code>embed</code>包 提供了对使用<code>new//go:embed</code>指令在编译时访问嵌入在程序中的文件的功能</td>
+</tr>
+<tr>
+<td></td>
+<td><code>go install</code>和<code>go get</code>的功能分离</td>
+<td><code>go get</code>不再支持安装，默认就使用<code>-d</code>参数</td>
+</tr>
+<tr>
+<td>Go 1.17</td>
+<td>简化<code>go mod</code>的依赖图</td>
+<td><code>完整module依赖图</code>-&gt;<code>修剪的module依赖图</code></td>
+</tr>
+<tr>
+<td></td>
+<td>从基于堆栈的调用惯例到基于寄存器的调用惯例的切换</td>
+<td>主要基于arm64架构下，性能得到较大提升</td>
+</tr>
+<tr>
+<td></td>
+<td>支持切片指针到数组指针的强制转换</td>
+<td>减少内存拷贝，以及对切片的断言</td>
+</tr>
+<tr>
+<td></td>
+<td>更易读的构建约束</td>
+<td><code>//go:build</code>-&gt;<code>// +build</code></td>
+</tr>
+<tr>
+<td>Go 1.18</td>
+<td>泛型<code>Generics</code>支持</td>
+<td>引入了对使用参数化类型的泛型代码的新支持, 达到了算法可复用的目的</td>
+</tr>
+<tr>
+<td></td>
+<td>模糊测试<code>Fuzzing</code></td>
+<td>提供了一种自动化测试的选择, Go 是第一个将模糊测试完全集成到其标准工具链中的主要语言</td>
+</tr>
+<tr>
+<td></td>
+<td><code>Workspaces</code></td>
+<td>解决<code>go mod</code>遗留下来的本地多模块开发依赖问题</td>
+</tr>
+<tr>
+<td>Go 1.19</td>
+<td>泛型问题fix</td>
+<td>更稳定的泛型支持，个人建议正式环境还是观望一波</td>
+</tr>
+<tr>
+<td></td>
+<td>文档优化</td>
+<td><code>doc comment</code>文档优化</td>
+</tr>
+<tr>
+<td></td>
+<td><code>runtime.SetMemoryLimit</code></td>
+<td>一个新的<code>runtime.SetMemoryLimit</code>函数以及一个<code>GOMEMLIMIT</code>环境变量被引入。有了这个memory软限制，Go运行时将通过限制堆的大小，以及更积极地将内存返回给底层os，来试图维持这个内存限制，以尽量避免Go程序因分配heap过多，超出系统内存资源限制而被kill</td>
+</tr>
+<tr>
+<td></td>
+<td>启动时将默认提高打开文件的限值</td>
+<td>就是linux常见的<code>open files</code></td>
+</tr>
+<tr>
+<td></td>
+<td><code>race detector</code>性能提升</td>
+<td><code>race</code>检测性能相对于上一版将提升1.5倍-2倍，内存开销减半，并且没有对goroutine的数量的上限限制</td>
+</tr>
+<tr>
+<td></td>
+<td>编译约束增加<code>unix</code>标签</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>其他标准库变化</td>
+<td>如：<code>net</code>软件包将使用<code>EDNS</code>，<code>flag</code>包增加<code>TextVar</code>函数等</td>
+</tr>
+</tbody>
+</table>
 
       
     </div>
@@ -708,7 +984,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">41</span>
+                <span class="site-state-item-count">39</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -730,7 +1006,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">16</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -796,7 +1072,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Golang条件编译"><span class="nav-number">1.</span> <span class="nav-text">Golang条件编译</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编译test程序"><span class="nav-number">2.</span> <span class="nav-text">编译test程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#开源学习"><span class="nav-number">3.</span> <span class="nav-text">开源学习</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#go-mod及依赖包升级"><span class="nav-number">4.</span> <span class="nav-text">go mod及依赖包升级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#golang性能分析"><span class="nav-number">5.</span> <span class="nav-text">golang性能分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#go-micro学习"><span class="nav-number">6.</span> <span class="nav-text">go-micro学习</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#生成proto相关代码"><span class="nav-number">6.1.</span> <span class="nav-text">生成proto相关代码</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Golang条件编译"><span class="nav-number">1.</span> <span class="nav-text">Golang条件编译</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编译test程序"><span class="nav-number">2.</span> <span class="nav-text">编译test程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#开源学习"><span class="nav-number">3.</span> <span class="nav-text">开源学习</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#go-mod及依赖包升级"><span class="nav-number">4.</span> <span class="nav-text">go mod及依赖包升级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#golang性能分析"><span class="nav-number">5.</span> <span class="nav-text">golang性能分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#go-micro学习"><span class="nav-number">6.</span> <span class="nav-text">go-micro学习</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#生成proto相关代码"><span class="nav-number">6.1.</span> <span class="nav-text">生成proto相关代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字符串拼接"><span class="nav-number">7.</span> <span class="nav-text">字符串拼接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#有关panic"><span class="nav-number">8.</span> <span class="nav-text">有关panic</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#有关golang内存泄漏"><span class="nav-number">9.</span> <span class="nav-text">有关golang内存泄漏</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#go内存泄漏分类："><span class="nav-number">9.1.</span> <span class="nav-text">go内存泄漏分类：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#排查工具和方法："><span class="nav-number">9.2.</span> <span class="nav-text">排查工具和方法：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#pprof对性能影响："><span class="nav-number">9.3.</span> <span class="nav-text">pprof对性能影响：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#关于golang的版本特性："><span class="nav-number">9.4.</span> <span class="nav-text">关于golang的版本特性：</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -829,7 +1105,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2022</span>
+  <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -848,7 +1124,7 @@
 		  <span class="post-meta-item-text">本站总字数</span>
 		
 		<span title="本站总字数">
-		  89.3k
+		  115.3k
 		</span>
 	</div>
    
