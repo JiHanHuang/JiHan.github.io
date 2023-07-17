@@ -1,0 +1,1383 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Glusterfs,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="JiHan's Blog" type="application/atom+xml">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="Glusterfs是一款分布式文件系统，相对配置简单，高性能，无单点故障，适合作为基础服务打包到产品或系统中，提供文件系统服务。 本文将进行Glusterfs的环境搭建(•̀⌄•́) 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　By Jihan  Glusterfs官方文档 Glusterfs-github">
+<meta name="keywords" content="Glusterfs">
+<meta property="og:type" content="article">
+<meta property="og:title" content="glusterfs系列-环境搭建">
+<meta property="og:url" content="http://yoursite.com/2023/07/14/glusterfs系列-环境搭建/index.html">
+<meta property="og:site_name" content="JiHan&#39;s Blog">
+<meta property="og:description" content="Glusterfs是一款分布式文件系统，相对配置简单，高性能，无单点故障，适合作为基础服务打包到产品或系统中，提供文件系统服务。 本文将进行Glusterfs的环境搭建(•̀⌄•́) 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　By Jihan  Glusterfs官方文档 Glusterfs-github">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2023/07/14/glusterfs系列-环境搭建/glusterfs%E7%89%88%E6%9C%AC%E4%BF%A1%E6%81%AF.png">
+<meta property="og:image" content="http://yoursite.com/2023/07/14/glusterfs系列-环境搭建/glusterfs%E9%9B%86%E7%BE%A4%E7%8A%B6%E6%80%812.png">
+<meta property="og:image" content="http://yoursite.com/2023/07/14/glusterfs系列-环境搭建/glusterfs%E9%9B%86%E7%BE%A4%E7%8A%B6%E6%80%811.png">
+<meta property="og:image" content="http://yoursite.com/2023/07/14/glusterfs系列-环境搭建/glusterfs%E7%9B%98%E7%AC%A6%E6%8C%82%E8%BD%BD1.png">
+<meta property="og:image" content="http://yoursite.com/2023/07/14/glusterfs系列-环境搭建/glusterfs%E7%9B%98%E7%AC%A6%E6%8C%82%E8%BD%BD2.png">
+<meta property="og:image" content="http://yoursite.com/2023/07/14/glusterfs系列-环境搭建/glusterfs%E5%A4%8D%E5%88%B6%E5%8D%B7%E7%8A%B6%E6%80%81.png">
+<meta property="og:image" content="http://yoursite.com/2023/07/14/glusterfs系列-环境搭建/glusterfs%E6%8C%82%E8%BD%BD%E7%82%B9%E9%85%8D%E7%BD%AE.png">
+<meta property="og:image" content="http://yoursite.com/2023/07/14/glusterfs系列-环境搭建/glusterfs%E5%88%86%E5%B8%83%E5%BC%8F%E5%8D%B7.png">
+<meta property="og:image" content="http://yoursite.com/2023/07/14/glusterfs系列-环境搭建/glusterfs%E5%A4%8D%E5%88%B6%E5%8D%B7.png">
+<meta property="og:image" content="http://yoursite.com/2023/07/14/glusterfs系列-环境搭建/glusterfs%E5%88%86%E5%B8%83%E5%BC%8F%E5%A4%8D%E5%88%B6%E5%8D%B7.png">
+<meta property="og:image" content="http://yoursite.com/2023/07/14/glusterfs系列-环境搭建/glusterfs%E6%9D%A1%E5%B8%A6%E5%8D%B7.png">
+<meta property="og:updated_time" content="2023-07-17T06:22:04.950Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="glusterfs系列-环境搭建">
+<meta name="twitter:description" content="Glusterfs是一款分布式文件系统，相对配置简单，高性能，无单点故障，适合作为基础服务打包到产品或系统中，提供文件系统服务。 本文将进行Glusterfs的环境搭建(•̀⌄•́) 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　By Jihan  Glusterfs官方文档 Glusterfs-github">
+<meta name="twitter:image" content="http://yoursite.com/2023/07/14/glusterfs系列-环境搭建/glusterfs%E7%89%88%E6%9C%AC%E4%BF%A1%E6%81%AF.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always","offset":12,"offset_float":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2023/07/14/glusterfs系列-环境搭建/">
+
+
+
+
+
+  <title>glusterfs系列-环境搭建 | JiHan's Blog</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-144130643-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">JiHan's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">随笔写写啦 (๑`･ᴗ･´๑)</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2023/07/14/glusterfs系列-环境搭建/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiHan">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/touxiang.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiHan's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">glusterfs系列-环境搭建</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2023-07-14T16:54:34+08:00">
+                2023-07-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术杂谈/" itemprop="url" rel="index">
+                    <span itemprop="name">技术杂谈</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2023/07/14/glusterfs系列-环境搭建/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2023/07/14/glusterfs系列-环境搭建/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 阅读次数
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  1k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  4
+                </span>
+              
+            </div>
+          
+			
+          
+
+        </div>
+      </header>
+    
+
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Glusterfs是一款分布式文件系统，相对配置简单，高性能，无单点故障，适合作为基础服务打包到产品或系统中，提供文件系统服务。<br>
+本文将进行Glusterfs的环境搭建(•̀⌄•́)<br>
+　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　By Jihan</p>
+<hr>
+<p><em><a href="https://docs.gluster.org/en/latest/#split-brain" target="_blank" rel="noopener">Glusterfs官方文档</a></em><br>
+<em><a href="https://github.com/gluster/glusterfs" target="_blank" rel="noopener">Glusterfs-github</a></em></p>
+<a id="more"></a>
+<h2 id="序"><a class="header-anchor" href="#序"></a>序</h2>
+<p>本文的搭建环境：虚拟机，Ubuntu18，使用apt安装，需要root权限<br>
+准备3个节点，分别命名为server1，server2和server3.<br>
+每个节点需要额外挂载一个硬盘。</p>
+<h2 id="安装"><a class="header-anchor" href="#安装"></a>安装</h2>
+<h3 id="Glusterfs安装-apt"><a class="header-anchor" href="#Glusterfs安装-apt"></a>Glusterfs安装(apt)</h3>
+<ol>
+<li>
+<p>运行以下命令在 server1上安装 software-properties-common。<br>
+<code>apt-get install software-properties-common</code></p>
+</li>
+<li>
+<p>添加社区 GlusterFS PPA。<br>
+<code>add-apt-repository ppa:gluster/glusterfs-7</code></p>
+</li>
+<li>
+<p>请确保使用的是最新安装包。<br>
+<code>apt-get update</code></p>
+</li>
+<li>
+<p>安装 GlusterFS 服务器。<br>
+<code>apt-get install glusterfs-server -y</code></p>
+</li>
+<li>
+<p>在机器上验证安装包版本。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">glusterfs -V</span><br><span class="line">ps -ef | grep glusterd</span><br></pre></td></tr></table></figure>
+<p><img src="/2023/07/14/glusterfs系列-环境搭建/glusterfs%E7%89%88%E6%9C%AC%E4%BF%A1%E6%81%AF.png" alt></p>
+</li>
+</ol>
+<h3 id="Glusterfs安装-docker"><a class="header-anchor" href="#Glusterfs安装-docker"></a>Glusterfs安装(docker)</h3>
+<ol start="0">
+<li>
+<p>d<a href="https://docker-practice.github.io/zh-cn/install/ubuntu.html" target="_blank" rel="noopener">ocker安装</a></p>
+</li>
+<li>
+<p>获取镜像：<br>
+<code>docker pull ghcr.io/gluster/gluster-containers:centos</code><br>
+如果需要导入到其他设备安装：</p>
+<ol>
+<li>制作完成后，进行打包：<br>
+<code># docker save aba01f181a4a &gt; /xxxx/glusterfs.image.tar</code></li>
+<li>上传到新设备进行导入：<br>
+<code># docker load &lt; glusterfs.image.tar</code></li>
+<li>新导入的镜像，名称和tag都是空，打上标签：<br>
+<code># docker tag 07c351837a3590f20 gluster/gluster-containers:centos</code></li>
+<li>查看新设备的本地镜像<br>
+<code># docker images</code></li>
+</ol>
+</li>
+<li>
+<p>启动glusterfs：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ sudo docker run --name gluster \</span><br><span class="line">    -v /etc/glusterfs:/etc/glusterfs:z \</span><br><span class="line">    -v /var/lib/glusterd:/var/lib/glusterd:z \</span><br><span class="line">    -v /var/log/glusterfs:/var/log/glusterfs:z \</span><br><span class="line">    -v /sys/fs/cgroup:/sys/fs/cgroup:rw \</span><br><span class="line">    -d --privileged=true --net=host \</span><br><span class="line">    -v /data/glusterfs:/data/glusterfs \</span><br><span class="line">    gluster/gluster-containers:centos</span><br></pre></td></tr></table></figure>
+<p>/data是额外的磁盘挂载点，/data/glusterfs是创建块路径的父目录</p>
+</li>
+<li>
+<p>进入镜像，查看状态：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># docker exec -it gluster bash</span><br><span class="line">xxx # systemctl status glusterfs</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="搭建Glusterfs集群"><a class="header-anchor" href="#搭建Glusterfs集群"></a>搭建Glusterfs集群</h3>
+<p>节点的硬盘挂载到/data目录下。<br>
+首先只创建两个节点的集群，这里先将server1和server2关联成一个集群：</p>
+<ol>
+<li>
+<p>在 server1上运行以下命令添加server2节点并创建集群。<br>
+<code>gluster peer probe server2</code></p>
+</li>
+<li>
+<p>验证集群中的所有节点均已成功连接。<br>
+<code>gluster peer status</code><br>
+<img src="/2023/07/14/glusterfs系列-环境搭建/glusterfs%E9%9B%86%E7%BE%A4%E7%8A%B6%E6%80%812.png" alt><br>
+<img src="/2023/07/14/glusterfs系列-环境搭建/glusterfs%E9%9B%86%E7%BE%A4%E7%8A%B6%E6%80%811.png" alt></p>
+</li>
+<li>
+<p>确认server1和server2挂载的硬盘，并创建对应的块路径： /data/glusterfs/rep<br>
+<img src="/2023/07/14/glusterfs系列-环境搭建/glusterfs%E7%9B%98%E7%AC%A6%E6%8C%82%E8%BD%BD1.png" alt><br>
+<img src="/2023/07/14/glusterfs系列-环境搭建/glusterfs%E7%9B%98%E7%AC%A6%E6%8C%82%E8%BD%BD2.png" alt></p>
+</li>
+<li>
+<p>创建复制卷(2备份)，<a href="#glusterfs%E7%9A%84%E5%90%84%E7%A7%8D%E5%8D%B7">卷的讲解</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gluster volume create rep-vol replica 2 \</span><br><span class="line">server1:/data/glusterfs/rep server2:/data/glusterfs/rep</span><br></pre></td></tr></table></figure>
+<p>如果是三备份，则需要三个磁盘块。如果是2备份，但是提供了4个磁盘块，则会自动创建为分布式复制卷。</p>
+</li>
+<li>
+<p>启动分布式卷 rep-vol<br>
+<code>gluster volume start rep-vol</code></p>
+</li>
+<li>
+<p>查看状态：<br>
+<code>gluster volume status</code><br>
+<img src="/2023/07/14/glusterfs系列-环境搭建/glusterfs%E5%A4%8D%E5%88%B6%E5%8D%B7%E7%8A%B6%E6%80%81.png" alt></p>
+</li>
+</ol>
+<h3 id="创建挂载点"><a class="header-anchor" href="#创建挂载点"></a>创建挂载点</h3>
+<p>当我们完成上述glusterfs安装和集群创建后，基本完成了分布式文件系统搭建过程。而使用分布式文件系统，则需要把创建的卷挂载到需要使用的地方。挂载方式推荐使用系统的<code>mount</code>命令。<br>
+<strong>不论是apt安装还是docker安装，都必须在主机上进行mount</strong>，docker中mount，并不会通过文件映射映射到本地上。但本机mount后，通过目录映射可以映射到docker中。<br>
+挂载命令(设置rep-vol的挂载点到/gfs，并通过server1节点访问)：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mount -t glusterfs server1:/rep-vol /gfs</span><br></pre></td></tr></table></figure>
+<p><img src="/2023/07/14/glusterfs系列-环境搭建/glusterfs%E6%8C%82%E8%BD%BD%E7%82%B9%E9%85%8D%E7%BD%AE.png" alt><br>
+配置完成后，就可以通过/gfs访问glusterfs的分布式文件系统了。</p>
+<h3 id="glusterfs的各种卷"><a class="header-anchor" href="#glusterfs的各种卷"></a>glusterfs的各种卷</h3>
+<p>glusterfs中有多种卷类型，可根据实际情况选择卷类型进行使用</p>
+<h4 id="分布式卷"><a class="header-anchor" href="#分布式卷"></a>分布式卷</h4>
+<p>将文件通过hash算法分布在多个磁盘块上，文件没有冗余，但能充分利用磁盘空间<br>
+<img src="/2023/07/14/glusterfs系列-环境搭建/glusterfs%E5%88%86%E5%B8%83%E5%BC%8F%E5%8D%B7.png" alt></p>
+<h4 id="复制卷卷"><a class="header-anchor" href="#复制卷卷"></a>复制卷卷</h4>
+<p>根据设置的备份数量，将文件划分成多个备份，存储到不同的节点上，读写时进行副本同步<br>
+<img src="/2023/07/14/glusterfs系列-环境搭建/glusterfs%E5%A4%8D%E5%88%B6%E5%8D%B7.png" alt></p>
+<h4 id="分布式复制卷"><a class="header-anchor" href="#分布式复制卷"></a>分布式复制卷</h4>
+<p>是分布式卷和复制卷的融合，比如有4个节点，但是只设置了2备份，则总共有2份数据分布在4个节点上。<br>
+<img src="/2023/07/14/glusterfs系列-环境搭建/glusterfs%E5%88%86%E5%B8%83%E5%BC%8F%E5%A4%8D%E5%88%B6%E5%8D%B7.png" alt></p>
+<h4 id="条带卷"><a class="header-anchor" href="#条带卷"></a>条带卷</h4>
+<p>数据分布类似分布式卷，但数据以条带方式一段段分布存储，以提高读写性能。<br>
+<img src="/2023/07/14/glusterfs系列-环境搭建/glusterfs%E6%9D%A1%E5%B8%A6%E5%8D%B7.png" alt><br>
+同样还有分布式条带卷，就是在条带卷上增加分布式存储。同分布式复制卷一个原理</p>
+<h3 id="总结"><a class="header-anchor" href="#总结"></a>总结</h3>
+<p>至此，glusterfs的安装搭建就完成了，总体来说搭建过程还是比较简单的。</p>
+<h4 id="参考"><a class="header-anchor" href="#参考"></a>参考</h4>
+<p><a href="https://github.com/gluster/gluster-containers" target="_blank" rel="noopener">https://github.com/gluster/gluster-containers</a><br>
+<a href="https://docker-practice.github.io/zh-cn/install/ubuntu.html" target="_blank" rel="noopener">https://docker-practice.github.io/zh-cn/install/ubuntu.html</a></p>
+
+      
+    </div>
+    
+    
+    
+
+	<div>
+		
+			<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+		
+	</div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Glusterfs/" rel="tag"> <i class="fa fa-tag"></i> Glusterfs</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2023/07/14/glusterfs系列-初探/" rel="next" title="glusterfs系列-初探">
+                <i class="fa fa-chevron-left"></i> glusterfs系列-初探
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+		<div>
+		</div>
+    
+  </div>
+ 
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/touxiang.jpg" alt="JiHan">
+          <p class="site-author-name" itemprop="name">JiHan</p>
+           
+              <p class="site-description motion-element" itemprop="description">瘫着贼舒服</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">42</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/JiHanHuang/" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:Mr.JiHan.Mail@gmail.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                    
+                      E-Mail
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#序"><span class="nav-number">1.</span> <span class="nav-text">序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">2.</span> <span class="nav-text">安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Glusterfs安装-apt"><span class="nav-number">2.1.</span> <span class="nav-text">Glusterfs安装(apt)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Glusterfs安装-docker"><span class="nav-number">2.2.</span> <span class="nav-text">Glusterfs安装(docker)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#搭建Glusterfs集群"><span class="nav-number">2.3.</span> <span class="nav-text">搭建Glusterfs集群</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建挂载点"><span class="nav-number">2.4.</span> <span class="nav-text">创建挂载点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#glusterfs的各种卷"><span class="nav-number">2.5.</span> <span class="nav-text">glusterfs的各种卷</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#分布式卷"><span class="nav-number">2.5.1.</span> <span class="nav-text">分布式卷</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#复制卷卷"><span class="nav-number">2.5.2.</span> <span class="nav-text">复制卷卷</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分布式复制卷"><span class="nav-number">2.5.3.</span> <span class="nav-text">分布式复制卷</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#条带卷"><span class="nav-number">2.5.4.</span> <span class="nav-text">条带卷</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">2.6.</span> <span class="nav-text">总结</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#参考"><span class="nav-number">2.6.1.</span> <span class="nav-text">参考</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">JiHan</span>
+
+
+  
+	<div class="post-wordcount">
+		
+		  <span class="post-meta-divider">|</span>
+		
+		<span class="post-meta-item-icon">
+		  <i class="fa fa-area-chart"></i>
+		</span>
+		
+		  <span class="post-meta-item-text">本站总字数</span>
+		
+		<span title="本站总字数">
+		  118.7k
+		</span>
+	</div>
+   
+ </div>
+
+
+
+
+  <script src="https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js"></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({theme: 'forest'});
+    }
+  </script>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 本站访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'VgnMRYmQLHYX1MQApA7bN511-gzGzoHsz',
+        appKey: 'A37Y5jPoqc8cxMaOoNiXSh9s',
+        placeholder: '小伙子，我看你骨骼惊奇...',
+        avatar:'mp',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body>
+</html>
