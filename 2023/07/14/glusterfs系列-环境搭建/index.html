@@ -115,7 +115,7 @@
 <meta property="og:image" content="http://yoursite.com/2023/07/14/glusterfs系列-环境搭建/glusterfs%E5%A4%8D%E5%88%B6%E5%8D%B7.png">
 <meta property="og:image" content="http://yoursite.com/2023/07/14/glusterfs系列-环境搭建/glusterfs%E5%88%86%E5%B8%83%E5%BC%8F%E5%A4%8D%E5%88%B6%E5%8D%B7.png">
 <meta property="og:image" content="http://yoursite.com/2023/07/14/glusterfs系列-环境搭建/glusterfs%E6%9D%A1%E5%B8%A6%E5%8D%B7.png">
-<meta property="og:updated_time" content="2023-07-17T06:22:04.950Z">
+<meta property="og:updated_time" content="2023-07-17T06:27:50.148Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="glusterfs系列-环境搭建">
 <meta name="twitter:description" content="Glusterfs是一款分布式文件系统，相对配置简单，高性能，无单点故障，适合作为基础服务打包到产品或系统中，提供文件系统服务。 本文将进行Glusterfs的环境搭建(•̀⌄•́) 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　By Jihan  Glusterfs官方文档 Glusterfs-github">
@@ -428,7 +428,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  1k
+                  1.1k
                 </span>
               
 
@@ -566,33 +566,36 @@
 <img src="/2023/07/14/glusterfs系列-环境搭建/glusterfs%E5%A4%8D%E5%88%B6%E5%8D%B7%E7%8A%B6%E6%80%81.png" alt></p>
 </li>
 </ol>
-<h3 id="创建挂载点"><a class="header-anchor" href="#创建挂载点"></a>创建挂载点</h3>
+<h2 id="创建挂载点"><a class="header-anchor" href="#创建挂载点"></a>创建挂载点</h2>
 <p>当我们完成上述glusterfs安装和集群创建后，基本完成了分布式文件系统搭建过程。而使用分布式文件系统，则需要把创建的卷挂载到需要使用的地方。挂载方式推荐使用系统的<code>mount</code>命令。<br>
 <strong>不论是apt安装还是docker安装，都必须在主机上进行mount</strong>，docker中mount，并不会通过文件映射映射到本地上。但本机mount后，通过目录映射可以映射到docker中。<br>
 挂载命令(设置rep-vol的挂载点到/gfs，并通过server1节点访问)：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mount -t glusterfs server1:/rep-vol /gfs</span><br></pre></td></tr></table></figure>
 <p><img src="/2023/07/14/glusterfs系列-环境搭建/glusterfs%E6%8C%82%E8%BD%BD%E7%82%B9%E9%85%8D%E7%BD%AE.png" alt><br>
 配置完成后，就可以通过/gfs访问glusterfs的分布式文件系统了。</p>
-<h3 id="glusterfs的各种卷"><a class="header-anchor" href="#glusterfs的各种卷"></a>glusterfs的各种卷</h3>
+<h2 id="glusterfs的各种卷"><a class="header-anchor" href="#glusterfs的各种卷"></a>glusterfs的各种卷</h2>
 <p>glusterfs中有多种卷类型，可根据实际情况选择卷类型进行使用</p>
-<h4 id="分布式卷"><a class="header-anchor" href="#分布式卷"></a>分布式卷</h4>
+<h3 id="分布式卷"><a class="header-anchor" href="#分布式卷"></a>分布式卷</h3>
 <p>将文件通过hash算法分布在多个磁盘块上，文件没有冗余，但能充分利用磁盘空间<br>
 <img src="/2023/07/14/glusterfs系列-环境搭建/glusterfs%E5%88%86%E5%B8%83%E5%BC%8F%E5%8D%B7.png" alt></p>
-<h4 id="复制卷卷"><a class="header-anchor" href="#复制卷卷"></a>复制卷卷</h4>
+<h3 id="复制卷卷"><a class="header-anchor" href="#复制卷卷"></a>复制卷卷</h3>
 <p>根据设置的备份数量，将文件划分成多个备份，存储到不同的节点上，读写时进行副本同步<br>
 <img src="/2023/07/14/glusterfs系列-环境搭建/glusterfs%E5%A4%8D%E5%88%B6%E5%8D%B7.png" alt></p>
-<h4 id="分布式复制卷"><a class="header-anchor" href="#分布式复制卷"></a>分布式复制卷</h4>
+<h3 id="分布式复制卷"><a class="header-anchor" href="#分布式复制卷"></a>分布式复制卷</h3>
 <p>是分布式卷和复制卷的融合，比如有4个节点，但是只设置了2备份，则总共有2份数据分布在4个节点上。<br>
 <img src="/2023/07/14/glusterfs系列-环境搭建/glusterfs%E5%88%86%E5%B8%83%E5%BC%8F%E5%A4%8D%E5%88%B6%E5%8D%B7.png" alt></p>
-<h4 id="条带卷"><a class="header-anchor" href="#条带卷"></a>条带卷</h4>
+<h3 id="条带卷"><a class="header-anchor" href="#条带卷"></a>条带卷</h3>
 <p>数据分布类似分布式卷，但数据以条带方式一段段分布存储，以提高读写性能。<br>
 <img src="/2023/07/14/glusterfs系列-环境搭建/glusterfs%E6%9D%A1%E5%B8%A6%E5%8D%B7.png" alt><br>
 同样还有分布式条带卷，就是在条带卷上增加分布式存储。同分布式复制卷一个原理</p>
-<h3 id="总结"><a class="header-anchor" href="#总结"></a>总结</h3>
+<h2 id="总结"><a class="header-anchor" href="#总结"></a>总结</h2>
 <p>至此，glusterfs的安装搭建就完成了，总体来说搭建过程还是比较简单的。</p>
-<h4 id="参考"><a class="header-anchor" href="#参考"></a>参考</h4>
+<h2 id="参考"><a class="header-anchor" href="#参考"></a>参考</h2>
 <p><a href="https://github.com/gluster/gluster-containers" target="_blank" rel="noopener">https://github.com/gluster/gluster-containers</a><br>
 <a href="https://docker-practice.github.io/zh-cn/install/ubuntu.html" target="_blank" rel="noopener">https://docker-practice.github.io/zh-cn/install/ubuntu.html</a></p>
+<h3 id="系列文章"><a class="header-anchor" href="#系列文章"></a>系列文章</h3>
+<p><a href="./glusterfs%E7%B3%BB%E5%88%97-%E5%88%9D%E6%8E%A2.md">glusterfs系列-初探</a><br>
+<a href="./glusterfs%E7%B3%BB%E5%88%97-%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA.md">glusterfs系列-环境搭建</a></p>
 
       
     </div>
@@ -809,7 +812,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#序"><span class="nav-number">1.</span> <span class="nav-text">序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">2.</span> <span class="nav-text">安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Glusterfs安装-apt"><span class="nav-number">2.1.</span> <span class="nav-text">Glusterfs安装(apt)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Glusterfs安装-docker"><span class="nav-number">2.2.</span> <span class="nav-text">Glusterfs安装(docker)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#搭建Glusterfs集群"><span class="nav-number">2.3.</span> <span class="nav-text">搭建Glusterfs集群</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建挂载点"><span class="nav-number">2.4.</span> <span class="nav-text">创建挂载点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#glusterfs的各种卷"><span class="nav-number">2.5.</span> <span class="nav-text">glusterfs的各种卷</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#分布式卷"><span class="nav-number">2.5.1.</span> <span class="nav-text">分布式卷</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#复制卷卷"><span class="nav-number">2.5.2.</span> <span class="nav-text">复制卷卷</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分布式复制卷"><span class="nav-number">2.5.3.</span> <span class="nav-text">分布式复制卷</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#条带卷"><span class="nav-number">2.5.4.</span> <span class="nav-text">条带卷</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">2.6.</span> <span class="nav-text">总结</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#参考"><span class="nav-number">2.6.1.</span> <span class="nav-text">参考</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#序"><span class="nav-number">1.</span> <span class="nav-text">序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">2.</span> <span class="nav-text">安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Glusterfs安装-apt"><span class="nav-number">2.1.</span> <span class="nav-text">Glusterfs安装(apt)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Glusterfs安装-docker"><span class="nav-number">2.2.</span> <span class="nav-text">Glusterfs安装(docker)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#搭建Glusterfs集群"><span class="nav-number">2.3.</span> <span class="nav-text">搭建Glusterfs集群</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建挂载点"><span class="nav-number">3.</span> <span class="nav-text">创建挂载点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#glusterfs的各种卷"><span class="nav-number">4.</span> <span class="nav-text">glusterfs的各种卷</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#分布式卷"><span class="nav-number">4.1.</span> <span class="nav-text">分布式卷</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#复制卷卷"><span class="nav-number">4.2.</span> <span class="nav-text">复制卷卷</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分布式复制卷"><span class="nav-number">4.3.</span> <span class="nav-text">分布式复制卷</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#条带卷"><span class="nav-number">4.4.</span> <span class="nav-text">条带卷</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#系列文章"><span class="nav-number">6.1.</span> <span class="nav-text">系列文章</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -861,7 +864,7 @@
 		  <span class="post-meta-item-text">本站总字数</span>
 		
 		<span title="本站总字数">
-		  118.7k
+		  118.8k
 		</span>
 	</div>
    
