@@ -104,7 +104,7 @@
 <meta property="og:site_name" content="JiHan&#39;s Blog">
 <meta property="og:description" content="久了不更新博客，就不知道怎么搞环境了，换了环境又得查。索性自己写个简单的(•̀⌄•́) 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2022-01-06T10:32:58.000Z">
+<meta property="og:updated_time" content="2023-07-17T09:14:39.298Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="hexo博客使用指南">
 <meta name="twitter:description" content="久了不更新博客，就不知道怎么搞环境了，换了环境又得查。索性自己写个简单的(•̀⌄•́) 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　by JiHan">
@@ -416,7 +416,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  2.6k
+                  2.7k
                 </span>
               
 
@@ -491,9 +491,10 @@ Liunx <code>sudo yum install git</code>或<code>sudo apt install git</code></p>
 </ol>
 <h3 id="已有环境，新发文"><a class="header-anchor" href="#已有环境，新发文"></a>已有环境，新发文</h3>
 <p>发文常用命令(通常都是顺序执行)：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 新建文章</span><br><span class="line">hexo new post &quot;article title&quot;</span><br><span class="line"># 生成博客网页文件</span><br><span class="line">hexo g  </span><br><span class="line"># 本地预览博客</span><br><span class="line">hexo s  </span><br><span class="line">hexo s -i 0.0.0.0 -p 8080 #指定监听地址端口</span><br><span class="line"># 上传网页文件到github</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 新建文章</span><br><span class="line">hexo new post &quot;article title&quot;</span><br><span class="line"># 生成博客网页文件</span><br><span class="line">hexo g  </span><br><span class="line"># 本地预览博客</span><br><span class="line">hexo s  </span><br><span class="line">hexo s -i 0.0.0.0 -p 8080 #指定监听地址端口</span><br><span class="line"># 上传网页文件到github，如果上传失败，可以把.deploy_git传到vps再git push</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
 <p>博客源码备份：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">git add -u</span><br><span class="line">git commit -m &quot;new post&quot;</span><br><span class="line">git push</span><br></pre></td></tr></table></figure>
+<p><em>hexo d会生成各种问题，导致失败，大概率都是网络导致，尝试直接到.deploy_git文件夹下，进行git push相关操作</em></p>
 <h3 id="常用Markdown语法"><a class="header-anchor" href="#常用Markdown语法"></a>常用Markdown语法</h3>
 <p>主要针对GitHub，参考<a href="https://docs.github.com/cn/free-pro-team@latest/github/writing-on-github/basic-writing-and-formatting-syntax" target="_blank" rel="noopener">官方文档</a><br>
 <em>注意语法中的空格</em></p>
@@ -818,7 +819,7 @@ Note right of C: 没人陪我玩</textarea><textarea id="sequence-1-options" sty
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">42</span>
+                <span class="site-state-item-count">41</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -958,7 +959,7 @@ Note right of C: 没人陪我玩</textarea><textarea id="sequence-1-options" sty
 		  <span class="post-meta-item-text">本站总字数</span>
 		
 		<span title="本站总字数">
-		  118.8k
+		  113.4k
 		</span>
 	</div>
    
