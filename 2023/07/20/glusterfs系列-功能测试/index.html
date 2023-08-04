@@ -1,0 +1,1485 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Glusterfs,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="JiHan's Blog" type="application/atom+xml">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="Glusterfs是一款分布式文件系统，相对配置简单，高性能，无单点故障，适合作为基础服务打包到产品或系统中，提供文件系统服务。 本文将进行Glusterfs基本功能测试，包括数据一致性，新增节点，数据扩容，文件损坏，节点异常等(•̀⌄•́) 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　By Jihan  Glusterfs官方文档 Glusterfs-github">
+<meta name="keywords" content="Glusterfs">
+<meta property="og:type" content="article">
+<meta property="og:title" content="glusterfs系列-功能测试">
+<meta property="og:url" content="http://yoursite.com/2023/07/20/glusterfs系列-功能测试/index.html">
+<meta property="og:site_name" content="JiHan&#39;s Blog">
+<meta property="og:description" content="Glusterfs是一款分布式文件系统，相对配置简单，高性能，无单点故障，适合作为基础服务打包到产品或系统中，提供文件系统服务。 本文将进行Glusterfs基本功能测试，包括数据一致性，新增节点，数据扩容，文件损坏，节点异常等(•̀⌄•́) 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　By Jihan  Glusterfs官方文档 Glusterfs-github">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2023/07/20/glusterfs系列-功能测试/glusterfs%E6%95%B0%E6%8D%AE%E4%B8%80%E8%87%B4%E6%80%A7%E6%B5%8B%E8%AF%950.png">
+<meta property="og:image" content="http://yoursite.com/2023/07/20/glusterfs系列-功能测试/glusterfs%E6%95%B0%E6%8D%AE%E4%B8%80%E8%87%B4%E6%80%A7%E6%B5%8B%E8%AF%951.png">
+<meta property="og:image" content="http://yoursite.com/2023/07/20/glusterfs系列-功能测试/glusterfs%E6%95%B0%E6%8D%AE%E4%B8%80%E8%87%B4%E6%80%A7%E6%B5%8B%E8%AF%952.png">
+<meta property="og:image" content="http://yoursite.com/2023/07/20/glusterfs系列-功能测试/glusterfs%E6%95%B0%E6%8D%AE%E4%B8%80%E8%87%B4%E6%80%A7%E6%B5%8B%E8%AF%953.png">
+<meta property="og:image" content="http://yoursite.com/2023/07/20/glusterfs系列-功能测试/glusterfs%E6%96%B0%E5%A2%9E%E8%8A%82%E7%82%B9%E6%B5%8B%E8%AF%951.png">
+<meta property="og:image" content="http://yoursite.com/2023/07/20/glusterfs系列-功能测试/glusterfs%E6%96%B0%E5%A2%9E%E8%8A%82%E7%82%B9%E6%B5%8B%E8%AF%952.png">
+<meta property="og:image" content="http://yoursite.com/2023/07/20/glusterfs系列-功能测试/glusterfs%E6%96%B0%E5%A2%9E%E8%8A%82%E7%82%B9%E6%B5%8B%E8%AF%953.png">
+<meta property="og:image" content="http://yoursite.com/2023/07/20/glusterfs系列-功能测试/glusterfs%E6%96%B0%E5%A2%9E%E8%8A%82%E7%82%B9%E6%B5%8B%E8%AF%954.png">
+<meta property="og:image" content="http://yoursite.com/2023/07/20/glusterfs系列-功能测试/glusterfs%E6%96%B0%E5%A2%9E%E8%8A%82%E7%82%B9%E6%B5%8B%E8%AF%955.png">
+<meta property="og:image" content="http://yoursite.com/2023/07/20/glusterfs系列-功能测试/glusterfs%E6%96%B0%E5%A2%9E%E8%8A%82%E7%82%B9%E6%B5%8B%E8%AF%956.png">
+<meta property="og:image" content="http://yoursite.com/2023/07/20/glusterfs系列-功能测试/glusterfs%E6%96%B0%E5%A2%9E%E8%8A%82%E7%82%B9%E6%B5%8B%E8%AF%957.png">
+<meta property="og:image" content="http://yoursite.com/2023/07/20/glusterfs系列-功能测试/glusterfs%E6%95%B0%E6%8D%AE%E6%89%A9%E5%AE%B9%E6%B5%8B%E8%AF%951.png">
+<meta property="og:image" content="http://yoursite.com/2023/07/20/glusterfs系列-功能测试/glusterfs%E6%95%B0%E6%8D%AE%E6%89%A9%E5%AE%B9%E6%B5%8B%E8%AF%952.png">
+<meta property="og:image" content="http://yoursite.com/2023/07/20/glusterfs系列-功能测试/glusterfs%E6%95%B0%E6%8D%AE%E6%89%A9%E5%AE%B9%E6%B5%8B%E8%AF%953.png">
+<meta property="og:image" content="http://yoursite.com/2023/07/20/glusterfs系列-功能测试/glusterfs%E6%95%B0%E6%8D%AE%E6%89%A9%E5%AE%B9%E6%B5%8B%E8%AF%954.png">
+<meta property="og:image" content="http://yoursite.com/2023/07/20/glusterfs系列-功能测试/glusterfs%E6%96%87%E4%BB%B6%E6%8D%9F%E5%9D%8F%E6%B5%8B%E8%AF%951.png">
+<meta property="og:image" content="http://yoursite.com/2023/07/20/glusterfs系列-功能测试/glusterfs%E6%96%87%E4%BB%B6%E6%8D%9F%E5%9D%8F%E6%B5%8B%E8%AF%952.png">
+<meta property="og:image" content="http://yoursite.com/2023/07/20/glusterfs系列-功能测试/glusterfs%E6%96%87%E4%BB%B6%E6%8D%9F%E5%9D%8F%E6%B5%8B%E8%AF%953.png">
+<meta property="og:image" content="http://yoursite.com/2023/07/20/glusterfs系列-功能测试/glusterfs%E6%96%87%E4%BB%B6%E6%8D%9F%E5%9D%8F%E6%B5%8B%E8%AF%954.png">
+<meta property="og:image" content="http://yoursite.com/2023/07/20/glusterfs系列-功能测试/glusterfs%E6%96%87%E4%BB%B6%E6%8D%9F%E5%9D%8F%E6%B5%8B%E8%AF%955.png">
+<meta property="og:image" content="http://yoursite.com/2023/07/20/glusterfs系列-功能测试/glusterfs%E6%96%87%E4%BB%B6%E6%8D%9F%E5%9D%8F%E6%B5%8B%E8%AF%956.png">
+<meta property="og:image" content="http://yoursite.com/2023/07/20/glusterfs系列-功能测试/glusterfs%E7%A3%81%E7%9B%98%E6%8D%9F%E5%9D%8F%E6%B5%8B%E8%AF%951.png">
+<meta property="og:image" content="http://yoursite.com/2023/07/20/glusterfs系列-功能测试/glusterfs%E7%A3%81%E7%9B%98%E6%8D%9F%E5%9D%8F%E6%B5%8B%E8%AF%952.png">
+<meta property="og:image" content="http://yoursite.com/2023/07/20/glusterfs系列-功能测试/glusterfs%E7%A3%81%E7%9B%98%E6%8D%9F%E5%9D%8F%E6%B5%8B%E8%AF%953.png">
+<meta property="og:image" content="http://yoursite.com/2023/07/20/glusterfs系列-功能测试/glusterfs%E7%A3%81%E7%9B%98%E6%8D%9F%E5%9D%8F%E6%B5%8B%E8%AF%954.png">
+<meta property="og:image" content="http://yoursite.com/2023/07/20/glusterfs系列-功能测试/glusterfs%E7%A3%81%E7%9B%98%E6%8D%9F%E5%9D%8F%E6%B5%8B%E8%AF%955.png">
+<meta property="og:image" content="http://yoursite.com/2023/07/20/glusterfs系列-功能测试/glusterfs%E7%A3%81%E7%9B%98%E6%8D%9F%E5%9D%8F%E6%B5%8B%E8%AF%956.png">
+<meta property="og:image" content="http://yoursite.com/2023/07/20/glusterfs系列-功能测试/glusterfs%E7%A3%81%E7%9B%98%E6%8D%9F%E5%9D%8F%E6%B5%8B%E8%AF%957.png">
+<meta property="og:image" content="http://yoursite.com/2023/07/20/glusterfs系列-功能测试/glusterfs%E8%8A%82%E7%82%B9%E6%8D%9F%E5%9D%8F%E6%B5%8B%E8%AF%951.png">
+<meta property="og:image" content="http://yoursite.com/2023/07/20/glusterfs系列-功能测试/glusterfs%E8%8A%82%E7%82%B9%E6%8D%9F%E5%9D%8F%E6%B5%8B%E8%AF%952.png">
+<meta property="og:image" content="http://yoursite.com/2023/07/20/glusterfs系列-功能测试/glusterfs%E8%8A%82%E7%82%B9%E6%8D%9F%E5%9D%8F%E6%B5%8B%E8%AF%953.png">
+<meta property="og:image" content="http://yoursite.com/2023/07/20/glusterfs系列-功能测试/glusterfs%E8%8A%82%E7%82%B9%E9%87%8D%E5%90%AF%E6%B5%8B%E8%AF%951.png">
+<meta property="og:image" content="http://yoursite.com/2023/07/20/glusterfs系列-功能测试/glusterfs%E8%8A%82%E7%82%B9%E9%87%8D%E5%90%AF%E6%B5%8B%E8%AF%952.png">
+<meta property="og:image" content="http://yoursite.com/2023/07/20/glusterfs系列-功能测试/glusterfs%E8%8A%82%E7%82%B9%E9%87%8D%E5%90%AF%E6%B5%8B%E8%AF%953.png">
+<meta property="og:image" content="http://yoursite.com/2023/07/20/glusterfs系列-功能测试/glusterfs%E8%8A%82%E7%82%B9%E9%87%8D%E5%90%AF%E6%B5%8B%E8%AF%954.png">
+<meta property="og:image" content="http://yoursite.com/2023/07/20/glusterfs系列-功能测试/glusterfs%E8%8A%82%E7%82%B9%E6%9B%B4%E6%8D%A2%E6%B5%8B%E8%AF%951.png">
+<meta property="og:image" content="http://yoursite.com/2023/07/20/glusterfs系列-功能测试/glusterfs%E8%8A%82%E7%82%B9%E6%9B%B4%E6%8D%A2%E6%B5%8B%E8%AF%952.png">
+<meta property="og:image" content="http://yoursite.com/2023/07/20/glusterfs系列-功能测试/glusterfs%E8%8A%82%E7%82%B9%E6%9B%B4%E6%8D%A2%E6%B5%8B%E8%AF%953.png">
+<meta property="og:image" content="http://yoursite.com/2023/07/20/glusterfs系列-功能测试/glusterfs%E8%8A%82%E7%82%B9%E6%9B%B4%E6%8D%A2%E6%B5%8B%E8%AF%954.png">
+<meta property="og:image" content="http://yoursite.com/2023/07/20/glusterfs系列-功能测试/glusterfs%E8%8A%82%E7%82%B9%E6%9B%B4%E6%8D%A2%E6%B5%8B%E8%AF%955.png">
+<meta property="og:image" content="http://yoursite.com/2023/07/20/glusterfs系列-功能测试/glusterfs%E8%8A%82%E7%82%B9%E6%9B%B4%E6%8D%A2%E6%B5%8B%E8%AF%956.png">
+<meta property="og:image" content="http://yoursite.com/2023/07/20/glusterfs系列-功能测试/glusterfs%E8%8A%82%E7%82%B9%E6%9B%B4%E6%8D%A2%E6%B5%8B%E8%AF%957.png">
+<meta property="og:image" content="http://yoursite.com/2023/07/20/glusterfs系列-功能测试/glusterfs%E8%8A%82%E7%82%B9%E6%9B%B4%E6%8D%A2%E6%B5%8B%E8%AF%958.png">
+<meta property="og:image" content="http://yoursite.com/2023/07/20/glusterfs系列-功能测试/glusterfs%E8%8A%82%E7%82%B9%E6%9B%B4%E6%8D%A2%E6%B5%8B%E8%AF%959.png">
+<meta property="og:image" content="http://yoursite.com/2023/07/20/glusterfs系列-功能测试/glusterfs%E8%8A%82%E7%82%B9%E6%9B%B4%E6%8D%A2%E6%B5%8B%E8%AF%9510.png">
+<meta property="og:updated_time" content="2023-08-04T09:10:33.171Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="glusterfs系列-功能测试">
+<meta name="twitter:description" content="Glusterfs是一款分布式文件系统，相对配置简单，高性能，无单点故障，适合作为基础服务打包到产品或系统中，提供文件系统服务。 本文将进行Glusterfs基本功能测试，包括数据一致性，新增节点，数据扩容，文件损坏，节点异常等(•̀⌄•́) 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　By Jihan  Glusterfs官方文档 Glusterfs-github">
+<meta name="twitter:image" content="http://yoursite.com/2023/07/20/glusterfs系列-功能测试/glusterfs%E6%95%B0%E6%8D%AE%E4%B8%80%E8%87%B4%E6%80%A7%E6%B5%8B%E8%AF%950.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always","offset":12,"offset_float":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2023/07/20/glusterfs系列-功能测试/">
+
+
+
+
+
+  <title>glusterfs系列-功能测试 | JiHan's Blog</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-144130643-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">JiHan's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">随笔写写啦 (๑`･ᴗ･´๑)</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2023/07/20/glusterfs系列-功能测试/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JiHan">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/touxiang.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JiHan's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">glusterfs系列-功能测试</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2023-07-20T14:48:47+08:00">
+                2023-07-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术杂谈/" itemprop="url" rel="index">
+                    <span itemprop="name">技术杂谈</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2023/07/20/glusterfs系列-功能测试/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2023/07/20/glusterfs系列-功能测试/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 阅读次数
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  1.5k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  5
+                </span>
+              
+            </div>
+          
+			
+          
+
+        </div>
+      </header>
+    
+
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Glusterfs是一款分布式文件系统，相对配置简单，高性能，无单点故障，适合作为基础服务打包到产品或系统中，提供文件系统服务。<br>
+本文将进行Glusterfs基本功能测试，包括数据一致性，新增节点，数据扩容，文件损坏，节点异常等(•̀⌄•́)<br>
+　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——　By Jihan</p>
+<hr>
+<p><em><a href="https://docs.gluster.org/en/latest/#split-brain" target="_blank" rel="noopener">Glusterfs官方文档</a></em><br>
+<em><a href="https://github.com/gluster/glusterfs" target="_blank" rel="noopener">Glusterfs-github</a></em></p>
+<a id="more"></a>
+<h2 id="序"><a class="header-anchor" href="#序"></a>序</h2>
+<p>功能测试的基础是基于<a href="./glusterfs%E7%B3%BB%E5%88%97-%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA.md">glusterfs系列-环境搭建</a>的基础上进行的。如果有不明确的点，可以先阅读前面章节。<br>
+环境搭建章节已经完成：</p>
+<ol>
+<li>复制卷创建</li>
+<li>复制卷挂载到节点server1和server2</li>
+</ol>
+<p>常规情况下，分布式文件系统对于数据安全性都是有一定要求，并且对可靠性也有一定要求，因此此处不单独的在测试分布式卷，而主要以复制卷为主<br>
+测试步骤是按照顺序进行的，如果想复现其中一个测试，需要查阅一下前置条件。</p>
+<h2 id="功能测试"><a class="header-anchor" href="#功能测试"></a>功能测试</h2>
+<h3 id="数据一致性测试"><a class="header-anchor" href="#数据一致性测试"></a>数据一致性测试</h3>
+<p>前置条件：</p>
+<ol>
+<li>完成环境安装</li>
+<li>创建完成复制卷</li>
+<li>完成节点挂载</li>
+</ol>
+<p>测试步骤：</p>
+<ol>
+<li>准备一批文件，这里用openssl的源码文件作为测试文件，原始文件信息：<br>
+<img src="/2023/07/20/glusterfs系列-功能测试/glusterfs%E6%95%B0%E6%8D%AE%E4%B8%80%E8%87%B4%E6%80%A7%E6%B5%8B%E8%AF%950.png" alt></li>
+<li>拷贝到Server1的/gfs下：<br>
+<img src="/2023/07/20/glusterfs系列-功能测试/glusterfs%E6%95%B0%E6%8D%AE%E4%B8%80%E8%87%B4%E6%80%A7%E6%B5%8B%E8%AF%951.png" alt></li>
+<li>Server2的/gfs下验证server1生成的文件<br>
+<img src="/2023/07/20/glusterfs系列-功能测试/glusterfs%E6%95%B0%E6%8D%AE%E4%B8%80%E8%87%B4%E6%80%A7%E6%B5%8B%E8%AF%952.png" alt></li>
+<li>比较其他渠道传输的文件和Glusterfs传输的文件是否相同<br>
+<img src="/2023/07/20/glusterfs系列-功能测试/glusterfs%E6%95%B0%E6%8D%AE%E4%B8%80%E8%87%B4%E6%80%A7%E6%B5%8B%E8%AF%953.png" alt><br>
+测试证明多节点数据是一致的。</li>
+</ol>
+<h3 id="新增节点访问测试"><a class="header-anchor" href="#新增节点访问测试"></a>新增节点访问测试</h3>
+<p>前置条件：</p>
+<ol>
+<li>完成环境安装</li>
+<li>创建完成复制卷</li>
+<li>完成节点挂载</li>
+</ol>
+<p>测试步骤：</p>
+<ol>
+<li>创建server3虚拟机：<br>
+<img src="/2023/07/20/glusterfs系列-功能测试/glusterfs%E6%96%B0%E5%A2%9E%E8%8A%82%E7%82%B9%E6%B5%8B%E8%AF%951.png" alt></li>
+<li>安装Glusterfs：<br>
+<img src="/2023/07/20/glusterfs系列-功能测试/glusterfs%E6%96%B0%E5%A2%9E%E8%8A%82%E7%82%B9%E6%B5%8B%E8%AF%952.png" alt></li>
+<li>将server3加入到集群中：<br>
+<img src="/2023/07/20/glusterfs系列-功能测试/glusterfs%E6%96%B0%E5%A2%9E%E8%8A%82%E7%82%B9%E6%B5%8B%E8%AF%953.png" alt><br>
+<img src="/2023/07/20/glusterfs系列-功能测试/glusterfs%E6%96%B0%E5%A2%9E%E8%8A%82%E7%82%B9%E6%B5%8B%E8%AF%954.png" alt></li>
+<li>在server3上的/gfs下挂载rep-vol卷，并能正常访问<br>
+<img src="/2023/07/20/glusterfs系列-功能测试/glusterfs%E6%96%B0%E5%A2%9E%E8%8A%82%E7%82%B9%E6%B5%8B%E8%AF%955.png" alt><br>
+<img src="/2023/07/20/glusterfs系列-功能测试/glusterfs%E6%96%B0%E5%A2%9E%E8%8A%82%E7%82%B9%E6%B5%8B%E8%AF%956.png" alt></li>
+<li>比较其他渠道传输的文件和/gfs的文件是否相同<br>
+<img src="/2023/07/20/glusterfs系列-功能测试/glusterfs%E6%96%B0%E5%A2%9E%E8%8A%82%E7%82%B9%E6%B5%8B%E8%AF%957.png" alt><br>
+可以看到，新加入的节点，挂载点上能够正确访问集群的数据，并且数据与原始数据一致。</li>
+</ol>
+<h3 id="数据扩容测试"><a class="header-anchor" href="#数据扩容测试"></a>数据扩容测试</h3>
+<p>前置条件：</p>
+<ol>
+<li>完成<a href="#%E6%96%B0%E5%A2%9E%E8%8A%82%E7%82%B9%E8%AE%BF%E9%97%AE%E6%B5%8B%E8%AF%95">新增节点访问测试</a></li>
+</ol>
+<p>测试步骤：</p>
+<ol>
+<li>增加server3上的磁盘到复制卷中，并修改备份数为3<br>
+<img src="/2023/07/20/glusterfs系列-功能测试/glusterfs%E6%95%B0%E6%8D%AE%E6%89%A9%E5%AE%B9%E6%B5%8B%E8%AF%951.png" alt></li>
+<li>确认复制卷扩容成功：<br>
+<img src="/2023/07/20/glusterfs系列-功能测试/glusterfs%E6%95%B0%E6%8D%AE%E6%89%A9%E5%AE%B9%E6%B5%8B%E8%AF%952.png" alt></li>
+<li>查阅复制卷详细信息：<br>
+<img src="/2023/07/20/glusterfs系列-功能测试/glusterfs%E6%95%B0%E6%8D%AE%E6%89%A9%E5%AE%B9%E6%B5%8B%E8%AF%953.png" alt></li>
+<li>新增节点扩容的测盘上已经完全生成了一个备份，并且数据与原始数据保持一致。<br>
+<img src="/2023/07/20/glusterfs系列-功能测试/glusterfs%E6%95%B0%E6%8D%AE%E6%89%A9%E5%AE%B9%E6%B5%8B%E8%AF%954.png" alt><br>
+通过测试得出，Glusterfs复制卷在新加入扩容节点后，会自动按照拷贝份数将对应的数据拷贝到新的扩容磁盘上。在1xn磁盘块的情况下扩容到1x(n+1)磁盘块，则会将所有数据全量备份到新磁盘块上。</li>
+</ol>
+<h3 id="文件损坏恢复测试"><a class="header-anchor" href="#文件损坏恢复测试"></a>文件损坏恢复测试</h3>
+<p>前置条件：</p>
+<ol>
+<li>完成环境安装</li>
+<li>创建完成复制卷</li>
+<li>完成节点挂载</li>
+</ol>
+<p>测试步骤：</p>
+<ol>
+<li>在server2上，删除openssl目录下NOTES开头的文件，以及include文件夹<br>
+<img src="/2023/07/20/glusterfs系列-功能测试/glusterfs%E6%96%87%E4%BB%B6%E6%8D%9F%E5%9D%8F%E6%B5%8B%E8%AF%951.png" alt></li>
+<li>查看删除后的状态：<br>
+<img src="/2023/07/20/glusterfs系列-功能测试/glusterfs%E6%96%87%E4%BB%B6%E6%8D%9F%E5%9D%8F%E6%B5%8B%E8%AF%952.png" alt></li>
+<li>Server2的/gfs下确认文件状态<br>
+<img src="/2023/07/20/glusterfs系列-功能测试/glusterfs%E6%96%87%E4%BB%B6%E6%8D%9F%E5%9D%8F%E6%B5%8B%E8%AF%953.png" alt><br>
+可以看到，对应的挂载点/gfs相关文件也丢失了</li>
+<li>手动恢复相关数据：<br>
+<img src="/2023/07/20/glusterfs系列-功能测试/glusterfs%E6%96%87%E4%BB%B6%E6%8D%9F%E5%9D%8F%E6%B5%8B%E8%AF%954.png" alt></li>
+<li>确认server2磁盘上的数据是否恢复<br>
+<img src="/2023/07/20/glusterfs系列-功能测试/glusterfs%E6%96%87%E4%BB%B6%E6%8D%9F%E5%9D%8F%E6%B5%8B%E8%AF%955.png" alt></li>
+<li>确认server2挂载点/gfs数据是否恢复<br>
+<img src="/2023/07/20/glusterfs系列-功能测试/glusterfs%E6%96%87%E4%BB%B6%E6%8D%9F%E5%9D%8F%E6%B5%8B%E8%AF%956.png" alt><br>
+实验结果符合预期，磁盘数据丢失，导致挂载点数据丢失，可以通过手动恢复，恢复挂载点和测盘数据。</li>
+</ol>
+<h3 id="坏磁盘更换测试"><a class="header-anchor" href="#坏磁盘更换测试"></a>坏磁盘更换测试</h3>
+<p>前置条件：</p>
+<ol>
+<li>完成<a href="#%E6%95%B0%E6%8D%AE%E6%89%A9%E5%AE%B9%E6%B5%8B%E8%AF%95">数据扩容测试</a></li>
+</ol>
+<p>测试步骤：</p>
+<ol>
+<li>假设server2上的磁盘损坏，删除server2上的磁盘块(由于磁盘上的数据会丢失，这里需要强制执行)：<br>
+<img src="/2023/07/20/glusterfs系列-功能测试/glusterfs%E7%A3%81%E7%9B%98%E6%8D%9F%E5%9D%8F%E6%B5%8B%E8%AF%951.png" alt></li>
+<li>确认当前卷状态：<br>
+<img src="/2023/07/20/glusterfs系列-功能测试/glusterfs%E7%A3%81%E7%9B%98%E6%8D%9F%E5%9D%8F%E6%B5%8B%E8%AF%952.png" alt><br>
+可以看到，复制卷已经变成双备份了，并且server2的磁盘块已经删除了。</li>
+<li>Server2上从磁盘块数据确认：<br>
+<img src="/2023/07/20/glusterfs系列-功能测试/glusterfs%E7%A3%81%E7%9B%98%E6%8D%9F%E5%9D%8F%E6%B5%8B%E8%AF%953.png" alt><br>
+Server2的磁盘块上依旧保留删除前的数据</li>
+<li>Server2挂载点数据情况：<br>
+<img src="/2023/07/20/glusterfs系列-功能测试/glusterfs%E7%A3%81%E7%9B%98%E6%8D%9F%E5%9D%8F%E6%B5%8B%E8%AF%954.png" alt><br>
+Server2上挂载点的数据正常，并且创建了一个新文件bb，也能在其他节点上同步。</li>
+<li>Server2加入新的磁盘块rep1（加入时自动恢复数据，数据恢复有一定时间）：<br>
+<img src="/2023/07/20/glusterfs系列-功能测试/glusterfs%E7%A3%81%E7%9B%98%E6%8D%9F%E5%9D%8F%E6%B5%8B%E8%AF%955.png" alt></li>
+<li>检查server2磁盘块数据：<br>
+<img src="/2023/07/20/glusterfs系列-功能测试/glusterfs%E7%A3%81%E7%9B%98%E6%8D%9F%E5%9D%8F%E6%B5%8B%E8%AF%956.png" alt></li>
+<li>检查server2挂载点数据：<br>
+<img src="/2023/07/20/glusterfs系列-功能测试/glusterfs%E7%A3%81%E7%9B%98%E6%8D%9F%E5%9D%8F%E6%B5%8B%E8%AF%957.png" alt></li>
+</ol>
+<p>测试结果显示，节点测盘损坏后，可进行更换，并且更换后能良好的恢复相关数据。<br>
+更换磁盘块，使用<code>gluster vol replace-brick</code>命令会更好</p>
+<h3 id="节点损坏影响测试"><a class="header-anchor" href="#节点损坏影响测试"></a>节点损坏影响测试</h3>
+<p>前置条件：</p>
+<ol>
+<li>完成<a href="#%E6%96%B0%E5%A2%9E%E8%8A%82%E7%82%B9%E8%AE%BF%E9%97%AE%E6%B5%8B%E8%AF%95">新增节点访问测试</a></li>
+</ol>
+<p>测试步骤：</p>
+<ol>
+<li>关闭server3虚拟机，模拟节点损坏<br>
+<img src="/2023/07/20/glusterfs系列-功能测试/glusterfs%E8%8A%82%E7%82%B9%E6%8D%9F%E5%9D%8F%E6%B5%8B%E8%AF%951.png" alt></li>
+<li>确定server2上挂载点读写情况：<br>
+<img src="/2023/07/20/glusterfs系列-功能测试/glusterfs%E8%8A%82%E7%82%B9%E6%8D%9F%E5%9D%8F%E6%B5%8B%E8%AF%952.png" alt></li>
+<li>确定server1上挂载点读写情况：<br>
+<img src="/2023/07/20/glusterfs系列-功能测试/glusterfs%E8%8A%82%E7%82%B9%E6%8D%9F%E5%9D%8F%E6%B5%8B%E8%AF%953.png" alt><br>
+测试结果，当某个节点挂掉的时候，其他两个节点仍然能够正常工作，挂载点读写正常。</li>
+</ol>
+<h3 id="节点重启测试"><a class="header-anchor" href="#节点重启测试"></a>节点重启测试</h3>
+<p>前置条件：</p>
+<ol>
+<li>完成<a href="#%E6%96%B0%E5%A2%9E%E8%8A%82%E7%82%B9%E8%AE%BF%E9%97%AE%E6%B5%8B%E8%AF%95">新增节点访问测试</a></li>
+</ol>
+<p>测试步骤：<br>
+重启前提，需要先关闭server3，请先完成上面的<a href="#%E8%8A%82%E7%82%B9%E6%8D%9F%E5%9D%8F%E5%BD%B1%E5%93%8D%E6%B5%8B%E8%AF%95">节点损坏影响测试</a></p>
+<ol>
+<li>启动server3，并查看状态(注意，需要提前配置开机卷挂载配置)：<br>
+<img src="/2023/07/20/glusterfs系列-功能测试/glusterfs%E8%8A%82%E7%82%B9%E9%87%8D%E5%90%AF%E6%B5%8B%E8%AF%951.png" alt></li>
+<li>Server3挂载点数据情况：<br>
+<img src="/2023/07/20/glusterfs系列-功能测试/glusterfs%E8%8A%82%E7%82%B9%E9%87%8D%E5%90%AF%E6%B5%8B%E8%AF%952.png" alt></li>
+<li>Server3的磁盘块数据情况：<br>
+<img src="/2023/07/20/glusterfs系列-功能测试/glusterfs%E8%8A%82%E7%82%B9%E9%87%8D%E5%90%AF%E6%B5%8B%E8%AF%953.png" alt></li>
+<li>Server3挂载点数据读写测试：<br>
+<img src="/2023/07/20/glusterfs系列-功能测试/glusterfs%E8%8A%82%E7%82%B9%E9%87%8D%E5%90%AF%E6%B5%8B%E8%AF%954.png" alt><br>
+测试结果表明，已加入的节点重启后，能自动加入到集群中，并且能够自动恢复相关数据，不需要手动恢复处理。</li>
+</ol>
+<h3 id="节点更换测试"><a class="header-anchor" href="#节点更换测试"></a>节点更换测试</h3>
+<p>前置条件：</p>
+<ol>
+<li>完成<a href="#%E6%96%B0%E5%A2%9E%E8%8A%82%E7%82%B9%E8%AE%BF%E9%97%AE%E6%B5%8B%E8%AF%95">新增节点访问测试</a></li>
+</ol>
+<p>测试步骤：</p>
+<ol>
+<li>关闭server1，将server1作为被更换节点<br>
+<img src="/2023/07/20/glusterfs系列-功能测试/glusterfs%E8%8A%82%E7%82%B9%E6%9B%B4%E6%8D%A2%E6%B5%8B%E8%AF%951.png" alt></li>
+<li>创建节点server4，并安装Glusterfs：<br>
+<img src="/2023/07/20/glusterfs系列-功能测试/glusterfs%E8%8A%82%E7%82%B9%E6%9B%B4%E6%8D%A2%E6%B5%8B%E8%AF%952.png" alt></li>
+<li>移除server1的磁盘块和server1节点：<br>
+<img src="/2023/07/20/glusterfs系列-功能测试/glusterfs%E8%8A%82%E7%82%B9%E6%9B%B4%E6%8D%A2%E6%B5%8B%E8%AF%953.png" alt><br>
+<img src="/2023/07/20/glusterfs系列-功能测试/glusterfs%E8%8A%82%E7%82%B9%E6%9B%B4%E6%8D%A2%E6%B5%8B%E8%AF%954.png" alt></li>
+<li>移除后，剩余节点工作状态：<br>
+<img src="/2023/07/20/glusterfs系列-功能测试/glusterfs%E8%8A%82%E7%82%B9%E6%9B%B4%E6%8D%A2%E6%B5%8B%E8%AF%955.png" alt></li>
+<li>加入server4节点，并且把server4上的磁盘块加入到卷<br>
+<img src="/2023/07/20/glusterfs系列-功能测试/glusterfs%E8%8A%82%E7%82%B9%E6%9B%B4%E6%8D%A2%E6%B5%8B%E8%AF%956.png" alt><br>
+<img src="/2023/07/20/glusterfs系列-功能测试/glusterfs%E8%8A%82%E7%82%B9%E6%9B%B4%E6%8D%A2%E6%B5%8B%E8%AF%957.png" alt></li>
+<li>在server4上增加复制卷的挂载点：<br>
+<img src="/2023/07/20/glusterfs系列-功能测试/glusterfs%E8%8A%82%E7%82%B9%E6%9B%B4%E6%8D%A2%E6%B5%8B%E8%AF%958.png" alt></li>
+<li>确认server4的数据正确性：<br>
+<img src="/2023/07/20/glusterfs系列-功能测试/glusterfs%E8%8A%82%E7%82%B9%E6%9B%B4%E6%8D%A2%E6%B5%8B%E8%AF%959.png" alt><br>
+<img src="/2023/07/20/glusterfs系列-功能测试/glusterfs%E8%8A%82%E7%82%B9%E6%9B%B4%E6%8D%A2%E6%B5%8B%E8%AF%9510.png" alt><br>
+测试结果表明，节点损坏在复制卷的情况下，可以友好更换，并且更换后会自动进行数据同步。</li>
+</ol>
+<h2 id="系列文章"><a class="header-anchor" href="#系列文章"></a>系列文章</h2>
+<p><a href="./glusterfs%E7%B3%BB%E5%88%97-%E5%88%9D%E6%8E%A2.md">glusterfs系列-初探</a><br>
+<a href="./glusterfs%E7%B3%BB%E5%88%97-%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA.md">glusterfs系列-环境搭建</a><br>
+<a href="./glusterfs%E7%B3%BB%E5%88%97-%E5%8A%9F%E8%83%BD%E6%B5%8B%E8%AF%95.md">glusterfs系列-功能测试</a><br>
+<a href="./glusterfs%E7%B3%BB%E5%88%97-%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E6%96%B9%E6%B3%95.md">glusterfs系列-性能测试方法</a></p>
+
+      
+    </div>
+    
+    
+    
+
+	<div>
+		
+			<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+		
+	</div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Glusterfs/" rel="tag"> <i class="fa fa-tag"></i> Glusterfs</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2023/07/14/glusterfs系列-环境搭建/" rel="next" title="glusterfs系列-环境搭建">
+                <i class="fa fa-chevron-left"></i> glusterfs系列-环境搭建
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2023/08/04/glusterfs系列-性能测试方法/" rel="prev" title="glusterfs系列-性能测试方法">
+                glusterfs系列-性能测试方法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+		<div>
+		</div>
+    
+  </div>
+ 
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/touxiang.jpg" alt="JiHan">
+          <p class="site-author-name" itemprop="name">JiHan</p>
+           
+              <p class="site-description motion-element" itemprop="description">瘫着贼舒服</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">43</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/JiHanHuang/" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:Mr.JiHan.Mail@gmail.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                    
+                      E-Mail
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#序"><span class="nav-number">1.</span> <span class="nav-text">序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#功能测试"><span class="nav-number">2.</span> <span class="nav-text">功能测试</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据一致性测试"><span class="nav-number">2.1.</span> <span class="nav-text">数据一致性测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#新增节点访问测试"><span class="nav-number">2.2.</span> <span class="nav-text">新增节点访问测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据扩容测试"><span class="nav-number">2.3.</span> <span class="nav-text">数据扩容测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件损坏恢复测试"><span class="nav-number">2.4.</span> <span class="nav-text">文件损坏恢复测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#坏磁盘更换测试"><span class="nav-number">2.5.</span> <span class="nav-text">坏磁盘更换测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#节点损坏影响测试"><span class="nav-number">2.6.</span> <span class="nav-text">节点损坏影响测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#节点重启测试"><span class="nav-number">2.7.</span> <span class="nav-text">节点重启测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#节点更换测试"><span class="nav-number">2.8.</span> <span class="nav-text">节点更换测试</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#系列文章"><span class="nav-number">3.</span> <span class="nav-text">系列文章</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">JiHan</span>
+
+
+  
+	<div class="post-wordcount">
+		
+		  <span class="post-meta-divider">|</span>
+		
+		<span class="post-meta-item-icon">
+		  <i class="fa fa-area-chart"></i>
+		</span>
+		
+		  <span class="post-meta-item-text">本站总字数</span>
+		
+		<span title="本站总字数">
+		  115.9k
+		</span>
+	</div>
+   
+ </div>
+
+
+
+
+  <script src="https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js"></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({theme: 'forest'});
+    }
+  </script>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 本站访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'VgnMRYmQLHYX1MQApA7bN511-gzGzoHsz',
+        appKey: 'A37Y5jPoqc8cxMaOoNiXSh9s',
+        placeholder: '小伙子，我看你骨骼惊奇...',
+        avatar:'mp',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body>
+</html>
